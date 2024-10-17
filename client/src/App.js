@@ -1,31 +1,31 @@
-import { useEffect, useState } from 'react'
+import React from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import './App.css';
+import LoginPage from './Components/LoginPage/LoginPage';
+import RegisterPage from './Components/RegisterPage/RegisterPage';
+import ProfilePage from './Components/ProfilePage/ProfilePage';
+import EditProfilePage from './Components/EditProfilePage/EditProfilePage';
+import HomePage from './Components/HomePage/HomePage'; 
+import MessagesPage from './Components/MessagesPage/MessagesPage';
+import CalenderPage from './Components/CalenderPage/CalenderPage';
+import EventsPage from './Components/EventsPage/EventsPage';
 
 function App() {
-  const [items, setItems] = useState([])
-
-  useEffect(() => {  // useEffect runs this function whenever any of its dependencies are re-rendered
-    fetch("/api/items")
-    .then(res => res.json())
-    .then(data => setItems(data));
-  }, []);  // Empty array of dependencies, so this is only run on page load, could put items in here to run this each time items is updated
-
-  function renderItems() {
-    return items.map((item, i) => {
-      return (
-        <div key={i}>
-          <h3>{item.name}</h3>
-          <p>Price: {item.price}</p>
-        </div>
-      );
-    });
-  }
-
   return (
-      <main>
-        <h1>Example webshop!</h1>
-        {renderItems()}
-      </main>
-  )
+    <Router>
+      <Routes>
+        <Route path="/" element={<LoginPage />} />
+        <Route path="/register" element={<RegisterPage />} />
+        <Route path="/profile" element={<ProfilePage />} />
+        <Route path="/profile/edit/:userId" element={<EditProfilePage />} />
+        <Route path="/home" element={<HomePage />} /> 
+        <Route path="/messages" element={<MessagesPage />} />
+        <Route path="/calender" element={<CalenderPage />} />
+        <Route path="/Events" element={<EventsPage />} />
+
+      </Routes>
+    </Router>
+  );
 }
 
-export default App
+export default App;
