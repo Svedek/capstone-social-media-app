@@ -1,0 +1,82 @@
+.home-page {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.navbar {
+  background-color: #333;
+  padding: 10px;
+}
+
+.navbar ul {
+  list-style-type: none;
+  display: flex;
+  justify-content: space-around;
+}
+
+.navbar a {
+  color: yellow;
+  text-decoration: none;
+}
+
+.content {
+  display: flex;
+  flex: 1;
+  padding: 10px;
+}
+
+.calendar-container {
+  margin-right: 20px; /* Space between calendar and feed */
+}
+
+.main-feed {
+  flex: 2;
+  padding: 10px;
+}
+
+.sidebar {
+  flex: 1;
+  padding: 10px;
+  background-color: rgb(230, 230, 143);
+  margin-left: 10px;
+}
+
+
+.post {
+  background-color: yellow;
+  border: 1px solid #ddd;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+}
+
+.create-post {
+  margin-bottom: 20px;
+  padding: 8px 16px;
+  background-color: #007bff;
+  color: yellow;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.create-post:hover {
+  background-color: #0056b3;
+}
+
+.events,
+.friends {
+  margin-bottom: 20px;
+}
+
+.events ul,
+.friends ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.events li,
+.friends li {
+  padding: 5px 0;
+}
