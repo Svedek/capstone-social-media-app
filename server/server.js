@@ -1,24 +1,18 @@
 const express = require("express");
-
+const cors = require("cors");
+const loginRouter = require("./routes/loginRoutes.js");
+const registerRouter = require("./routes/registerRoutes.js");
 const app = express();
 
-const PORT = process.env.PORT || 8080;  // Used port assigned by provider OR 8080 if env.PORT cannot be found
+const db = require("./database/dabase.js");
+console.log(getLoginInfo("fake@email.com"));
 
-app.listen(PORT, () => console.log("Server started"));
-
+app.use(cors());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use("/login", loginRouter);
+app.use("/register", registerRouter);
 app.use(express.static("build"));
 
-const items = [
-  {
-    name: "Laptop",
-    price: 500,
-  },
-  {
-    name: "Desktop",
-    price: 700,
-  },
-];
-
-app.get("/api/items", (req, res) => {
-  res.send(items);
-});
+const PORT = process.env.PORT || 8080;
+app.listen(PORT, () => console.log("Server started"));
