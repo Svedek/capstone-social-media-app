@@ -32,4 +32,8 @@ cd .\client\
 npm run build
 mv build ..\server\
 ```
-
+## imports for react
+npm install react-router-dom
+npm install react-calendar
+npm install lucide-react
+npm install axios

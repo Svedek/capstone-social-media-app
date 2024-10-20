@@ -1,0 +1,78 @@
+/* ProfilePage.css */
+.profile-wrapper {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+  }
+  
+  .profile-header {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .avatar {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    margin-bottom: 10px;
+  }
+  
+  .profile-header h1 {
+    font-size: 2em;
+    margin-bottom: 5px;
+  }
+  
+  .edit-button {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 5px 10px;
+    background-color: #007bff;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+  }
+  
+  .user-info {
+    margin-bottom: 20px;
+  }
+  
+  .user-info p {
+    margin: 5px 0;
+  }
+  
+  .friends-section, .posts-section {
+    margin-top: 20px;
+  }
+  
+  h2 {
+    border-bottom: 2px solid #007bff;
+    padding-bottom: 5px;
+  }
+  
+  .friends-section ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .friends-section li {
+    padding: 5px 0;
+  }
+  
+  .post {
+    border: 1px solid #eaeaea;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 10px 0;
+  }
+  
+  .post-meta {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.8em;
+    color: #666;
+    margin-top: 5px;
+  }
