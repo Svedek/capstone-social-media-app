@@ -13,7 +13,7 @@ const createUser = async (req, res) => {
     else if (db.getLoginInfo(email).length > 0) {
         errorMessage = "email already exists";
     }
-    else if (email.split("@")[1] != "uwm.com") {
+    else if (email.split("@")[1] != "uwm.edu") {
         errorMessage = "must use a uwm email address";
     }
     else {

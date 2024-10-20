@@ -2,10 +2,8 @@ const express = require("express");
 const cors = require("cors");
 const loginRouter = require("./routes/loginRoutes.js");
 const registerRouter = require("./routes/registerRoutes.js");
+const db = require("./database/database.js");
 const app = express();
-
-const db = require("./database/dabase.js");
-console.log(getLoginInfo("fake@email.com"));
 
 app.use(cors());
 app.use(express.json());

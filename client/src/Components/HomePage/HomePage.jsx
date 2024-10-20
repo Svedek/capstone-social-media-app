@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import 'react-calendar/dist/Calendar.css'; 
 import './HomePage.css';
-import { Home, User, MessageSquare,CalendarDays ,Tickets,Settings  } from 'lucide-react';
+import { Home, User, MessageSquare, CalendarDays, Tickets, Settings } from 'lucide-react';
 
 const HomePage = () => {
   const posts = [

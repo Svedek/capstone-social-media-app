@@ -1,31 +1,45 @@
-import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom'; 
+import { React, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import './LoginPage.css';
 
 export const LoginPage = () => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const navigate = useNavigate(); 
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+  const navigate = useNavigate();
 
-  const handleLogin = async (event) => {
-    event.preventDefault();
-    try {
-      navigate('/home'); 
-    } catch (error) {
-      console.error('Login error:', error);
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    const response = await fetch(`./login`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ email: email, password: password })
+    });
+    setEmail("");
+    setPassword("");
+
+    const data = await response.json();
+    if (data.auth) {
+      navigate("/home")
+    }
+    else {
+      setErrorMessage("Your password and username are incorrect");
     }
   };
 
   return (
     <div className='wrapper'>
+      {errorMessage && <p className="error-message">{errorMessage}</p>}
       <form onSubmit={handleLogin}>
-        <h1>Login Page</h1>
+        <h1>Login</h1>
         <div className="input-box">
           <input
-            type="text"
-            placeholder='Username'
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
+            type="email"
+            placeholder='Email'
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
             required
           />
         </div>
