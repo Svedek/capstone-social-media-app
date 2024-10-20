@@ -23,10 +23,10 @@ DROP TABLE IF EXISTS `login_info`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `login_info` (
-  `login_info_id` int NOT NULL AUTO_INCREMENT,
-  `login_info_email` varchar(128) NOT NULL,
-  `login_info_password_hash` varchar(64) NOT NULL,
-  PRIMARY KEY (`login_info_id`)
+  `id` int NOT NULL AUTO_INCREMENT,
+  `email` varchar(128) NOT NULL,
+  `password` varchar(64) NOT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -38,13 +38,14 @@ DROP TABLE IF EXISTS `user`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `user` (
-  `user_id` int NOT NULL AUTO_INCREMENT,
-  `user_login_info` int NOT NULL,
-  `user_display_name` varchar(128) DEFAULT NULL,
-  `user_bio` varchar(200) DEFAULT NULL,
-  PRIMARY KEY (`user_id`),
-  KEY `_idx` (`user_login_info`),
-  CONSTRAINT `user_login_info` FOREIGN KEY (`user_login_info`) REFERENCES `login_info` (`login_info_id`)
+  `id` int NOT NULL AUTO_INCREMENT,
+  `login_info` int NOT NULL,
+  `username` varchar(128),
+  `major` varchar(64),
+  `bio` varchar(200) DEFAULT '',
+  PRIMARY KEY (`id`),
+  KEY `_idx` (`login_info`),
+  CONSTRAINT `login_info` FOREIGN KEY (`login_info`) REFERENCES `login_info` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;

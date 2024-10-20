@@ -10,26 +10,26 @@ const pool = mysql.createPool({
 }).promise();
 
 async function getLoginInfo(email) {
-    const query = "SELECT * FROM login_info WHERE email = ?";
-    const { rows } = await pool.query(query, [email]);
+    const query = `SELECT * FROM login_info WHERE email = ?`;
+    const [rows] = await pool.query(query, [email]);
     return rows;
 }
 
 async function getUser(username) {
-    const query = "SELECT * FROM user WHERE username = ?";
-    const { rows } = await pool.query(query, [username]);
+    const query = `SELECT * FROM user WHERE username = ?`;
+    const [rows] = await pool.query(query, [username]);
     return rows;
 }
 
 async function addLoginInfo(email, password) {
-    const query = "INSERT INTO login_info (email, password) VALUES (?, ?)";
+    const query = `INSERT INTO login_info (email, password) VALUES (?, ?)`;
     await pool.query(query, [email, password]);
     const login_info = await getLoginInfo(email);
     return login_info[0].id;
 }
 
 async function addUser(username, major, loginID) {
-    const query = "INSERT INTO user (username, major, login_info_id) VALUES (?, ?, ?)";
+    const query = `INSERT INTO user (username, major, login_info) VALUES (?, ?, ?)`;
     await pool.query(query, [username, major, loginID]);
     const user = await getUser(username);
     return user[0].id;
