@@ -2,9 +2,13 @@
 Repository for cs595 capstone project.
 
 ## Initial setup
-Ensure you have the packages required for dev script
+Ensure you have the packages required for running scripts
 ```
 npm i -g nodemon
+```
+
+## Update your packages upon checking out a new branch
+```
 cd .\client\
 npm ci
 cd ..\server\
