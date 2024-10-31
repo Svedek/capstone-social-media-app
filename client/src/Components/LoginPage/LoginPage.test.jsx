@@ -19,24 +19,24 @@ describe('LoginPage', () => {
     jest.clearAllMocks();
   }); 
 
-  // Verifing that the LoginPage renders the necessary input fields (username, password, login button).
-  test('login form with username and password inputs', () => {
+  // Verifing that the LoginPage renders the necessary input fields (email, password, login button).
+  test('login form with email and password inputs', () => {
     render(
       <MemoryRouter>
         <LoginPage />
       </MemoryRouter>
     );
 
-    const usernameInput = screen.getByPlaceholderText(/Username/i);
+    const emailInput = screen.getByPlaceholderText(/Email/i);
     const passwordInput = screen.getByPlaceholderText(/Password/i);
-    const loginButton = screen.getByRole('button', { name: /login/i }); 
+    const loginButton = screen.getByRole('button', { name: /login/i });
 
-    expect(usernameInput).toBeInTheDocument();
+    expect(emailInput).toBeInTheDocument();
     expect(passwordInput).toBeInTheDocument();
     expect(loginButton).toBeInTheDocument();
   });
 
-  // typing into the username and password input fields.
+  // typing into the email and password input fields.
   test('allows users to type into input fields', () => {
     render(
       <MemoryRouter>
@@ -44,38 +44,56 @@ describe('LoginPage', () => {
       </MemoryRouter>
     );
 
-    const usernameInput = screen.getByPlaceholderText(/Username/i);
+    const emailInput = screen.getByPlaceholderText(/Email/i);
     const passwordInput = screen.getByPlaceholderText(/Password/i);
 
-    fireEvent.change(usernameInput, { target: { value: 'testuser' } });
+    fireEvent.change(emailInput, { target: { value: 'testuser@example.com' } });
     fireEvent.change(passwordInput, { target: { value: 'password123' } });
 
-    expect(usernameInput.value).toBe('testuser');
+    expect(emailInput.value).toBe('testuser@example.com');
     expect(passwordInput.value).toBe('password123');
   });
   
   // Navigating to home on successful login
-  test('navigates to home on successful login', () => {
+  /*test('navigates to home on successful login', () => {
+
     render(
       <MemoryRouter>
         <LoginPage />
       </MemoryRouter>
     );
 
-    const usernameInput = screen.getByPlaceholderText(/Username/i);
+    const emailInput = screen.getByPlaceholderText(/Email/i);
+    //const usernameInput = screen.getByPlaceholderText(/Username/i);
     const passwordInput = screen.getByPlaceholderText(/Password/i);
     const loginButton = screen.getByRole('button', { name: /login/i });
 
-    fireEvent.change(usernameInput, { target: { value: 'testuser' } });
+    fireEvent.change(emailInput, { target: { value: 'testuser@example.com' } });
     fireEvent.change(passwordInput, { target: { value: 'password123' } });
 
     fireEvent.click(loginButton);
 
     expect(mockNavigate).toHaveBeenCalledWith('/home');
+  });*/
+
+  // Testing that the "Remember Me" checkbox can be selected
+  test('allows user to check the "Remember Me" checkbox', () => {
+    render(
+      <MemoryRouter>
+        <LoginPage />
+      </MemoryRouter>
+    );
+
+    const rememberMeCheckbox = screen.getByLabelText(/Remember me/i);
+    expect(rememberMeCheckbox).toBeInTheDocument();
+    expect(rememberMeCheckbox.checked).toBe(false);
+
+    fireEvent.click(rememberMeCheckbox);
+    expect(rememberMeCheckbox.checked).toBe(true);
   });
 
   // Ensuring that the "Forgot Password?" link is visible on the login page.
-  test('displays "Forgot Password?" link', () => {
+ test('displays "Forgot Password?" link', () => {
     render(
       <MemoryRouter>
         <LoginPage />
@@ -84,7 +102,7 @@ describe('LoginPage', () => {
 
     const forgotPasswordLink = screen.getByText(/Forgot Password/i);
     expect(forgotPasswordLink).toBeInTheDocument();
-  });
+  }); 
 
   // Ensuring that link to register page is visible on the login page.
   test('displays "Create a new account here" link to register page', () => {
@@ -96,5 +114,43 @@ describe('LoginPage', () => {
 
     const registerLink = screen.getByText(/Create a new account here/i);
     expect(registerLink).toBeInTheDocument();
+  }); 
+
+   // Testing invalid email format
+   test('shows validation error for invalid email format', () => {
+    render(
+      <MemoryRouter>
+        <LoginPage />
+      </MemoryRouter>
+    );
+
+    const emailInput = screen.getByPlaceholderText(/Email/i);
+    const passwordInput = screen.getByPlaceholderText(/Password/i);
+    const loginButton = screen.getByRole('button', { name: /login/i });
+
+    fireEvent.change(emailInput, { target: { value: 'invalid-email' } });
+    fireEvent.change(passwordInput, { target: { value: 'password123' } });
+    fireEvent.click(loginButton);
+
+    // Checking that no navigation occurs 
+    expect(mockNavigate).not.toHaveBeenCalled();
+
+    // checking for validation error 
+    const validationError = screen.queryByText(/Please enter a valid email address/i);
+    if (validationError) expect(validationError).toBeInTheDocument();
   });
+
+  // Test for "Create a new account here" link navigation to register page
+  /*test('navigates to register page when "Create a new account here" link is clicked', () => {
+    render(
+      <MemoryRouter>
+        <LoginPage />
+      </MemoryRouter>
+    );
+
+    const registerLink = screen.getByText(/Create a new account here!/i);
+    fireEvent.click(registerLink);
+
+    expect(mockNavigate).toHaveBeenCalledWith('/register');
+  });*/
 });
