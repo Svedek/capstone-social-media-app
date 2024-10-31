@@ -1,49 +1,57 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import './EditProfilePage.css';
 
-const EditProfilePage = () => {
-  const navigate = useNavigate();
-  const { userId } = useParams();
+ const MAJORS = [
+  'Computer Science',
+  'Engineering',
+  'Business',
+  'Biology',
+  'Psychology',
+  'Mathematics',
+  'English',
+  'History',
+  'Chemistry',
+  'Physics',
+  'Art',
+  'Music',
+  'Economics',
+  'Political Science',
+  'Sociology',
+  'Other'
+];
 
-  const [user, setUser] = useState({
-    fullName: 'John Doe',
-    username: 'johndoe',
-    email: 'testtesttest@gmail',
-    bio: 'mke student.',
+const EditProfilePage = () => {
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    major: '',
+    bio: '',
+    avatar: null
   });
 
-  const [previewImage, setPreviewImage] = useState(null);
-
-  useEffect(() => {
-    
-    //eventual fetch
-  }, [userId]);
-
-  const handleChange = (e) => {
+  const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setUser(prevUser => ({
-      ...prevUser,
+    setFormData(prev => ({
+      ...prev,
       [name]: value
     }));
   };
 
-  const handleImageChange = (e) => {
+  const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setPreviewImage(reader.result);
-      };
-      reader.readAsDataURL(file);
+      setFormData(prev => ({
+        ...prev,
+        avatar: file
+      }));
     }
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    //eventually post to database
-    console.log('Updated user data:', { ...user, profilePicture: previewImage || user.profilePicture });
-    navigate('/profile');
+    // Handle form submission logic here
+    console.log('Form submitted:', formData);
   };
 
   return (
@@ -51,78 +59,81 @@ const EditProfilePage = () => {
       <h1>Edit Profile</h1>
       <form onSubmit={handleSubmit}>
         <div className="form-group">
-          <label htmlFor="profilePicture">Profile Picture:</label>
+          <label htmlFor="avatar">Profile Picture</label>
           <input
             type="file"
-            id="profilePicture"
-            name="profilePicture"
+            id="avatar"
             accept="image/*"
-            onChange={handleImageChange}
+            onChange={handleFileChange}
           />
-          <div className="image-preview">
-            <img
-              src={previewImage || user.profilePicture}
-              alt="Profile preview"
-              className="profile-picture-preview"
-            />
-          </div>
+          {formData.avatar && (
+            <div className="image-preview">
+              <img
+                src={URL.createObjectURL(formData.avatar)}
+                alt="Profile preview"
+                className="profile-picture-preview"
+              />
+            </div>
+          )}
         </div>
+
         <div className="form-group">
-          <label htmlFor="fullName">Full Name:</label>
+          <label htmlFor="name">Name</label>
           <input
             type="text"
-            id="fullName"
-            name="fullName"
-            value={user.fullName}
-            onChange={handleChange}
-            required
+            id="name"
+            name="name"
+            value={formData.name}
+            onChange={handleInputChange}
+            placeholder="Enter your name"
           />
         </div>
+
         <div className="form-group">
-          <label htmlFor="username">Username:</label>
-          <input
-            type="text"
-            id="username"
-            name="username"
-            value={user.username}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="email">Email:</label>
+          <label htmlFor="email">Email</label>
           <input
             type="email"
             id="email"
             name="email"
-            value={user.email}
-            onChange={handleChange}
-            required
+            value={formData.email}
+            onChange={handleInputChange}
+            placeholder="Enter your email"
           />
         </div>
+
         <div className="form-group">
-          <label htmlFor="location">Location:</label>
-          <input
-            type="text"
-            id="location"
-            name="location"
-            value={user.location}
-            onChange={handleChange}
-          />
+          <label htmlFor="major">Major</label>
+          <select
+            id="major"
+            name="major"
+            value={formData.major}
+            onChange={handleInputChange}
+            className="major-select"
+          >
+            <option value="">Select a major</option>
+            {MAJORS.map(major => (
+              <option key={major} value={major}>{major}</option>
+            ))}
+          </select>
         </div>
+
         <div className="form-group">
-          <label htmlFor="bio">Bio:</label>
+          <label htmlFor="bio">Bio</label>
           <textarea
             id="bio"
             name="bio"
-            value={user.bio}
-            onChange={handleChange}
+            value={formData.bio}
+            onChange={handleInputChange}
             rows="4"
-          ></textarea>
+            placeholder="Tell us about yourself"
+          />
         </div>
-        <div className="form-group">
+
+        <div className="button-group">
           <button type="submit">Save Changes</button>
-          <button type="button" onClick={() => navigate('/profile')}>Cancel</button>
+          <Link to="/profile">
+            <button type="button">Cancel</button>
+          </Link>
         </div>
       </form>
     </div>

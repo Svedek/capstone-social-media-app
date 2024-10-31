@@ -9,7 +9,7 @@ import HomePage from './Components/HomePage/HomePage';
 import MessagesPage from './Components/MessagesPage/MessagesPage';
 import CalenderPage from './Components/CalenderPage/CalenderPage';
 import EventsPage from './Components/EventsPage/EventsPage';
-
+import CreateEvent from './Components/CreateEvent/CreateEvent';
 function App() {
   return (
     <Router>
@@ -22,6 +22,7 @@ function App() {
         <Route path="/messages" element={<MessagesPage />} />
         <Route path="/calender" element={<CalenderPage />} />
         <Route path="/Events" element={<EventsPage />} />
+        <Route path="/create-event" element={<CreateEvent />} />
 
       </Routes>
     </Router>

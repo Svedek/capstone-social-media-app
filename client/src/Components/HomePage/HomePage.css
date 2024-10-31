@@ -1,11 +1,59 @@
+/* HomePage.css */
+
+/* General styles */
 .home-page {
   display: flex;
   flex-direction: column;
   height: 100vh;
 }
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000; /* Make sure it appears above other elements */
+}
+.character-count {
+  font-size: 12px;
+  color: gray;
+  margin-top: 5px;
+  text-align: right;
+}
+/* Modal Content */
+.modal-content {
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  width: 90%;
+  max-width: 500px;
+  position: relative;
+  text-align: center;
+}
 
+/* Close Button */
+.close-button {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.submit-post {
+  margin-top: 10px;
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
 .navbar {
-  background-color: #333;
   padding: 10px;
 }
 
@@ -15,42 +63,86 @@
   justify-content: space-around;
 }
 
-.navbar a {
-  color: yellow;
-  text-decoration: none;
+/* Light and Dark Mode Styles */
+.light-mode {
+  background-color: #ffffff; /* Light background */
+  color: #000000; /* Dark text */
 }
 
+.dark-mode {
+  background-color: #1a1a1a; /* Dark background */
+  color: #ffffff; /* Light text */
+}
+
+/* Navbar styles for light and dark modes */
+.light-mode .navbar {
+  background-color: #e9ecef; /* Light navbar */
+}
+
+.light-mode .navbar a {
+  color: #000000; /* Dark text in light mode */
+}
+
+.dark-mode .navbar {
+  background-color: #343a40; /* Dark navbar */
+}
+
+.dark-mode .navbar a {
+  color: #ffffff; /* Light text in dark mode */
+}
+
+/* Content Styles */
 .content {
   display: flex;
   flex: 1;
   padding: 10px;
 }
 
-.calendar-container {
-  margin-right: 20px; /* Space between calendar and feed */
+/* Background block for card effect */
+.background-block {
+  border-radius: 10px;
+  padding: 70px;
+  margin: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  flex: 1;
+  display: flex; /* Flex container for main feed and sidebar */
 }
 
+/* Light mode background block */
+.light-mode .background-block {
+  background-color: rgba(240, 240, 240, 0.8); /* Semi-transparent light background */
+}
+
+/* Dark mode background block */
+.dark-mode .background-block {
+  background-color: rgba(30, 30, 30, 0.8); /* Semi-transparent dark background */
+}
+
+/* Main feed styles */
 .main-feed {
   flex: 2;
   padding: 10px;
 }
 
+/* Sidebar styles */
 .sidebar {
+  
   flex: 1;
   padding: 10px;
-  background-color: rgb(230, 230, 143);
+  background-color: rgb(165, 165, 0);
   margin-left: 10px;
 }
 
-
+/* Post styles */
 .post {
-  background-color: yellow;
-  border: 1px solid #ddd;
-  padding: 10px;
-  margin-bottom: 10px;
+  background-color: rgb(250, 250, 244);
+  border: 2px solid #ddd;
+  padding: 15px;
+  margin-bottom: 15px;
   border-radius: 5px;
 }
 
+/* Button styles */
 .create-post {
   margin-bottom: 20px;
   padding: 8px 16px;
@@ -64,7 +156,12 @@
 .create-post:hover {
   background-color: #0056b3;
 }
-
+.post-image {
+  max-width: 100%;
+  margin-top: 10px;
+  border-radius: 8px;
+}
+/* Events and friends sections */
 .events,
 .friends {
   margin-bottom: 20px;
@@ -79,4 +176,67 @@
 .events li,
 .friends li {
   padding: 5px 0;
+}
+
+/* Settings dropdown styles */
+.settings {
+  position: relative; /* Necessary for dropdown positioning */
+}
+
+.dropdown {
+  display: none; /* Initially hide dropdown */
+  position: absolute;
+  background-color: #fff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+  z-index: 1; /* Make sure it appears above other content */
+}
+
+.settings:hover .dropdown {
+  display: block; /* Show dropdown on hover */
+}
+
+.dropdown button {
+  background-color: transparent; /* Transparent background */
+  border: none; /* Remove border */
+  padding: 10px; /* Padding for button */
+  cursor: pointer; /* Pointer cursor */
+}
+
+.dropdown button:hover {
+  background-color: rgba(0, 0, 0, 0.1); /* Highlight on hover */
+}
+
+/* Additional styles for improved readability */
+.light-mode .post {
+  background-color: #f8f9fa; /* Lighter background for posts */
+  border: 1px solid #ced4da; /* Slightly darker border */
+}
+
+.dark-mode .post {
+  background-color: #3c3c3c; /* Darker background for posts */
+  border: 1px solid #555; /* Lighter border for dark mode */
+}
+
+.light-mode .create-post {
+  background-color: #007bff; /* Standard button color */
+  color: white; /* Button text color */
+}
+
+.dark-mode .create-post {
+  background-color: #0056b3; /* Dark button color */
+  color: white; /* Button text color */
+}
+
+/* Body text */
+.light-mode h2,
+.light-mode h3,
+.light-mode p {
+  color: #000; /* Dark text for light mode */
+}
+
+.dark-mode h2,
+.dark-mode h3,
+.dark-mode p {
+  color: #fff; /* Light text for dark mode */
 }

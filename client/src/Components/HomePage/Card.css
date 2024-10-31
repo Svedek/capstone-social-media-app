@@ -1,0 +1,22 @@
+/* Card.css */
+
+.card {
+  background-color: rgba(243, 38, 38, 0.9); /* Slightly transparent white background */
+  border-radius: 10px; /* Rounded corners */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+  padding: 20px; /* Inner padding */
+  flex: 1; /* Allow card to grow and fill space */
+  display: flex; /* Ensure children are arranged properly */
+  flex-direction: column; /* Stack children vertically */
+  gap: 10px; /* Space between child elements */
+  min-width: 200px; /* Prevents the card from collapsing too much */
+}
+
+
+
+/* Optional: Add styles for responsive design */
+@media (max-width: 768px) {
+  .card {
+    padding: 15px; /* Adjust padding on smaller screens */
+  }
+}
