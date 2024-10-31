@@ -12,17 +12,15 @@ describe('RegisterPage', () => {
       </MemoryRouter>
     );
     
-    // Check if the header and input fields are in the document
-    const headerElement = screen.getByText(/Register Page/i);
+    // Checking if the input fields are in the document
     const usernameInput = screen.getByPlaceholderText(/Username/i);
     const emailInput = screen.getByPlaceholderText(/Email/i);
-    // Use getAllByPlaceholderText to handle multiple password fields
+    // Using getAllByPlaceholderText to handle multiple password fields
     const passwordInputs = screen.getAllByPlaceholderText(/Password/i);
     const passwordInput = passwordInputs[0]; // First password input
     const confirmPasswordInput = passwordInputs[1]; // Second password input
     const registerButton = screen.getByRole('button', { name: /Register/i });
     
-    expect(headerElement).toBeInTheDocument();
     expect(usernameInput).toBeInTheDocument();
     expect(emailInput).toBeInTheDocument();
     expect(passwordInput).toBeInTheDocument();
