@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import Navbar from './Navbar';
+import Feed from './Feed';
+import Sidebar from './Sidebar';
 import 'react-calendar/dist/Calendar.css'; 
 import './HomePage.css';
 import { Home, User, MessageSquare, CalendarDays, Tickets, Settings } from 'lucide-react';
@@ -16,7 +19,7 @@ const HomePage = () => {
     { id: 8, author: 'Anon number2', content: 'yet another test to cover more space' },
     { id: 9, author: 'Anon number3', content: 'yet another test to cover more space' },
     { id: 10, author: 'Anon number4', content: 'yet another test to cover more space' },
-
+    
   ];
 
   const events = [
@@ -27,57 +30,14 @@ const HomePage = () => {
     { id: 5, name: 'Gym Event', date: '2024-10-20' },
   ];
 
-  const friends = ['Alice', 'Charlie', 'David', 'Eva','James',];
+  const friends = ['Alice', 'Charlie', 'David', 'Eva', 'James'];
 
   return (
     <div className="home-page">
-      <nav className="navbar">
-        <ul>
-          <li><Link to="/home">Home</Link><Home size={24} /> </li>
-          <li><Link to="/Calender">Calender</Link><CalendarDays size={24} /></li>
-          <li><Link to="/Events"> Events</Link><Tickets size={24} /></li>
-
-          <li><Link to="/profile">Profile</Link>  <User size={24} /></li>
-          <li><Link to="/messages">Messages</Link>  <MessageSquare size={24} /></li>
-          <li><Link to="/settings">Settings</Link> <Settings size={24} /></li>
-
-        </ul>
-      </nav>
-
+      <Navbar />
       <div className="content">
-        {/* Calendar added here */}
-       
-
-        <div className="main-feed">
-          <h2>Your feed</h2>
-          <button className="create-post">Create Post</button>
-          {posts.map(post => (
-            <div key={post.id} className="post">
-              <h3>{post.author}</h3>
-              <p>{post.content}</p>
-            </div>
-          ))}
-        </div>
-
-        <div className="sidebar">
-          <div className="events">
-            <h3>Upcoming Events</h3>
-            <ul>
-              {events.map(event => (
-                <li key={event.id}>{event.name} - {event.date}</li>
-              ))}
-            </ul>
-          </div>
-
-          <div className="friends">
-            <h3>Friends</h3>
-            <ul>
-              {friends.map(friend => (
-                <li key={friend}>{friend}</li>
-              ))}
-            </ul>
-          </div>
-        </div>
+        <Feed posts={posts} />
+        <Sidebar events={events} friends={friends} />
       </div>
     </div>
   );

@@ -10,6 +10,7 @@ export const LoginPage = () => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
+    navigate('/home');
     const response = await fetch(`./login`, {
       method: "POST",
       headers: {
