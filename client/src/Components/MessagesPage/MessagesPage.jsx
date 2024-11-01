@@ -3,9 +3,9 @@ import Navbar from '../navbar.jsx';
 import './MessagesPage.css';
 
 const initialContacts = [
-  { id: 1, name: 'Alice'},
+  { id: 1, name: 'Alice' },
   { id: 2, name: 'Bob' },
-  { id: 3, name: 'Charlie'},
+  { id: 3, name: 'Charlie' },
 ];
 
 const initialChats = {
@@ -51,43 +51,44 @@ const MessagesPage = () => {
   return (
     <div className="messages-page">
       <Navbar />
-      <div className="contacts-list">
-        <h2>Contacts</h2>
-        {contacts.map((contact) => (
-          <div
-            key={contact.id}
-            className={`contact ${activeChat === contact.id ? 'active' : ''}`}
-            onClick={() => setActiveChat(contact.id)}
-          >
-            <span className="avatar">{contact.avatar}</span>
-            {contact.name}
-          </div>
-        ))}
-      </div>
-      <div className="chat-area">
-        {activeChat ? (
-          <>
-            <h2>Chat with {contacts.find(c => c.id === activeChat).name}</h2>
-            <div className="message-list">
-              {chats[activeChat].map((message) => (
-                <div key={message.id} className={`message ${message.sender === 'You' ? 'sent' : 'received'}`}>
-                  <strong>{message.sender}:</strong> {message.content}
-                </div>
-              ))}
+      <div className="contacts-chat-container"> 
+        <div className="contacts-list">
+          <h2>Contacts</h2>
+          {contacts.map((contact) => (
+            <div
+              key={contact.id}
+              className={`contact ${activeChat === contact.id ? 'active' : ''}`}
+              onClick={() => setActiveChat(contact.id)}
+            >
+              {contact.name}
             </div>
-            <form onSubmit={handleSendMessage} className="message-form">
-              <input
-                type="text"
-                value={newMessage}
-                onChange={(e) => setNewMessage(e.target.value)}
-                placeholder="Type a message..."
-              />
-              <button type="submit">Send</button>
-            </form>
-          </>
-        ) : (
-          <div className="no-chat-selected">Select a contact to start chatting</div>
-        )}
+          ))}
+        </div>
+        <div className="chat-area">
+          {activeChat ? (
+            <>
+              <h2>Chat with {contacts.find(c => c.id === activeChat).name}</h2>
+              <div className="message-list">
+                {chats[activeChat].map((message) => (
+                  <div key={message.id} className={`message ${message.sender === 'You' ? 'sent' : 'received'}`}>
+                    <strong>{message.sender}:</strong> {message.content}
+                  </div>
+                ))}
+              </div>
+              <form onSubmit={handleSendMessage} className="message-form">
+                <input
+                  type="text"
+                  value={newMessage}
+                  onChange={(e) => setNewMessage(e.target.value)}
+                  placeholder="Type a message..."
+                />
+                <button type="submit">Send</button>
+              </form>
+            </>
+          ) : (
+            <div className="no-chat-selected">Select a contact to start chatting</div>
+          )}
+        </div>
       </div>
     </div>
   );

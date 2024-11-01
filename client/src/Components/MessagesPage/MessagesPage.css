@@ -1,10 +1,16 @@
 .messages-page {
   display: flex;
+  flex-direction: column; 
   height: 100vh;
   max-width: 1200px;
   margin: 0 auto;
   padding: 20px;
   box-sizing: border-box;
+}
+
+.contacts-chat-container {
+  display: flex; 
+  flex-grow: 1; 
 }
 
 .contacts-list {
@@ -26,10 +32,10 @@
 .contact:hover {
   background-color: #e0d31a;
 }
+
 .contact.active {
   background-color: #dad615;
 }
-
 
 .chat-area {
   width: 70%;
