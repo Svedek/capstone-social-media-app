@@ -22,7 +22,6 @@ function App() {
         <Route path="/messages" element={<MessagesPage />} />
         <Route path="/calender" element={<CalenderPage />} />
         <Route path="/Events" element={<EventsPage />} />
-
       </Routes>
     </Router>
   );

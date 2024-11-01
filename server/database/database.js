@@ -14,10 +14,16 @@ async function getLoginInfo(email) {
     return rows;
 }
 
-async function getUser(username) {
-    const query = `SELECT * FROM user WHERE username = ?`;
-    const [rows] = await pool.query(query, [username]);
-    return rows;
+async function getUser(email) {
+    const loginInfo = await getLoginInfo(email);
+    if (loginInfo.length < 1) {
+        return [];
+    }
+    else {
+        const query = `SELECT * FROM user WHERE login_info = ?`;
+        const [rows] = await pool.query(query, [loginInfo[0].id]);
+        return rows;
+    }
 }
 
 async function addLoginInfo(email, password) {
@@ -27,10 +33,10 @@ async function addLoginInfo(email, password) {
     return login_info[0].id;
 }
 
-async function addUser(username, major, loginID) {
-    const query = `INSERT INTO user (username, major, login_info) VALUES (?, ?, ?)`;
-    await pool.query(query, [username, major, loginID]);
-    const user = await getUser(username);
+async function addUser(email, major, loginID) {
+    const query = `INSERT INTO user (major, login_info) VALUES (?, ?)`;
+    await pool.query(query, [major, loginID]);
+    const user = await getUser(email);
     return user[0].id;
 }
 

@@ -8,8 +8,6 @@
     color: #fff;
     border-radius: 10px;
     border-radius: 10px;
-    
-   
 }
 
 .wrapper h1 {
@@ -59,7 +57,6 @@
 .remember-forgot a {
     color: #fff;
     text-decoration: none;
-
 }
 
 .remember-forgot a:hover{
@@ -90,10 +87,14 @@
     color: #fff;
     text-decoration: none;
     font-weight: 600;
-
 }
 
 .Register-link p a:hover{
     text-decoration: underline;
 }
 
+.error-message {
+    color: rgb(252, 36, 36);
+    font-weight: 600;
+    text-align: center;
+}

@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import 'react-calendar/dist/Calendar.css'; 
 import './HomePage.css';
 import { Home, User, MessageSquare, CalendarDays, Tickets, Settings } from 'lucide-react';
 
 const HomePage = () => {
+  const location = useLocation();
   const posts = [
     { id: 1, author: 'John Doe', content: 'testing, this test, test test' },
     { id: 2, author: 'Jane Smith', content: 'please work , test,test,test' },
