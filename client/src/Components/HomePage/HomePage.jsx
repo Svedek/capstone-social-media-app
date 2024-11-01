@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import Navbar from './Navbar';
-import Feed from './Feed';
-import Sidebar from './Sidebar';
+import Navbar from './navbar';
+import Feed from './feed';
+import Sidebar from './sidebar';
 import 'react-calendar/dist/Calendar.css'; 
 import './HomePage.css';
 import { Home, User, MessageSquare, CalendarDays, Tickets, Settings } from 'lucide-react';
@@ -19,7 +19,7 @@ const HomePage = () => {
     { id: 8, author: 'Anon number2', content: 'yet another test to cover more space' },
     { id: 9, author: 'Anon number3', content: 'yet another test to cover more space' },
     { id: 10, author: 'Anon number4', content: 'yet another test to cover more space' },
-    
+
   ];
 
   const events = [
