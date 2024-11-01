@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import Navbar from './navbar';
-import Feed from './feed';
-import Sidebar from './sidebar';
+import Navbar from '../navbar.jsx';
+import Feed from '../feed.jsx';
+import Sidebar from '../sidebar.jsx';
 import 'react-calendar/dist/Calendar.css'; 
 import './HomePage.css';
 import { Home, User, MessageSquare, CalendarDays, Tickets, Settings } from 'lucide-react';

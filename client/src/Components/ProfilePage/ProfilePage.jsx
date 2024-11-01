@@ -1,4 +1,5 @@
 import React from 'react';
+import Navbar from '../navbar.jsx';
 import { Link } from 'react-router-dom';
 import './ProfilePage.css';
 
@@ -40,6 +41,7 @@ const ProfilePage = () => {
 
   return (
     <div className="profile-wrapper">
+      <Navbar />
       <div className="profile-header">
         <img src={user.avatar} alt={user.username} className="avatar" />
         <h1>{user.fullName}</h1>

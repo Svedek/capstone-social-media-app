@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Navbar from '../navbar.jsx';
 import './MessagesPage.css';
 
 const initialContacts = [
@@ -49,6 +50,7 @@ const MessagesPage = () => {
 
   return (
     <div className="messages-page">
+      <Navbar />
       <div className="contacts-list">
         <h2>Contacts</h2>
         {contacts.map((contact) => (

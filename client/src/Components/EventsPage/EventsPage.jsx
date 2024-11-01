@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Navbar from '../navbar.jsx';
 import './EventsPage.css';
 
 const mockEvents = [
@@ -23,6 +24,7 @@ const EventsPage = () => {
 
   return (
     <div className="events-page">
+      <Navbar />
       <header>
         <h1>Events At UWM</h1>
       </header>

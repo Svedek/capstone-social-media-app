@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import Navbar from '../navbar.jsx';
 import { useNavigate, useParams } from 'react-router-dom';
 import './EditProfilePage.css';
 
@@ -48,6 +49,7 @@ const EditProfilePage = () => {
 
   return (
     <div className="edit-profile-wrapper">
+      <Navbar />
       <h1>Edit Profile</h1>
       <form onSubmit={handleSubmit}>
         <div className="form-group">
