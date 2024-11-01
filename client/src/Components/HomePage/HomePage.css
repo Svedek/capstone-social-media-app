@@ -73,7 +73,29 @@
   background-color: #1a1a1a; /* Dark background */
   color: #ffffff; /* Light text */
 }
+.like-button {
+  display: flex;
+  align-items: center;
+  background-color: transparent;
+  border: none;
+  color: #007bff; /* Customize for light mode */
+  cursor: pointer;
+  font-size: 14px;
+  margin-top: 10px;
+  transition: color 0.3s ease;
+}
 
+.dark-mode .like-button {
+  color: #ff5050; /* Customize for dark mode */
+}
+
+.like-button:hover {
+  color: #0056b3; /* Hover color for light mode */
+}
+
+.dark-mode .like-button:hover {
+  color: #ff7878; /* Hover color for dark mode */
+}
 /* Navbar styles for light and dark modes */
 .light-mode .navbar {
   background-color: #e9ecef; /* Light navbar */
@@ -88,9 +110,32 @@
 }
 
 .dark-mode .navbar a {
-  color: #ffffff; /* Light text in dark mode */
+  color: #000000; /* Light text in dark mode */
+}
+.dropdown button {
+  background-color: transparent; /* Transparent background */
+  color: inherit; /* Inherit current color from mode */
+  border: none; /* Remove border */
+  padding: 10px; /* Padding for button */
+  cursor: pointer; /* Pointer cursor */
+  transition: background-color 0.3s ease; /* Smooth transition */
 }
 
+/* Remove noticeable hover effect for light mode */
+.light-mode .dropdown button:hover {
+  background-color: transparent; /* Ensure no background color change on hover */
+  color: inherit; /* Keep text color the same */
+}
+
+/* Remove noticeable hover effect for dark mode */
+.dark-mode .dropdown button:hover {
+  background-color: rgba(255, 255, 255, 0.555); /* Light transparent background */
+  color: #000000; /* Keep text visible */
+}
+.dark-mode .dropdown button{
+  color:#000000;
+  background-color: grey;
+}
 /* Content Styles */
 .content {
   display: flex;

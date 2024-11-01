@@ -22,7 +22,7 @@ function App() {
         <Route path="/messages" element={<MessagesPage />} />
         <Route path="/calender" element={<CalenderPage />} />
         <Route path="/Events" element={<EventsPage />} />
-        <Route path="/create-event" element={<CreateEvent />} />
+        <Route path="/CreateEvent" element={<CreateEvent />} />
 
       </Routes>
     </Router>
