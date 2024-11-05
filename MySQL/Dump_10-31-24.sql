@@ -63,8 +63,9 @@ CREATE TABLE `post` (
   `id` int NOT NULL AUTO_INCREMENT,
   `owner` int DEFAULT NULL,
   `parent_post` int DEFAULT NULL,
-  `text` varchar(200) DEFAULT NULL,
+  `text` varchar(200) NOT NULL,
   `is_event` tinyint NOT NULL,
+  `time_posted` datetime NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `idnew_table_UNIQUE` (`id`),
   KEY `owner_idx` (`owner`),
@@ -122,4 +123,4 @@ CREATE TABLE `user` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-10-31 22:08:33
+-- Dump completed on 2024-10-31 22:48:38
