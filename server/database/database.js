@@ -34,4 +34,51 @@ async function addUser(username, major, loginID) {
     return user[0].id;
 }
 
-module.exports = { getLoginInfo, getUser, addLoginInfo, addUser };
+async function addPost(owner, parent_post, text, is_event, time_posted) {
+    const query = `INSERT INTO post (owner, parent_post, text, is_event, time_posted) VALUES (?, ?, ?, ?, ?)`;
+    const cols = await pool.query(query, [owner, parent_post, text, is_event, time_posted]);
+    return cols[0].insertId;
+}
+
+async function getNextPosts(before, num_posts) {
+    const query = `SELECT * FROM post WHERE time_posted <= ? ORDER BY time_posted DESC LIMIT ?`;
+    const cols = await pool.query(query, [before, num_posts]);
+    return cols;
+}
+
+async function likePost() {
+
+}
+
+async function unlikePost() {
+
+}
+
+module.exports = { 
+    getLoginInfo, addLoginInfo,
+    getUser, addUser,
+    addPost, getNextPosts,
+    likePost, unlikePost
+};
+
+
+
+async function printAsync() {
+    const date_old = new Date("2024-11-05T03:45:45.000Z");
+    console.log(date_old);
+    const date = new Date();
+    console.log(date);
+
+    // const login_info = await addLoginInfo("wimpsdsaghhfus3@uwm.edu", "password");
+    // console.log(login_info);
+
+    // const user = await addUser("sta", "wungusdts3", login_info);
+    // console.log(user);
+
+    // const res = await addPost(user, null, "ytjtyjhfghasfzxvcvrwevbcmhtjsrgsdffsgd", false, date);
+    // console.log(res);
+
+    const posts = await getNextPosts(date_old, 5);
+    console.log(posts);
+  }
+printAsync();
