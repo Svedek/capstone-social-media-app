@@ -285,3 +285,54 @@
 .dark-mode p {
   color: #fff; /* Light text for dark mode */
 }
+/* HomePage.css */
+/* ... Keep all your existing styles ... */
+
+/* Add these new styles for the scrollable posts feed */
+.posts-container {
+  flex: 2;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.posts-scroll-area {
+  flex: 1;
+  overflow-y: auto;
+  padding-right: 10px;
+  margin-right: -10px; /* Compensate for padding */
+  max-height: 70vh; /* Adjust this value as needed */
+}
+
+/* Customize scrollbar */
+.posts-scroll-area::-webkit-scrollbar {
+  width: 8px;
+}
+
+.posts-scroll-area::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+.posts-scroll-area::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 4px;
+}
+
+.posts-scroll-area::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* Dark mode scrollbar */
+.dark-mode .posts-scroll-area::-webkit-scrollbar-track {
+  background: #2d2d2d;
+}
+
+.dark-mode .posts-scroll-area::-webkit-scrollbar-thumb {
+  background: #666;
+}
+
+.dark-mode .posts-scroll-area::-webkit-scrollbar-thumb:hover {
+  background: #888;
+}
