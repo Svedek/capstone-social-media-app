@@ -53,13 +53,13 @@ async function getNextPosts(before, num_posts, filters) {
     return rows;
 }
 
-async function likePost(user_id, post_id) {
+async function addPostLike(user_id, post_id) {
     const query = `INSERT INTO post_like (post_like_user_id, post_like_post_id) VALUES (?, ?)`;
     const [rows] = await pool.query(query, [user_id, post_id]);
     return rows.insertId;
 }
 
-async function unlikePost(user_id, post_id) {
+async function removePostLike(user_id, post_id) {
     const query = `DELETE FROM post_like WHERE post_like_user_id=? AND post_like_post_id=?`;
     const [rows] = await pool.query(query, [user_id, post_id]);
     return rows.changedRows;
@@ -71,11 +71,33 @@ async function isPostLiked(user_id, post_id) {
     return rows.length > 0;
 }
 
+async function getUserLikes(user_id) {
+    const query = `SELECT * FROM post_like WHERE post_like_user_id=?`;
+    const [rows] = await pool.query(query, [user_id]);
+    return rows;
+}
+
+async function getPostLikes(post_id) {
+    const query = `SELECT * FROM post_like WHERE post_like_post_id=?`;
+    const [rows] = await pool.query(query, [post_id]);
+    return rows;
+}
+
+async function getPostLikesCount(post_id) {}
+
+async function addEventRSVP(user_id, event_id) {}
+async function removeEventRSVP(user_id, event_id) {}
+async function isEventRSVPed(user_id, event_id) {}
+async function getUserRSVPs(user_id) {}
+async function getEventRSVPs(event_id) {}
+async function getEventRSVPCount(event_id) {}
+
 module.exports = { 
     getLoginInfo, addLoginInfo,
     getUser, addUser,
     addPost, getNextPosts,
-    likePost, unlikePost, isPostLiked
+    addPostLike, removePostLike, isPostLiked, getUserLikes, getPostLikes, getPostLikesCount, 
+    addEventRSVP, removeEventRSVP, isEventRSVPed, getUserRSVPs, getEventRSVPs, getEventRSVPCount
 };
 
 
