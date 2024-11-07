@@ -2,7 +2,7 @@ CREATE DATABASE  IF NOT EXISTS `uwmsoc` /*!40100 DEFAULT CHARACTER SET utf8mb4 C
 USE `uwmsoc`;
 -- MySQL dump 10.13  Distrib 8.0.38, for Win64 (x86_64)
 --
--- Host: 127.0.0.1    Database: uwmsoc
+-- Host: localhost    Database: uwmsoc
 -- ------------------------------------------------------
 -- Server version	8.0.39
 
@@ -25,15 +25,15 @@ DROP TABLE IF EXISTS `event_rsvp`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `event_rsvp` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `user` int NOT NULL,
-  `post` int NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `id_UNIQUE` (`id`),
-  KEY `user_idx` (`user`),
-  KEY `post_idx` (`post`),
-  CONSTRAINT `event_rsvp_post` FOREIGN KEY (`post`) REFERENCES `post` (`id`),
-  CONSTRAINT `event_rsvp_user` FOREIGN KEY (`user`) REFERENCES `user` (`id`)
+  `event_rsvp_id` int NOT NULL AUTO_INCREMENT,
+  `event_rsvp_user_id` int NOT NULL,
+  `event_rsvp_post_id` int NOT NULL,
+  PRIMARY KEY (`event_rsvp_id`),
+  UNIQUE KEY `id_UNIQUE` (`event_rsvp_id`),
+  KEY `user_idx` (`event_rsvp_user_id`),
+  KEY `post_idx` (`event_rsvp_post_id`),
+  CONSTRAINT `event_rsvp_post_id` FOREIGN KEY (`event_rsvp_post_id`) REFERENCES `post` (`post_id`),
+  CONSTRAINT `event_rsvp_user_id` FOREIGN KEY (`event_rsvp_user_id`) REFERENCES `user` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -45,11 +45,11 @@ DROP TABLE IF EXISTS `login_info`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `login_info` (
-  `id` int NOT NULL AUTO_INCREMENT,
+  `login_info_id` int NOT NULL AUTO_INCREMENT,
   `email` varchar(128) NOT NULL,
   `password` varchar(64) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  PRIMARY KEY (`login_info_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=44 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -60,19 +60,19 @@ DROP TABLE IF EXISTS `post`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `post` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `owner` int DEFAULT NULL,
-  `parent_post` int DEFAULT NULL,
+  `post_id` int NOT NULL AUTO_INCREMENT,
+  `post_owner_user_id` int DEFAULT NULL,
+  `post_parent_post_id` int DEFAULT NULL,
   `text` varchar(200) NOT NULL,
   `is_event` tinyint NOT NULL,
   `time_posted` datetime NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `idnew_table_UNIQUE` (`id`),
-  KEY `owner_idx` (`owner`),
-  KEY `parent_post_idx` (`parent_post`),
-  CONSTRAINT `post_owner` FOREIGN KEY (`owner`) REFERENCES `user` (`id`),
-  CONSTRAINT `post_parent_post` FOREIGN KEY (`parent_post`) REFERENCES `post` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  PRIMARY KEY (`post_id`),
+  UNIQUE KEY `idnew_table_UNIQUE` (`post_id`),
+  KEY `owner_idx` (`post_owner_user_id`),
+  KEY `parent_post_idx` (`post_parent_post_id`),
+  CONSTRAINT `post_owner_user_id` FOREIGN KEY (`post_owner_user_id`) REFERENCES `user` (`user_id`),
+  CONSTRAINT `post_parent_post_id` FOREIGN KEY (`post_parent_post_id`) REFERENCES `post` (`post_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -83,15 +83,15 @@ DROP TABLE IF EXISTS `post_like`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `post_like` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `user` int NOT NULL,
-  `post` int NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `id_UNIQUE` (`id`),
-  KEY `user_idx` (`user`),
-  KEY `post_idx` (`post`),
-  CONSTRAINT `post_like_post` FOREIGN KEY (`post`) REFERENCES `post` (`id`),
-  CONSTRAINT `post_like_user` FOREIGN KEY (`user`) REFERENCES `user` (`id`)
+  `post_like_id` int NOT NULL AUTO_INCREMENT,
+  `post_like_user_id` int NOT NULL,
+  `post_like_post_id` int NOT NULL,
+  PRIMARY KEY (`post_like_id`),
+  UNIQUE KEY `id_UNIQUE` (`post_like_id`),
+  KEY `user_idx` (`post_like_user_id`),
+  KEY `post_idx` (`post_like_post_id`),
+  CONSTRAINT `post_like_post_id` FOREIGN KEY (`post_like_post_id`) REFERENCES `post` (`post_id`),
+  CONSTRAINT `post_like_user_id` FOREIGN KEY (`post_like_user_id`) REFERENCES `user` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -103,15 +103,15 @@ DROP TABLE IF EXISTS `user`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `user` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `login_info` int NOT NULL,
+  `user_id` int NOT NULL AUTO_INCREMENT,
+  `user_login_info_id` int NOT NULL,
   `username` varchar(128) DEFAULT NULL,
   `major` varchar(64) DEFAULT NULL,
   `bio` varchar(200) DEFAULT '',
-  PRIMARY KEY (`id`),
-  KEY `_idx` (`login_info`),
-  CONSTRAINT `login_info` FOREIGN KEY (`login_info`) REFERENCES `login_info` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  PRIMARY KEY (`user_id`),
+  KEY `_idx` (`user_login_info_id`) /*!80000 INVISIBLE */,
+  CONSTRAINT `user_login_info_id` FOREIGN KEY (`user_login_info_id`) REFERENCES `login_info` (`login_info_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -123,4 +123,4 @@ CREATE TABLE `user` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-10-31 22:48:38
+-- Dump completed on 2024-11-07 14:11:23
