@@ -1,6 +1,8 @@
 const mysql = require('mysql2');
 require('dotenv').config();
 
+// Checks to see if a database interaction is legal is expected to be handled by the caller
+
 const pool = mysql.createPool({
 	host: process.env.MYSQL_HOST,
 	user: process.env.MYSQL_USER,
@@ -22,16 +24,14 @@ async function getUser(username) {
 
 async function addLoginInfo(email, password) {
     const query = `INSERT INTO login_info (email, password) VALUES (?, ?)`;
-    await pool.query(query, [email, password]);
-    const login_info = await getLoginInfo(email);
-    return login_info[0].login_info_id;
+    const cols = await pool.query(query, [email, password]);
+    return cols[0].insertId;
 }
 
 async function addUser(username, major, loginID) {
     const query = `INSERT INTO user (username, major, user_login_info_id) VALUES (?, ?, ?)`;
-    await pool.query(query, [username, major, loginID]);
-    const user = await getUser(username);
-    return user[0].user_id;
+    const cols = await pool.query(query, [username, major, loginID]);
+    return cols[0].insertId;
 }
 
 async function addPost(owner, parent_post, text, is_event, time_posted) {
@@ -54,18 +54,22 @@ async function getNextPosts(before, num_posts, filters) {
 }
 
 async function likePost(user_id, post_id) {
-
+    
 }
 
 async function unlikePost(user_id, post_id) {
     
 }
 
+async function isPostLiked(user_id, post_id) {
+
+}
+
 module.exports = { 
     getLoginInfo, addLoginInfo,
     getUser, addUser,
     addPost, getNextPosts,
-    likePost, unlikePost
+    likePost, unlikePost, isPostLiked
 };
 
 
@@ -76,14 +80,14 @@ async function printAsync() {
     const date = new Date();
     console.log(date);
 
-    const login_info = await addLoginInfo("abcdefcvbasdf@uwm.edu", "pw23sdaf");
-    console.log(login_info);
+    // const login_info = await addLoginInfo("abcdefcvbasdf@uwm.edu", "pw23sdaf");
+    // console.log(login_info);
 
-    const user = await addUser("sabadasf", "MAFF", login_info);
-    console.log(user);
+    // const user = await addUser("sabadasf", "MAFF", login_info);
+    // console.log(user);
 
-    const res = await addPost(user, null, "asdg42f3", false, date);
-    console.log(res);
+    // const res = await addPost(user, null, "asdg42f3", false, date);
+    // console.log(res);
 
     const posts = await getNextPosts(date_old, 5, null);
     console.log(posts);
