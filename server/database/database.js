@@ -132,3 +132,79 @@ module.exports = {
     addPostLike, removePostLike, isPostLiked, getUserLikes, getPostLikes, getPostLikesCount, 
     addEventRSVP, removeEventRSVP, isEventRSVPed, getUserRSVPs, getEventRSVPs, getEventRSVPCount
 };
+
+
+
+
+
+
+
+
+
+
+
+async function testCreatePost() {
+    const date = new Date();
+    console.log(`login_info id: ${login_info}`);
+    console.log(`Time of post creation: ${date}`);
+
+    var login_info = await addLoginInfo("demo@uwm.edu", "pass");
+    console.log(`login_info id: ${login_info}`);
+
+    var user = await addUser("MyUser", "Math", login_info);
+    console.log(`user id: ${user}`);
+
+    var res = await addPost(user, null, "This is my post", true, date);
+    console.log(`post id: ${res}`);
+
+    var posts = await getNextPosts(date, 5, null);
+    console.log(posts);
+}
+
+async function testLikePost(user_id, post_id) {
+    console.log('Test Like Post:');
+    console.log(`Like count = 0: ${await getPostLikesCount(post_id)}`);
+    console.log(`Does user like post = false: ${await isPostLiked(user_id, post_id)}`);
+    console.log('');
+    console.log(`Post like added with id: ${await addPostLike(user_id, post_id)}`);
+    console.log(`Like count = 1: ${await getPostLikesCount(post_id)}`);
+    console.log(`Does user like post = true: ${await isPostLiked(user_id, post_id)}`);
+}
+
+async function testUnlikePost(user_id, post_id) {
+    console.log('Test Unlike Post:');
+    console.log(`Like count = 1: ${await getPostLikesCount(post_id)}`);
+    console.log(`Does user like post = true: ${await isPostLiked(user_id, post_id)}`);
+    console.log('');
+    console.log(`Number of post likes removed 1: ${await removePostLike(user_id, post_id)}`);
+    console.log(`Like count = 0: ${await getPostLikesCount(post_id)}`);
+    console.log(`Does user like post = false: ${await isPostLiked(user_id, post_id)}`);
+}
+
+async function testRSVPEvent(user_id, post_id) {
+    console.log('Test RSVP event:');
+    console.log(`RSVP count = 0: ${await getEventRSVPCount(post_id)}`);
+    console.log(`Is user RSVPed to event = false: ${await isEventRSVPed(user_id, post_id)}`);
+    console.log('');
+    console.log(`Post RSVP added with id: ${await addEventRSVP(user_id, post_id)}`);
+    console.log(`RSVP count = 1: ${await getEventRSVPCount(post_id)}`);
+    console.log(`Is user RSVPed to event = true: ${await isEventRSVPed(user_id, post_id)}`);
+}
+
+async function testUnRSVPEvent(user_id, post_id) {
+    console.log('Test unRSVP event:');
+    console.log(`RSVP count = 1: ${await getEventRSVPCount(post_id)}`);
+    console.log(`Is user RSVPed to event = true: ${await isEventRSVPed(user_id, post_id)}`);
+    console.log('');
+    console.log(`Number of post RSVPs removed 1: ${await removeEventRSVP(user_id, post_id)}`);
+    console.log(`RSVP count = 0: ${await getEventRSVPCount(post_id)}`);
+    console.log(`Is user RSVPed to event = false: ${await isEventRSVPed(user_id, post_id)}`);
+}
+
+const user_id = 39;
+const post_id = 27;
+// testCreatePost();
+// testLikePost(user_id, post_id);
+// testUnlikePost(user_id, post_id);
+// testRSVPEvent(user_id, post_id);
+testUnRSVPEvent(user_id, post_id);
