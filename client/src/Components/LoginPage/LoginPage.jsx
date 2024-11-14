@@ -24,7 +24,6 @@ export const LoginPage = () => {
     }
     else {
       setErrorMessage("Your password and email are incorrect");
-      setPassword("");
     }
   };
 

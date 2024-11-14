@@ -10,10 +10,8 @@ const authenticateUser = async (req, res) => {
     }
     else {
         const user = await db.getUser(email);
-        const userID = user[0].id;
-        req.session.userID = userID;
-        console.log(req.session.userID);
-        res.send({auth: true, userID: userID});
+        req.session.userID = user[0].id;
+        res.send({auth: true, userID: req.session.userID});
     }
 }
 

@@ -1,10 +1,13 @@
-import React, { useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import 'react-calendar/dist/Calendar.css'; 
 import './HomePage.css';
 import { Home, User, MessageSquare, CalendarDays, Tickets, Settings } from 'lucide-react';
+import { useAuth } from "../authenticationHook.jsx";
+import LogoutButton from "../logoutButton.jsx";
 
 const HomePage = () => {
+  const { userId } = useAuth();
   const location = useLocation();
   const posts = [
     { id: 1, author: 'John Doe', content: 'testing, this test, test test' },
@@ -17,7 +20,6 @@ const HomePage = () => {
     { id: 8, author: 'Anon number2', content: 'yet another test to cover more space' },
     { id: 9, author: 'Anon number3', content: 'yet another test to cover more space' },
     { id: 10, author: 'Anon number4', content: 'yet another test to cover more space' },
-
   ];
 
   const events = [
@@ -34,13 +36,14 @@ const HomePage = () => {
     <div className="home-page">
       <nav className="navbar">
         <ul>
-          <li><Link to="/home">Home</Link><Home size={24} /> </li>
-          <li><Link to="/Calender">Calender</Link><CalendarDays size={24} /></li>
-          <li><Link to="/Events"> Events</Link><Tickets size={24} /></li>
+          <li><Link to="/home">Home<Home size={24} /></Link></li>
+          <li><Link to="/Calender">Calender<CalendarDays size={24} /></Link></li>
+          <li><Link to="/Events"> Events<Tickets size={24} /></Link></li>
 
-          <li><Link to="/profile">Profile</Link>  <User size={24} /></li>
-          <li><Link to="/messages">Messages</Link>  <MessageSquare size={24} /></li>
-          <li><Link to="/settings">Settings</Link> <Settings size={24} /></li>
+          <li><Link to="/profile">Profile<User size={24} /></Link></li>
+          <li><Link to="/messages">Messages<MessageSquare size={24} /></Link></li>
+          <li><Link to="/settings">Settings<Settings size={24} /></Link></li>
+          <li><LogoutButton /></li>
 
         </ul>
       </nav>
@@ -50,7 +53,7 @@ const HomePage = () => {
        
 
         <div className="main-feed">
-          <h2>Your feed</h2>
+          <h2>{userId}'s feed</h2>
           <button className="create-post">Create Post</button>
           {posts.map(post => (
             <div key={post.id} className="post">

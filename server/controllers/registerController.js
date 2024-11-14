@@ -1,4 +1,5 @@
 const db = require("../database/database.js");
+const { generatePassword } = require("../authenticate/password.js");
 
 const createUser = async (req, res) => {
     const major = req.body.major;
@@ -13,8 +14,9 @@ const createUser = async (req, res) => {
         errorMessage = "must use a uwm email address";
     }
     else {
-        const loginID = await db.addLoginInfo(email, pass);
-        const userID = await db.addUser(email, major, loginID);
+        const { salt, hash } = generatePassword(pass);
+        const loginID = await db.addLoginInfo(email, hash, salt);
+        const userID = await db.addUser(major, loginID);
         created = true;
     }
     res.send({created: created, errorMessage: errorMessage});
