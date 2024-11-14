@@ -21,7 +21,7 @@ const addPost = async (req, res) => {
   }
   else {
     const loginID = await db.addLoginInfo(email, pass);
-    const userID = await db.db.addPost(owner_user, parent_post, text, is_event, time_posted);
+    const userID = await db.addPost(owner_user, parent_post, text, is_event, time_posted);
     created = true;
   }
   res.send({created: created, errorMessage: errorMessage});
@@ -32,9 +32,36 @@ const getNextPosts = async (req, res) => {
 }
 
 const addPostLike = async (req, res) => {
-  db.addPostLike(user_id, post_id)
+  const user_id = req.body.user_id;
+  const post_id = req.body.post_id;
+  let errorMessage = "";
+  let created = false;
+  response = await db.db.addPost(owner_user, parent_post, text, is_event, time_posted);
+  user = response[0];
+  if (db.isPostLiked(user_id, post_id)) {
+    errorMessage = "Post already liked by this user!";
+  }
+  else {
+    const likeID = await db.addPostLike(user_id, post_id);
+    created = true;
+  }
+  res.send({created: created, errorMessage: errorMessage});
 }
 const removePostLike = async (req, res) => {
+  const user_id = req.body.user_id;
+  const post_id = req.body.post_id;
+  let errorMessage = "";
+  let created = false;
+  response = await db.db.addPost(owner_user, parent_post, text, is_event, time_posted);
+  user = response[0];
+  if (db.isPostLiked(user_id, post_id)) {
+    errorMessage = "Post is not liked by this user!";
+  }
+  else {
+    const likeID = await db.addPostLike(user_id, post_id);
+    created = true;
+  }
+  res.send({created: created, errorMessage: errorMessage});
   db.removePostLike(user_id, post_id)
 }
 const isPostLiked = async (req, res) => {
@@ -51,6 +78,20 @@ const getPostLikesCount = async (req, res) => {
 }
 
 const addEventRSVP = async (req, res) => {
+  const user_id = req.body.user_id;
+  const post_id = req.body.post_id;
+  let errorMessage = "";
+  let created = false;
+  response = await db.db.addPost(owner_user, parent_post, text, is_event, time_posted);
+  user = response[0];
+  if (db.isPostLiked(user_id, post_id)) {
+    errorMessage = "Post already liked by this user!";
+  }
+  else {
+    const likeID = await db.addPostLike(user_id, post_id);
+    created = true;
+  }
+  res.send({created: created, errorMessage: errorMessage});
   db.addEventRSVP(user_id, event_id)
 }
 const removeEventRSVP = async (req, res) => {

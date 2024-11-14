@@ -200,11 +200,3 @@ async function testUnRSVPEvent(user_id, post_id) {
     console.log(`RSVP count = 0: ${await getEventRSVPCount(post_id)}`);
     console.log(`Is user RSVPed to event = false: ${await isEventRSVPed(user_id, post_id)}`);
 }
-
-const user_id = 39;
-const post_id = 27;
-// testCreatePost();
-// testLikePost(user_id, post_id);
-// testUnlikePost(user_id, post_id);
-// testRSVPEvent(user_id, post_id);
-testUnRSVPEvent(user_id, post_id);
