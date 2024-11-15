@@ -9,7 +9,8 @@ const addPost = async (req, res) => {
   const time_posted = new Date();
   let errorMessage = "";
   let result = false;
-  if (db.getUserByID(owner_user)) {
+  const users = await db.getUserByID(owner_user);
+  if (users.length < 1) {
       errorMessage = "Owner user not found!";
   }
   else if (is_event && parent_post != null) {
@@ -30,6 +31,7 @@ const getNextPosts = async (req, res) => {
   const before = req.body.before;
   const num_posts = req.body.num_posts;
   const filters = req.body.filters;
+  let errorMessage = "";
   let result = {};
   if (num_posts <= 0) {
       errorMessage = `Invalid number of posts to get: ${num_posts}`;
@@ -47,7 +49,8 @@ const addPostLike = async (req, res) => {
   const post_id = req.body.post_id;
   let errorMessage = "";
   let result = false;
-  if (db.isPostLiked(user_id, post_id)) {
+  const isLiked = await db.isPostLiked(user_id, post_id);
+  if (isLiked) {
     errorMessage = "Post already liked by this user!";
   }
   else {
@@ -62,7 +65,8 @@ const removePostLike = async (req, res) => {
   const post_id = req.body.post_id;
   let errorMessage = "";
   let result = false;
-  if (!db.isPostLiked(user_id, post_id)) {
+  const isLiked = await db.isPostLiked(user_id, post_id);
+  if (!isLiked) {
     errorMessage = "Post is not liked by this user!";
   }
   else {
@@ -76,7 +80,7 @@ const isPostLiked = async (req, res) => {
   const user_id = req.body.user_id;
   const post_id = req.body.post_id;
   let errorMessage = "";
-  let result = db.isPostLiked(user_id, post_id);
+  let result = await db.isPostLiked(user_id, post_id);
   res.send({result: result, errorMessage: errorMessage});
 }
 
@@ -107,7 +111,8 @@ const addEventRSVP = async (req, res) => {
   const event_id = req.body.event_id;
   let errorMessage = "";
   let result = false;
-  if (db.isEventRSVPed(user_id, event_id)) {
+  const isRsvped = await db.isEventRSVPed(user_id, event_id);
+  if (isRsvped) {
     errorMessage = "Event already RSVPed by this user!";
   }
   else {
@@ -122,7 +127,8 @@ const removeEventRSVP = async (req, res) => {
   const event_id = req.body.event_id;
   let errorMessage = "";
   let result = false;
-  if (!db.isEventRSVPed(user_id, event_id)) {
+  const isRsvped = await db.isEventRSVPed(user_id, event_id);
+  if (!isRsvped) {
     errorMessage = "Event is not RSVPed by this user!";
   }
   else {
@@ -136,7 +142,7 @@ const isEventRSVPed = async (req, res) => {
   const user_id = req.body.user_id;
   const event_id = req.body.event_id;
   let errorMessage = "";
-  let result = db.isEventRSVPed(user_id, event_id)
+  let result = await db.isEventRSVPed(user_id, event_id)
   res.send({result: result, errorMessage: errorMessage});
 }
 
