@@ -105,8 +105,7 @@ DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user` (
   `user_id` int NOT NULL AUTO_INCREMENT,
   `user_login_info_id` int NOT NULL,
-  `username` varchar(128) DEFAULT NULL,
-  `major` varchar(64) DEFAULT NULL,
+  `major` varchar(64),
   `bio` varchar(200) DEFAULT '',
   PRIMARY KEY (`user_id`),
   KEY `_idx` (`user_login_info_id`) /*!80000 INVISIBLE */,

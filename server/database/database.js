@@ -18,7 +18,7 @@ async function getLoginInfo(email) {
 }
 
 async function getLoginInfoById(id) {
-    const query = `SELECT * FROM login_info WHERE id = ?`;
+    const query = `SELECT * FROM login_info WHERE login_info_id = ?`;
     const [rows] = await pool.query(query, [id]);
     return rows;
 }
@@ -30,7 +30,7 @@ async function addLoginInfo(email, hash, salt) {
 }
 
 async function editPassword(login_id, hash, salt) {
-    const query = `UPDATE login_info SET hash = ?, salt = ? WHERE id = ?`;
+    const query = `UPDATE login_info SET hash = ?, salt = ? WHERE login_info_id = ?`;
     const res = await pool.query(query, [hash, salt, login_id]);
     console.log(res[0]);
 }
@@ -43,14 +43,13 @@ async function getUser(email) {
         return [];
     }
     else {
-        const query = `SELECT * FROM user WHERE login_info = ?`;
-        const [rows] = await pool.query(query, [loginInfo[0].id]);
+        const rows = getUserByLoginId(id);
         return rows;
     }
 }
 
 async function getUserByLoginId(id) {
-    const query = `SELECT * FROM user WHERE login_info = ?`;
+    const query = `SELECT * FROM user WHERE user_login_info_id = ?`;
     const [rows] = await pool.query(query, id);
     return rows;
 }
@@ -62,7 +61,7 @@ async function getUserById(id) {  // Primarily for controllers
 }
 
 async function addUser(major, loginID) {
-    const query = `INSERT INTO user (major, login_info) VALUES (?, ?)`;
+    const query = `INSERT INTO user (major, user_login_info_id) VALUES (?, ?)`;
     const res = await pool.query(query, [major, loginID]);
     return res[0].insertId;
 }

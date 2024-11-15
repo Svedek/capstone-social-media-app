@@ -9,7 +9,7 @@ const addPost = async (req, res) => {
   const time_posted = new Date();
   let errorMessage = "";
   let result = false;
-  const users = await db.getUserByID(owner_user);
+  const users = await db.getUserById(owner_user);
   if (users.length < 1) {
       errorMessage = "Owner user not found!";
   }
