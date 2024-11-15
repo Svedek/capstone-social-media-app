@@ -36,6 +36,10 @@
   button:hover {
     background-color: #0056b3;
   }
+
+  button:active {
+    background-color: white;
+  }
   
   .Login-link {
     text-align: center;

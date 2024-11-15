@@ -3,7 +3,6 @@ import { Link, useNavigate } from 'react-router-dom';
 import './RegisterPage.css';
 
 export const RegisterPage = () => {
-  const [username, setUsername] = useState("");
   const [major, setMajor] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -18,7 +17,7 @@ export const RegisterPage = () => {
       headers: {
         "Content-Type": "application/json"
       },
-      body: JSON.stringify({ username: username, major: major, email: email, password: password, confPass: confPass })
+      body: JSON.stringify({ major: major, email: email, password: password, confPass: confPass })
     });
 
     if (password != confPass) {
@@ -40,15 +39,6 @@ export const RegisterPage = () => {
       {errorMessage && <p className="error-message">{errorMessage}</p>}
       <form onSubmit={handleRegister}>
         <h1>Register</h1>
-        <div className="input-box">
-          <input
-            type="text"
-            placeholder='Username'
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            required
-          />
-        </div>
         <div className="input-box">
           <input
             type="text"

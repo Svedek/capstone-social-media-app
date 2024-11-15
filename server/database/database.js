@@ -17,30 +17,59 @@ async function getLoginInfo(email) {
     return rows;
 }
 
-async function addLoginInfo(email, password) {
-    const query = `INSERT INTO login_info (email, password) VALUES (?, ?)`;
-    const [rows] = await pool.query(query, [email, password]);
-    return rows.insertId;
-}
-
-// User
-async function getUser(username) {
-    const query = `SELECT * FROM user WHERE username = ?`;
-    const [rows] = await pool.query(query, [username]);
+async function getLoginInfoById(id) {
+    const query = `SELECT * FROM login_info WHERE id = ?`;
+    const [rows] = await pool.query(query, [id]);
     return rows;
 }
 
-async function getUserByID(id) {  // Primarily for controllers
+async function addLoginInfo(email, hash, salt) {
+    const query = `INSERT INTO login_info (email, hash, salt) VALUES (?, ?, ?)`;
+    const res = await pool.query(query, [email, hash, salt]);
+    return res[0].insertId;
+}
+
+async function editPassword(login_id, hash, salt) {
+    const query = `UPDATE login_info SET hash = ?, salt = ? WHERE id = ?`;
+    const res = await pool.query(query, [hash, salt, login_id]);
+    console.log(res[0]);
+}
+
+// User
+
+async function getUser(email) {
+    const loginInfo = await getLoginInfo(email);
+    if (loginInfo.length < 1) {
+        return [];
+    }
+    else {
+        const query = `SELECT * FROM user WHERE login_info = ?`;
+        const [rows] = await pool.query(query, [loginInfo[0].id]);
+        return rows;
+    }
+}
+
+async function getUserByLoginId(id) {
+    const query = `SELECT * FROM user WHERE login_info = ?`;
+    const [rows] = await pool.query(query, id);
+    return rows;
+}
+
+async function getUserById(id) {  // Primarily for controllers
     const query = `SELECT * FROM user WHERE user_id = ?`;
     const [rows] = await pool.query(query, [id]);
     return rows;
 }
 
-async function addUser(username, major, loginID) {
-    const query = `INSERT INTO user (username, major, user_login_info_id) VALUES (?, ?, ?)`;
-    const [rows] = await pool.query(query, [username, major, loginID]);
-    return rows.insertId;
+async function addUser(major, loginID) {
+    const query = `INSERT INTO user (major, login_info) VALUES (?, ?)`;
+    const res = await pool.query(query, [major, loginID]);
+    return res[0].insertId;
 }
+
+// Brennan's odd functions
+// async function editmajor(user_id) { }
+// async function editBio(user_id) { }
 
 // Post
 async function addPost(owner, parent_post, text, is_event, time_posted) {
@@ -137,8 +166,8 @@ async function getEventRSVPCount(event_id) {
 }
 
 module.exports = { 
-    getLoginInfo, addLoginInfo,
-    getUser, addUser, getUserByID,
+    getLoginInfo, addLoginInfo, getLoginInfoById, editPassword,
+    getUser, addUser, getUserById, getUserByLoginId,
     addPost, getNextPosts,
     addPostLike, removePostLike, isPostLiked, getUserLikes, getPostLikes, getPostLikesCount, 
     addEventRSVP, removeEventRSVP, isEventRSVPed, getUserRSVPs, getEventRSVPs, getEventRSVPCount
