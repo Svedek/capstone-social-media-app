@@ -4,7 +4,6 @@ const postController = require("../controllers/postController.js")
 const postRouter = express.Router();
 
 
-postRouter.post("/", () => console.log("Rungus"));
 postRouter.post("/addPost", postController.addPost);  // owner_user, parent_post, text, is_event
 postRouter.post("/getNextPosts", postController.getNextPosts);  // before, num_posts, filters
 
