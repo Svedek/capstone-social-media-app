@@ -35,40 +35,49 @@ const addPostLike = async (req, res) => {
   const user_id = req.body.user_id;
   const post_id = req.body.post_id;
   let errorMessage = "";
-  let created = false;
-  response = await db.db.addPost(owner_user, parent_post, text, is_event, time_posted);
-  user = response[0];
+  let result = false;
   if (db.isPostLiked(user_id, post_id)) {
     errorMessage = "Post already liked by this user!";
   }
   else {
     const likeID = await db.addPostLike(user_id, post_id);
-    created = true;
+    result = true;
   }
-  res.send({created: created, errorMessage: errorMessage});
+  res.send({result: result, errorMessage: errorMessage});
 }
 const removePostLike = async (req, res) => {
   const user_id = req.body.user_id;
   const post_id = req.body.post_id;
   let errorMessage = "";
-  let created = false;
-  response = await db.db.addPost(owner_user, parent_post, text, is_event, time_posted);
-  user = response[0];
+  let result = false;
   if (db.isPostLiked(user_id, post_id)) {
     errorMessage = "Post is not liked by this user!";
   }
   else {
-    const likeID = await db.addPostLike(user_id, post_id);
-    created = true;
+    const rowsRemoved = await db.removePostLike(user_id, post_id);
+    result = rowsRemoved > 0;  // Should always be true if this else is entered
   }
-  res.send({created: created, errorMessage: errorMessage});
-  db.removePostLike(user_id, post_id)
+  res.send({result: result, errorMessage: errorMessage});
 }
 const isPostLiked = async (req, res) => {
-  db.isPostLiked(user_id, post_id)
+  const user_id = req.body.user_id;
+  const post_id = req.body.post_id;
+  let errorMessage = "";
+  let result = db.isPostLiked(user_id, post_id);
+  res.send({result: result, errorMessage: errorMessage});
 }
 const getUserLikes = async (req, res) => {
-  db.getUserLikes(user_id)
+  const user_id = req.body.user_id;
+  let errorMessage = "";
+  let result = false;
+  if (db.isPostLiked(user_id, post_id)) {
+    errorMessage = "Post is not liked by this user!";
+  }
+  else {
+    const rows = await db.getUserLikes(user_id)
+    result = rowsRemoved > 0;  // Should always be true if this else is entered
+  }
+  res.send({result: result, errorMessage: errorMessage});
 }
 const getPostLikes = async (req, res) => {
   db.getPostLikes(post_id)
@@ -81,17 +90,15 @@ const addEventRSVP = async (req, res) => {
   const user_id = req.body.user_id;
   const post_id = req.body.post_id;
   let errorMessage = "";
-  let created = false;
-  response = await db.db.addPost(owner_user, parent_post, text, is_event, time_posted);
-  user = response[0];
+  let status = false;
   if (db.isPostLiked(user_id, post_id)) {
     errorMessage = "Post already liked by this user!";
   }
   else {
     const likeID = await db.addPostLike(user_id, post_id);
-    created = true;
+    status = true;
   }
-  res.send({created: created, errorMessage: errorMessage});
+  res.send({status: status, errorMessage: errorMessage});
   db.addEventRSVP(user_id, event_id)
 }
 const removeEventRSVP = async (req, res) => {
