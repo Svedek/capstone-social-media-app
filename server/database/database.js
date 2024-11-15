@@ -10,15 +10,10 @@ const pool = mysql.createPool({
 	database: process.env.MYSQL_DATABASE
 }).promise();
 
+// Login Info
 async function getLoginInfo(email) {
     const query = `SELECT * FROM login_info WHERE email = ?`;
     const [rows] = await pool.query(query, [email]);
-    return rows;
-}
-
-async function getUser(username) {
-    const query = `SELECT * FROM user WHERE username = ?`;
-    const [rows] = await pool.query(query, [username]);
     return rows;
 }
 
@@ -28,12 +23,26 @@ async function addLoginInfo(email, password) {
     return rows.insertId;
 }
 
+// User
+async function getUser(username) {
+    const query = `SELECT * FROM user WHERE username = ?`;
+    const [rows] = await pool.query(query, [username]);
+    return rows;
+}
+
+async function getUserByID(id) {  // Primarily for controllers
+    const query = `SELECT * FROM user WHERE user_id = ?`;
+    const [rows] = await pool.query(query, [id]);
+    return rows;
+}
+
 async function addUser(username, major, loginID) {
     const query = `INSERT INTO user (username, major, user_login_info_id) VALUES (?, ?, ?)`;
     const [rows] = await pool.query(query, [username, major, loginID]);
     return rows.insertId;
 }
 
+// Post
 async function addPost(owner, parent_post, text, is_event, time_posted) {
     const query = `INSERT INTO post (post_owner_user_id, post_parent_post_id, text, is_event, time_posted) VALUES (?, ?, ?, ?, ?)`;
     const [rows] = await pool.query(query, [owner, parent_post, text, is_event, time_posted]);
@@ -53,6 +62,7 @@ async function getNextPosts(before, num_posts, filters) {
     return rows;
 }
 
+// Post Like
 async function addPostLike(user_id, post_id) {
     const query = `INSERT INTO post_like (post_like_user_id, post_like_post_id) VALUES (?, ?)`;
     const [rows] = await pool.query(query, [user_id, post_id]);
@@ -89,6 +99,7 @@ async function getPostLikesCount(post_id) {
     return rows[0].cnt;
 }
 
+// Event RSVP
 async function addEventRSVP(user_id, event_id) {
     const query = `INSERT INTO event_rsvp (event_rsvp_user_id, event_rsvp_post_id) VALUES (?, ?)`;
     const [rows] = await pool.query(query, [user_id, event_id]);
@@ -127,7 +138,7 @@ async function getEventRSVPCount(event_id) {
 
 module.exports = { 
     getLoginInfo, addLoginInfo,
-    getUser, addUser,
+    getUser, addUser, getUserByID,
     addPost, getNextPosts,
     addPostLike, removePostLike, isPostLiked, getUserLikes, getPostLikes, getPostLikesCount, 
     addEventRSVP, removeEventRSVP, isEventRSVPed, getUserRSVPs, getEventRSVPs, getEventRSVPCount
