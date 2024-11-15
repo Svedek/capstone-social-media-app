@@ -2,7 +2,11 @@ const express = require("express");
 const cors = require("cors");
 const { loginRouter, logoutRouter } = require("./routes/loginRoutes.js");
 const registerRouter = require("./routes/registerRoutes.js");
-const db = require("./database/database.js");
+const postRouter = require("./routes/postRoutes.js");
+const homeRouter = require("./routes/homeRoutes.js");
+const session = require("express-session");
+const cookieParser = require("cookie-parser");
+const passport = require("passport");
 const app = express();
 
 app.use(cors());
@@ -23,6 +27,8 @@ app.use(passport.session());
 app.use("/login", loginRouter);
 app.use("/logout", logoutRouter);
 app.use("/register", registerRouter);
+app.use("/post", postRouter);
+app.use("/home", homeRouter);
 app.use(express.static("build"));
 app.use(cookieParser());
 
