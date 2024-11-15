@@ -40,7 +40,6 @@ DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user` (
   `id` int NOT NULL AUTO_INCREMENT,
   `login_info` int NOT NULL,
-  `username` varchar(128),
   `major` varchar(64),
   `bio` varchar(200) DEFAULT '',
   PRIMARY KEY (`id`),

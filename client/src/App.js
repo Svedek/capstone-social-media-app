@@ -21,8 +21,7 @@ function App() {
         <Route path="/home" element={<HomePage />} /> 
         <Route path="/messages" element={<MessagesPage />} />
         <Route path="/calender" element={<CalenderPage />} />
-        <Route path="/Events" element={<EventsPage />} />
-
+        <Route path="/events" element={<EventsPage />} />
       </Routes>
     </Router>
   );

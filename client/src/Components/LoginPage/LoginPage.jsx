@@ -1,4 +1,4 @@
-import { React, useState } from 'react';
+import { React, useState, useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import './LoginPage.css';
 
@@ -17,15 +17,13 @@ export const LoginPage = () => {
       },
       body: JSON.stringify({ email: email, password: password })
     });
-    setEmail("");
-    setPassword("");
 
     const data = await response.json();
     if (data.auth) {
-      navigate("/home")
+      navigate("/home");
     }
     else {
-      setErrorMessage("Your password and username are incorrect");
+      setErrorMessage("Your password and email are incorrect");
     }
   };
 
