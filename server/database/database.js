@@ -71,7 +71,37 @@ async function addUser(major, loginID) {
 // async function editBio(user_id) { }
 
 // Post
-async function addPost(owner, parent_post, text, is_event, time_posted) {
+async function addUpdatePost(owner, parent_post, text, is_event, time_posted) {  // TODO
+    const query = `INSERT INTO post (post_owner_user_id, post_parent_post_id, text, is_event, time_posted) VALUES (?, ?, ?, ?, ?)`;
+    const [rows] = await pool.query(query, [owner, parent_post, text, is_event, time_posted]);
+    return rows.insertId;
+}
+
+async function addEventPost(owner, parent_post, text, is_event, time_posted) {// TODO
+    const query = `INSERT INTO post (post_owner_user_id, post_parent_post_id, text, is_event, time_posted) VALUES (?, ?, ?, ?, ?)`;
+    const [rows] = await pool.query(query, [owner, parent_post, text, is_event, time_posted]);
+    return rows.insertId;
+}
+
+async function isPostEvent(owner, parent_post, text, is_event, time_posted) {// TODO
+    const query = `INSERT INTO post (post_owner_user_id, post_parent_post_id, text, is_event, time_posted) VALUES (?, ?, ?, ?, ?)`;
+    const [rows] = await pool.query(query, [owner, parent_post, text, is_event, time_posted]);
+    return rows.insertId;
+}
+
+async function getEventFromInfo(owner, parent_post, text, is_event, time_posted) {// TODO
+    const query = `INSERT INTO post (post_owner_user_id, post_parent_post_id, text, is_event, time_posted) VALUES (?, ?, ?, ?, ?)`;
+    const [rows] = await pool.query(query, [owner, parent_post, text, is_event, time_posted]);
+    return rows.insertId;
+}
+
+async function getUpdateFromChild(owner, parent_post, text, is_event, time_posted) {// TODO
+    const query = `INSERT INTO post (post_owner_user_id, post_parent_post_id, text, is_event, time_posted) VALUES (?, ?, ?, ?, ?)`;
+    const [rows] = await pool.query(query, [owner, parent_post, text, is_event, time_posted]);
+    return rows.insertId;
+}
+
+async function getPostChildren(owner, parent_post, text, is_event, time_posted) {// TODO
     const query = `INSERT INTO post (post_owner_user_id, post_parent_post_id, text, is_event, time_posted) VALUES (?, ?, ?, ?, ?)`;
     const [rows] = await pool.query(query, [owner, parent_post, text, is_event, time_posted]);
     return rows.insertId;
@@ -128,43 +158,43 @@ async function getPostLikesCount(post_id) {
 }
 
 // Event RSVP
-async function addEventRSVP(user_id, event_id) {
+async function addEventRSVP(user_id, event_id) {  // TODO
     const query = `INSERT INTO event_rsvp (event_rsvp_user_id, event_rsvp_post_id) VALUES (?, ?)`;
     const [rows] = await pool.query(query, [user_id, event_id]);
     return rows.insertId;
 }
 
-async function removeEventRSVP(user_id, event_id) {
+async function removeEventRSVP(user_id, event_id) {  // TODO
     const query = `DELETE FROM event_rsvp WHERE event_rsvp_user_id=? AND event_rsvp_post_id=?`;
     const [rows] = await pool.query(query, [user_id, event_id]);
     return rows.affectedRows;
 }
 
-async function isEventRSVPed(user_id, event_id) {
+async function isEventRSVPed(user_id, event_id) {  // TODO
     const query = `SELECT * FROM event_rsvp WHERE event_rsvp_user_id=? AND event_rsvp_post_id=?`;
     const [rows] = await pool.query(query, [user_id, event_id]);
     return rows.length > 0;
 }
 
-async function getUserRSVPs(user_id) {
+async function getUserRSVPs(user_id) {  // TODO
     const query = `SELECT * FROM event_rsvp WHERE event_rsvp_user_id=?`;
     const [rows] = await pool.query(query, [user_id]);
     return rows;
 }
 
-async function getEventRSVPs(event_id) {
+async function getEventRSVPs(event_id) {  // TODO
     const query = `SELECT * FROM event_rsvp WHERE event_rsvp_post_id=?`;
     const [rows] = await pool.query(query, [event_id]);
     return rows;
 }
 
-async function getEventRSVPCount(event_id) {
+async function getEventRSVPCount(event_id) {  // TODO
     const query = `SELECT count(event_rsvp_id) as cnt FROM event_rsvp WHERE event_rsvp_post_id=?`;
     const [rows] = await pool.query(query, [event_id]);
     return rows[0].cnt;
 }
 
-module.exports = { 
+module.exports = {  // TODO
     getLoginInfo, addLoginInfo, getLoginInfoById, editPassword,
     getUser, addUser, getUserById, getUserByLoginId,
     addPost, getNextPosts,
