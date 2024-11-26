@@ -1,5 +1,3 @@
-CREATE DATABASE  IF NOT EXISTS `uwmsoc` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
-USE `uwmsoc`;
 -- MySQL dump 10.13  Distrib 8.0.38, for Win64 (x86_64)
 --
 -- Host: localhost    Database: uwmsoc
@@ -63,7 +61,8 @@ DROP TABLE IF EXISTS `login_info`;
 CREATE TABLE `login_info` (
   `login_info_id` int NOT NULL AUTO_INCREMENT,
   `email` varchar(128) NOT NULL,
-  `password` varchar(64) NOT NULL,
+  `hash` varchar(128) NOT NULL,
+  `salt` varchar(64) NOT NULL,
   PRIMARY KEY (`login_info_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=44 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -140,4 +139,4 @@ CREATE TABLE `user` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-11-25 15:43:18
+-- Dump completed on 2024-11-25 21:20:51
