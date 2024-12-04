@@ -66,20 +66,15 @@ async function addUser(major, loginID) {
     return res[0].insertId;
 }
 
-// Brennan's odd functions
-// async function editmajor(user_id) { }
-// async function editBio(user_id) { }
-
 // Post:
-
 async function addEventInfo(title, location, start_time) {
     const query = `INSERT INTO event_info (title, location, start_time) VALUES (?, ?, ?)`;
     const [rows] = await pool.query(query, [title, location, start_time]);
     return rows.insertId;
 }
 
-// Either parent_post_id or event_info_id must be null
 async function addPost(owner_user_id, parent_post_id, event_info_id, text, time_posted) {
+    // Either or both of parent_post_id and event_info_id must be null
     const query = `INSERT INTO post (post_owner_user_id, post_parent_post_id, post_event_info_id, text, time_posted) VALUES (?, ?, ?, ?, ?)`;
     const [rows] = await pool.query(query, [owner_user_id, parent_post_id, event_info_id, text, time_posted]);
     return rows.insertId;
@@ -95,27 +90,21 @@ async function addEventPost(owner_user_id, event_info_id, text, time_posted) {
     return ret;
 }
 
-async function isPostEvent(post_id) {
-    const query = `SELECT * FROM post WHERE post_id=? AND post_event_info_id IS NOT null`;
+async function getPostFomID(post_id) {
+    const query = `SELECT * FROM post WHERE post_id=?`;
     const [rows] = await pool.query(query, [post_id]);
-    return rows.length > 0;
-}
-
-async function getEventIDFromInfo(event_info_id, parent_post, text, is_event, time_posted) {// TODO
-    const query = `INSERT INTO post (post_owner_user_id, post_parent_post_id, text, is_event, time_posted) VALUES (?, ?, ?, ?, ?)`;
-    const [rows] = await pool.query(query, [owner, parent_post, text, is_event, time_posted]);
     return rows.insertId;
 }
 
-async function getUpdateFromChild(owner, parent_post, text, is_event, time_posted) {// TODO
-    const query = `INSERT INTO post (post_owner_user_id, post_parent_post_id, text, is_event, time_posted) VALUES (?, ?, ?, ?, ?)`;
-    const [rows] = await pool.query(query, [owner, parent_post, text, is_event, time_posted]);
+async function getEventIDFromInfo(event_info_id) {
+    const query = `SELECT * FROM post WHERE post_event_info_id=?`;
+    const [rows] = await pool.query(query, [event_info_id]);
     return rows.insertId;
 }
 
-async function getPostChildren(owner, parent_post, text, is_event, time_posted) {// TODO
-    const query = `INSERT INTO post (post_owner_user_id, post_parent_post_id, text, is_event, time_posted) VALUES (?, ?, ?, ?, ?)`;
-    const [rows] = await pool.query(query, [owner, parent_post, text, is_event, time_posted]);
+async function getPostChildren(post_id) {
+    const query = `SELECT * FROM post WHERE post_parent_post_id=?`;
+    const [rows] = await pool.query(query, [post_id]);
     return rows.insertId;
 }
 
@@ -130,6 +119,12 @@ async function getNextPosts(before, num_posts, filters) {
         DESC LIMIT ?;`;
     const [rows] = await pool.query(query, [before, num_posts]);
     return rows;
+}
+
+async function isPostEvent(post_id) {
+    const query = `SELECT * FROM post WHERE post_id=? AND post_event_info_id IS NOT null`;
+    const [rows] = await pool.query(query, [post_id]);
+    return rows.length > 0;
 }
 
 // Post Like
@@ -170,46 +165,47 @@ async function getPostLikesCount(post_id) {
 }
 
 // Event RSVP
-async function addEventRSVP(user_id, event_id) {  // TODO
-    const query = `INSERT INTO event_rsvp (event_rsvp_user_id, event_rsvp_post_id) VALUES (?, ?)`;
-    const [rows] = await pool.query(query, [user_id, event_id]);
+async function addEventRSVP(user_id, event_info_id) {
+    const query = `INSERT INTO event_rsvp (event_rsvp_user_id, event_rsvp_event_info_id) VALUES (?, ?)`;
+    const [rows] = await pool.query(query, [user_id, event_info_id]);
     return rows.insertId;
 }
 
-async function removeEventRSVP(user_id, event_id) {  // TODO
-    const query = `DELETE FROM event_rsvp WHERE event_rsvp_user_id=? AND event_rsvp_post_id=?`;
-    const [rows] = await pool.query(query, [user_id, event_id]);
+async function removeEventRSVP(user_id, event_info_id) {
+    const query = `DELETE FROM event_rsvp WHERE event_rsvp_user_id=? AND event_rsvp_event_info_id=?`;
+    const [rows] = await pool.query(query, [user_id, event_info_id]);
     return rows.affectedRows;
 }
 
-async function isEventRSVPed(user_id, event_id) {  // TODO
-    const query = `SELECT * FROM event_rsvp WHERE event_rsvp_user_id=? AND event_rsvp_post_id=?`;
-    const [rows] = await pool.query(query, [user_id, event_id]);
+async function isEventRSVPed(user_id, event_info_id) {
+    const query = `SELECT * FROM event_rsvp WHERE event_rsvp_user_id=? AND event_rsvp_event_info_id=?`;
+    const [rows] = await pool.query(query, [user_id, event_info_id]);
     return rows.length > 0;
 }
 
-async function getUserRSVPs(user_id) {  // TODO
+async function getUserRSVPs(user_id) {
     const query = `SELECT * FROM event_rsvp WHERE event_rsvp_user_id=?`;
     const [rows] = await pool.query(query, [user_id]);
     return rows;
 }
 
-async function getEventRSVPs(event_id) {  // TODO
-    const query = `SELECT * FROM event_rsvp WHERE event_rsvp_post_id=?`;
-    const [rows] = await pool.query(query, [event_id]);
+async function getEventRSVPs(event_info_id) {
+    const query = `SELECT * FROM event_rsvp WHERE event_rsvp_event_info_id=?`;
+    const [rows] = await pool.query(query, [event_info_id]);
     return rows;
 }
 
-async function getEventRSVPCount(event_id) {  // TODO
-    const query = `SELECT count(event_rsvp_id) as cnt FROM event_rsvp WHERE event_rsvp_post_id=?`;
-    const [rows] = await pool.query(query, [event_id]);
+async function getEventRSVPCount(event_info_id) {
+    const query = `SELECT count(event_rsvp_id) as cnt FROM event_rsvp WHERE event_rsvp_event_info_id=?`;
+    const [rows] = await pool.query(query, [event_info_id]);
     return rows[0].cnt;
 }
 
-module.exports = {  // TODO
+module.exports = {
     getLoginInfo, addLoginInfo, getLoginInfoById, editPassword,
     getUser, addUser, getUserById, getUserByLoginId,
-    addPost, getNextPosts,
-    addPostLike, removePostLike, isPostLiked, getUserLikes, getPostLikes, getPostLikesCount, 
+    addPost, getNextPosts, addEventInfo, addUpdatePost, addEventPost,
+    getPostFomID, getEventIDFromInfo, getPostChildren, isPostEvent,
+    addPostLike, removePostLike, isPostLiked, getUserLikes, getPostLikes, getPostLikesCount,
     addEventRSVP, removeEventRSVP, isEventRSVPed, getUserRSVPs, getEventRSVPs, getEventRSVPCount
 };
