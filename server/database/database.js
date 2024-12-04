@@ -70,26 +70,38 @@ async function addUser(major, loginID) {
 // async function editmajor(user_id) { }
 // async function editBio(user_id) { }
 
-// Post
-async function addUpdatePost(owner, parent_post, text, is_event, time_posted) {  // TODO
-    const query = `INSERT INTO post (post_owner_user_id, post_parent_post_id, text, is_event, time_posted) VALUES (?, ?, ?, ?, ?)`;
-    const [rows] = await pool.query(query, [owner, parent_post, text, is_event, time_posted]);
+// Post:
+
+async function addEventInfo(title, location, start_time) {
+    const query = `INSERT INTO event_info (title, location, start_time) VALUES (?, ?, ?)`;
+    const [rows] = await pool.query(query, [title, location, start_time]);
     return rows.insertId;
 }
 
-async function addEventPost(owner, parent_post, text, is_event, time_posted) {// TODO
-    const query = `INSERT INTO post (post_owner_user_id, post_parent_post_id, text, is_event, time_posted) VALUES (?, ?, ?, ?, ?)`;
-    const [rows] = await pool.query(query, [owner, parent_post, text, is_event, time_posted]);
+// Either parent_post_id or event_info_id must be null
+async function addPost(owner_user_id, parent_post_id, event_info_id, text, time_posted) {
+    const query = `INSERT INTO post (post_owner_user_id, post_parent_post_id, post_event_info_id, text, time_posted) VALUES (?, ?, ?, ?, ?)`;
+    const [rows] = await pool.query(query, [owner_user_id, parent_post_id, event_info_id, text, time_posted]);
     return rows.insertId;
 }
 
-async function isPostEvent(owner, parent_post, text, is_event, time_posted) {// TODO
-    const query = `INSERT INTO post (post_owner_user_id, post_parent_post_id, text, is_event, time_posted) VALUES (?, ?, ?, ?, ?)`;
-    const [rows] = await pool.query(query, [owner, parent_post, text, is_event, time_posted]);
-    return rows.insertId;
+async function addUpdatePost(owner_user_id, parent_post_id, text, time_posted) {
+    const ret = addPost(owner_user_id, parent_post_id, null, text, time_posted);
+    return ret;
 }
 
-async function getEventFromInfo(owner, parent_post, text, is_event, time_posted) {// TODO
+async function addEventPost(owner_user_id, event_info_id, text, time_posted) {
+    const ret = addPost(owner_user_id, null, event_info_id, text, time_posted);
+    return ret;
+}
+
+async function isPostEvent(post_id) {
+    const query = `SELECT * FROM post WHERE post_id=? AND post_event_info_id IS NOT null`;
+    const [rows] = await pool.query(query, [post_id]);
+    return rows.length > 0;
+}
+
+async function getEventIDFromInfo(event_info_id, parent_post, text, is_event, time_posted) {// TODO
     const query = `INSERT INTO post (post_owner_user_id, post_parent_post_id, text, is_event, time_posted) VALUES (?, ?, ?, ?, ?)`;
     const [rows] = await pool.query(query, [owner, parent_post, text, is_event, time_posted]);
     return rows.insertId;
