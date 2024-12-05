@@ -1,31 +1,38 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Link } from 'react-router-dom';
+import { Link,useNavigate  } from 'react-router-dom';
 import './HomePage.css';
-import { Home, User, MessageSquare, CalendarDays, Tickets, Settings, Heart } from 'lucide-react';
-const Taskbar = ({ isDarkMode, toggleDarkMode }) => {
+import { Home, User, MessageSquare, CalendarDays, Tickets, Heart,LogOut} from 'lucide-react';
+
+const Taskbar = () => {
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    // Add any logout logic here
+    sessionStorage.clear(); // Example of clearing session data
+
+    // Redirect to login page and replace history to prevent back navigation
+    navigate('/', { replace: true });
+  };
+
   return (
     <nav className="navbar">
       <ul>
         <li><Link to="/home">Home</Link><Home size={24} /></li>
-        <li><Link to="/calendar">Calendar</Link><CalendarDays size={24} /></li>
+        <li><Link to="/calender">Calendar</Link><CalendarDays size={24} /></li>
         <li><Link to="/events">Events</Link><Tickets size={24} /></li>
         <li><Link to="/profile">Profile</Link><User size={24} /></li>
         <li><Link to="/messages">Messages</Link><MessageSquare size={24} /></li>
         <li>
-          <div className="settings">
-            <span onClick={toggleDarkMode}>Settings <Settings size={24} /></span>
-            <div className="dropdown">
-              <button onClick={toggleDarkMode}>
-                {isDarkMode ? 'Light Mode' : 'Dark Mode'}
-              </button>
-            </div>
-          </div>
+          <button onClick={handleLogout} className="logout-button">
+            <LogOut size={24} /> Logout
+          </button>
         </li>
       </ul>
     </nav>
   );
 };
-const PostsFeed = ({ posts, handleLikeToggle, toggleModal }) => {
+
+const PostsFeed = ({ posts, handleLikeToggle, toggleModal, handleOpenComments }) => {
   const [displayedPosts, setDisplayedPosts] = useState([]);
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
@@ -51,7 +58,7 @@ const PostsFeed = ({ posts, handleLikeToggle, toggleModal }) => {
     setLoading(true);
     setTimeout(() => {
       const nextPage = page + 1;
-      const startIndex = (page) * postsPerPage;
+      const startIndex = page * postsPerPage;
       const endIndex = startIndex + postsPerPage;
       const newPosts = posts.slice(startIndex, endIndex);
 
@@ -63,14 +70,14 @@ const PostsFeed = ({ posts, handleLikeToggle, toggleModal }) => {
         setHasMore(false);
       }
       setLoading(false);
-    }, 500); 
+    }, 500);
   };
 
   return (
     <div className="posts-container">
       <h2>Your feed</h2>
       <button className="create-post" onClick={toggleModal}>Create Post</button>
-      <div 
+      <div
         className="posts-scroll-area"
         ref={scrollRef}
         onScroll={handleScroll}
@@ -80,11 +87,17 @@ const PostsFeed = ({ posts, handleLikeToggle, toggleModal }) => {
             <div className="post-author">{post.author}</div>
             <div className="post-content">{post.content}</div>
             {post.image && <img src={post.image} alt="Post" className="post-image" />}
-            <button 
-              className="like-button" 
-              onClick={() => handleLikeToggle(post.id)} 
+            <button
+              className="like-button"
+              onClick={() => handleLikeToggle(post.id)}
             >
               <Heart size={16} /> {post.likes}
+            </button>
+            <button
+              className="comment-button"
+              onClick={() => handleOpenComments(post.id)}
+            >
+              Reply
             </button>
           </div>
         ))}
@@ -104,6 +117,39 @@ const PostsFeed = ({ posts, handleLikeToggle, toggleModal }) => {
   );
 };
 
+
+///reply overlay
+const CommentOverlay = ({ post, closeOverlay }) => {
+  return (
+    <div className="comment-overlay">
+      <div className="comment-overlay-content">
+        <button className="close-button" onClick={closeOverlay}>
+          &times;
+        </button>
+        <h3>Comments for "{post.content}"</h3>
+        <div className="comments-section">
+          {post.comments.map((comment, index) => (
+            <div key={index} className="comment-item">
+              <div className="comment-author">{comment.author}</div>
+              <div className="comment-text">{comment.text}</div>
+            </div>
+          ))}
+        </div>
+        <textarea
+          placeholder="Write a reply..."
+          rows="3"
+          className="reply-textarea"
+        ></textarea>
+        <button className="submit-reply-button">Reply</button>
+      </div>
+    </div>
+  );
+};
+
+
+
+
+
 const Sidebar = ({ events, friends, newFriend, setNewFriend, handleAddFriend }) => {
   return (
     <div className="sidebar">
@@ -118,60 +164,74 @@ const Sidebar = ({ events, friends, newFriend, setNewFriend, handleAddFriend }) 
           <button className="CreateEvent">Create Event</button>
         </Link>
       </div>
+
       
-      <div className="friends">
-        <h3>Friends</h3>
+      <div className="social-media">
+        <h3>Follow Us</h3>
         <ul>
-          {friends.map(friend => (
-            <li key={friend}>{friend}</li>
-          ))}
+          <li><a href="https://x.com/UWM?ref_src=twsrc%5Egoogle%7Ctwcamp%5Eserp%7Ctwgr%5Eauthor" target="_blank" rel="noopener noreferrer"> Twitter</a></li>
+          <li><a href="https://www.facebook.com/UWMilwaukee/" target="_blank" rel="noopener noreferrer"> Facebook</a></li>
+          <li><a href="https://www.instagram.com/uwmilwaukee/" target="_blank" rel="noopener noreferrer"> Instagram</a></li>
+          <li><a href="https://www.linkedin.com/school/uwmilwaukee/" target="_blank" rel="noopener noreferrer"> LinkedIn</a></li>
         </ul>
-        <form onSubmit={handleAddFriend} className="add-friend-form">
-          <input
-            type="text"
-            value={newFriend}
-            onChange={(e) => setNewFriend(e.target.value)}
-            placeholder="Enter friend's name"
-          />
-          <button type="submit">Add Friend</button>
-        </form>
       </div>
     </div>
   );
 };
+
 const HomePage = () => {
-  const [friends, setFriends] = useState(['Alice', 'Charlie', 'David', 'Eva', 'James']);
-  const [newFriend, setNewFriend] = useState('');
-  const [isDarkMode, setIsDarkMode] = useState(false); 
-  const [isModalOpen, setIsModalOpen] = useState(false); 
-  const [postContent, setPostContent] = useState('');
+  const [isDarkMode, setIsDarkMode] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isCommentOpen, setIsCommentOpen] = useState(false);
+  const [activePost, setActivePost] = useState(null);
+  const [postContent, setPostContent] = useState("");
   const [postImage, setPostImage] = useState(null);
+  
   const maxCharacters = 300;
 
   const [posts, setPosts] = useState([
-    { id: 1, author: 'John Doe', content: 'testing, this test, test test', likes: 0  },
-    { id: 2, author: 'Jane Smith', content: 'please work , test,test,test', likes: 0  },
-    { id: 3, author: 'Bob Johnson', content: 'test 3, test 3, test 333. testtest' , likes: 0 },
-    { id: 4, author: 'jimbo', content: 'yet another test to cover more space', likes: 0  },
-    { id: 5, author: 'jimbos brother', content: 'yet another test to cover more space', likes: 0  },
-    { id: 6, author: 'John', content: 'yet another test to cover more space' , likes: 0 },
-    { id: 7, author: 'Anon number1', content: 'yet another test to cover more space', likes: 0  },
-    { id: 8, author: 'Anon number2', content: 'yet another test to cover more space' , likes: 0 },
-    { id: 9, author: 'Anon number3', content: 'yet another test to cover more space' , likes: 0 },
-    { id: 10, author: 'Anon number4', content: 'yet another test to cover more space' , likes: 0 },
-    { id: 11, author: 'Anon number3', content: 'yet another test to cover more space' , likes: 0 },
-    { id: 12, author: 'Anon number4', content: 'yet another test to cover more space' , likes: 0 },
-    { id: 13, author: 'Anon number3', content: 'yet another test to cover more space' , likes: 0 },
-    { id: 14, author: 'Anon number4', content: 'yet another test to cover more space' , likes: 0 },
-    { id: 15, author: 'Anon number3', content: 'yet another test to cover more space' , likes: 0 },
-    { id: 16, author: 'Anon number4', content: 'yet another test to cover more space' , likes: 0 },
-    { id: 17, author: 'Anon number3', content: 'yet another test to cover more space' , likes: 0 },
-    { id: 18, author: 'Anon number4', content: 'yet another test to cover more space' , likes: 0 },
-    { id: 19, author: 'Anon number3', content: 'yet another test to cover more space' , likes: 0 },
-    { id: 20, author: 'Anon number4', content: 'yet another test to cover more space' , likes: 0 },
-    { id: 21, author: 'Anon number3', content: 'yet another test to cover more space' , likes: 0 },
-    { id: 22, author: 'Anon number4', content: 'yet another test to cover more space' , likes: 0 },
-    { id: 23, author: 'Anon number3', content: 'yet another test to cover more space' , likes: 0 },
+    { id: 1, author: 'John Doe', content: 'testing, this test, test test', likes: 0  ,  comments: [
+      { author: "joinon", text: "does this commetn work" },
+      { author: "rahhh", text: "RAHHHHHHHHHHHHHHH" },
+      { 
+        author: "john", 
+        text: "DOES THIS ONE WROK  " 
+      },
+      { 
+        author: "jimbo", 
+        text: "SPACING TESTTT , TEST ,TEST" 
+      },
+      { 
+        author: "jombo", 
+        text: " MONEY MNOEY MONEY" 
+      },
+      { 
+        author: "jombo", 
+        text: " MONEY MNOEY MONEY" 
+      }
+    ],
+  },
+    { id: 2, author: 'Jane Smith', content: 'please work , test,test,test', likes: 0 , comments: []  },
+    { id: 3, author: 'Bob Johnson', content: 'test 3, test 3, test 333. testtest' , likes: 0, comments: []  },
+    { id: 4, author: 'jimbo', content: 'yet another test to cover more space', likes: 0 , comments: []  },
+    { id: 5, author: 'jimbos brother', content: 'yet another test to cover more space', likes: 0, comments: [] },
+    { id: 6, author: 'John', content: 'yet another test to cover more space' , likes: 0, comments: []  },
+    { id: 7, author: 'Anon number1', content: 'yet another test to cover more space', likes: 0 , comments: []  },
+    { id: 8, author: 'Anon number2', content: 'yet another test to cover more space' , likes: 0, comments: []  },
+    { id: 9, author: 'Anon number3', content: 'yet another test to cover more space' , likes: 0 , comments: [] },
+    { id: 10, author: 'Anon number4', content: 'yet another test to cover more space' , likes: 0 , comments: [] },
+    { id: 11, author: 'Anon number3', content: 'yet another test to cover more space' , likes: 0, comments: []  },
+    { id: 12, author: 'Anon number4', content: 'yet another test to cover more space' , likes: 0 , comments: [] },
+    { id: 13, author: 'Anon number3', content: 'yet another test to cover more space' , likes: 0, comments: []  },
+    { id: 15, author: 'Anon number3', content: 'yet another test to cover more space' , likes: 0 , comments: [] },
+    { id: 16, author: 'Anon number4', content: 'yet another test to cover more space' , likes: 0 , comments: [] },
+    { id: 17, author: 'Anon number3', content: 'yet another test to cover more space' , likes: 0 , comments: [] },
+    { id: 18, author: 'Anon number4', content: 'yet another test to cover more space' , likes: 0 , comments: [] },
+    { id: 19, author: 'Anon number3', content: 'yet another test to cover more space' , likes: 0 , comments: [] },
+    { id: 20, author: 'Anon number4', content: 'yet another test to cover more space' , likes: 0 , comments: [] },
+    { id: 21, author: 'Anon number3', content: 'yet another test to cover more space' , likes: 0 , comments: [] },
+    { id: 22, author: 'Anon number4', content: 'yet another test to cover more space' , likes: 0 , comments: [] },
+    { id: 23, author: 'Anon number3', content: 'yet another test to cover more space' , likes: 0 , comments: [] },
     { id: 24, author: 'Anon number4', content: 'end' , likes: 0 },
     
   ]);
@@ -182,14 +242,21 @@ const HomePage = () => {
     { id: 4, name: 'Library Event', date: '2024-10-20' },
     { id: 5, name: 'Gym Event', date: '2024-10-20' },
   ];
-  const handleAddFriend = (e) => {
-    e.preventDefault();
-    if (newFriend.trim() !== '') {
-      setFriends([...friends, newFriend.trim()]);
-      setNewFriend('');
-    }
+  
+  const handleOpenComments = (postId) => {
+    const post = posts.find((p) => p.id === postId);
+    setActivePost(post);
+    setIsCommentOpen(true);
   };
-
+  const handleAddComment = (postId, comment) => {
+    setPosts((prevPosts) =>
+      prevPosts.map((post) =>
+        post.id === postId
+          ? { ...post, comments: [...post.comments, comment] }
+          : post
+      )
+    );
+  };
   const toggleDarkMode = () => {
     setIsDarkMode((prevMode) => !prevMode);
   };
@@ -215,9 +282,22 @@ const HomePage = () => {
   };
 
   const handleSubmitPost = () => {
-    console.log("Post content:", postContent);
-    console.log("Post image:", postImage);
-    toggleModal();
+    if (postContent.trim() || postImage) {
+      setPosts((prevPosts) => [
+        ...prevPosts,
+        {
+          id: prevPosts.length + 1,
+          author: "You",
+          content: postContent,
+          image: postImage ? URL.createObjectURL(postImage) : null,
+          likes: 0,
+          comments: [],
+        },
+      ]);
+      setPostContent("");
+      setPostImage(null);
+      toggleModal();
+    }
   };
 
   const handleLikeToggle = (postId) => {
@@ -236,26 +316,21 @@ const HomePage = () => {
   return (
     <div className="home-page">
       <Taskbar isDarkMode={isDarkMode} toggleDarkMode={toggleDarkMode} />
-      
+
       <div className="content">
         <div className="background-block">
-          <PostsFeed 
+          <PostsFeed
             posts={posts}
             handleLikeToggle={handleLikeToggle}
             toggleModal={toggleModal}
+            handleOpenComments={handleOpenComments}
           />
-          <Sidebar 
-            events={events}
-            friends={friends}
-            newFriend={newFriend}
-            setNewFriend={setNewFriend}
-            handleAddFriend={handleAddFriend}
-          />
+          <Sidebar events={events} />
         </div>
       </div>
 
       {isModalOpen && (
-        <CreatePostModal 
+        <CreatePostModal
           postContent={postContent}
           handlePostChange={handlePostChange}
           postImage={postImage}
@@ -263,6 +338,14 @@ const HomePage = () => {
           handleSubmitPost={handleSubmitPost}
           toggleModal={toggleModal}
           maxCharacters={maxCharacters}
+        />
+      )}
+
+      {/* Comment overlay with the close function passed as prop */}
+      {isCommentOpen && activePost && (
+        <CommentOverlay
+          post={activePost}
+          closeOverlay={() => setIsCommentOpen(false)} // This is the function to close the overlay
         />
       )}
     </div>
