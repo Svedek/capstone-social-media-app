@@ -6,6 +6,7 @@
   flex-direction: column;
   height: 100vh;
 }
+
 .modal {
   position: fixed;
   top: 0;
@@ -18,12 +19,14 @@
   justify-content: center;
   z-index: 1000; /* Make sure it appears above other elements */
 }
+
 .character-count {
   font-size: 12px;
   color: gray;
   margin-top: 5px;
   text-align: right;
 }
+
 /* Modal Content */
 .modal-content {
   background: #fff;
@@ -53,6 +56,7 @@
   border-radius: 5px;
   cursor: pointer;
 }
+
 .navbar {
   padding: 10px;
 }
@@ -63,16 +67,7 @@
   justify-content: space-around;
 }
 
-/* Light and Dark Mode Styles */
-.light-mode {
-  background-color: #ffffff; /* Light background */
-  color: #000000; /* Dark text */
-}
-
-.dark-mode {
-  background-color: #1a1a1a; /* Dark background */
-  color: #ffffff; /* Light text */
-}
+/* Like Button */
 .like-button {
   display: flex;
   align-items: center;
@@ -85,57 +80,21 @@
   transition: color 0.3s ease;
 }
 
-.dark-mode .like-button {
-  color: #ff5050; /* Customize for dark mode */
-}
-
 .like-button:hover {
-  color: #0056b3; /* Hover color for light mode */
+  color: #0056b3; /* Hover color */
+  background-color:azure;
+
 }
 
-.dark-mode .like-button:hover {
-  color: #ff7878; /* Hover color for dark mode */
-}
-/* Navbar styles for light and dark modes */
-.light-mode .navbar {
+/* Navbar styles */
+.navbar {
   background-color: #e9ecef; /* Light navbar */
 }
 
-.light-mode .navbar a {
-  color: #000000; /* Dark text in light mode */
+.navbar a {
+  color: #000000; /* Dark text */
 }
 
-.dark-mode .navbar {
-  background-color: #343a40; /* Dark navbar */
-}
-
-.dark-mode .navbar a {
-  color: #000000; /* Light text in dark mode */
-}
-.dropdown button {
-  background-color: transparent; /* Transparent background */
-  color: inherit; /* Inherit current color from mode */
-  border: none; /* Remove border */
-  padding: 10px; /* Padding for button */
-  cursor: pointer; /* Pointer cursor */
-  transition: background-color 0.3s ease; /* Smooth transition */
-}
-
-/* Remove noticeable hover effect for light mode */
-.light-mode .dropdown button:hover {
-  background-color: transparent; /* Ensure no background color change on hover */
-  color: inherit; /* Keep text color the same */
-}
-
-/* Remove noticeable hover effect for dark mode */
-.dark-mode .dropdown button:hover {
-  background-color: rgba(255, 255, 255, 0.555); /* Light transparent background */
-  color: #000000; /* Keep text visible */
-}
-.dark-mode .dropdown button{
-  color:#000000;
-  background-color: grey;
-}
 /* Content Styles */
 .content {
   display: flex;
@@ -153,14 +112,8 @@
   display: flex; /* Flex container for main feed and sidebar */
 }
 
-/* Light mode background block */
-.light-mode .background-block {
+.background-block {
   background-color: rgba(240, 240, 240, 0.8); /* Semi-transparent light background */
-}
-
-/* Dark mode background block */
-.dark-mode .background-block {
-  background-color: rgba(30, 30, 30, 0.8); /* Semi-transparent dark background */
 }
 
 /* Main feed styles */
@@ -171,7 +124,6 @@
 
 /* Sidebar styles */
 .sidebar {
-  
   flex: 1;
   padding: 10px;
   background-color: rgb(165, 165, 0);
@@ -201,11 +153,13 @@
 .create-post:hover {
   background-color: #0056b3;
 }
+
 .post-image {
   max-width: 100%;
   margin-top: 10px;
   border-radius: 8px;
 }
+
 /* Events and friends sections */
 .events,
 .friends {
@@ -253,42 +207,23 @@
 }
 
 /* Additional styles for improved readability */
-.light-mode .post {
+.post {
   background-color: #f8f9fa; /* Lighter background for posts */
   border: 1px solid #ced4da; /* Slightly darker border */
 }
 
-.dark-mode .post {
-  background-color: #3c3c3c; /* Darker background for posts */
-  border: 1px solid #555; /* Lighter border for dark mode */
-}
-
-.light-mode .create-post {
+.create-post {
   background-color: #007bff; /* Standard button color */
   color: white; /* Button text color */
 }
 
-.dark-mode .create-post {
-  background-color: #0056b3; /* Dark button color */
-  color: white; /* Button text color */
-}
-
 /* Body text */
-.light-mode h2,
-.light-mode h3,
-.light-mode p {
-  color: #000; /* Dark text for light mode */
+h2,
+h3,
+p {
+  color: #000; /* Dark text */
 }
 
-.dark-mode h2,
-.dark-mode h3,
-.dark-mode p {
-  color: #fff; /* Light text for dark mode */
-}
-/* HomePage.css */
-/* ... Keep all your existing styles ... */
-
-/* Add these new styles for the scrollable posts feed */
 .posts-container {
   flex: 2;
   padding: 10px;
@@ -324,15 +259,196 @@
   background: #555;
 }
 
-/* Dark mode scrollbar */
-.dark-mode .posts-scroll-area::-webkit-scrollbar-track {
-  background: #2d2d2d;
+.logout-button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: none;
+  border: none;
+  color: inherit;
+  cursor: pointer;
+  padding: 8px 16px;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
 }
 
-.dark-mode .posts-scroll-area::-webkit-scrollbar-thumb {
-  background: #666;
+.logout-button:hover {
+  background-color: rgba(0, 0, 0, 0.1);
 }
 
-.dark-mode .posts-scroll-area::-webkit-scrollbar-thumb:hover {
-  background: #888;
+.logout-button {
+  color: #000000;
+}
+
+.comment-overlay {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  padding: 20px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  z-index: 1000;
+  width: 80%;
+  max-width: 500px;
+  overflow-y: auto;
+  max-height: 80vh;
+}
+
+.comment-overlay .close-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.comment-overlay .comments-section {
+  margin-top: 20px;
+}
+
+.comment-overlay .add-comment {
+  margin-top: 20px;
+  display: flex;
+  gap: 10px;
+}
+
+.comment-overlay .add-comment input {
+  flex: 1;
+  padding: 8px;
+}
+
+.comment-overlay .add-comment button {
+  padding: 8px 12px;
+  cursor: pointer;
+}
+
+.overlay-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+}
+
+.comment-overlay {
+  position: fixed; /* Fixed position */
+  top: 50%;         /* Position from top */
+  left: 50%;        /* Position from left */
+  transform: translate(-50%, -50%); /* Center the overlay */
+  background-color: rgba(0, 0, 0, 0.8);
+  z-index: 1000;    /* Ensure it appears above other elements */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: auto;   /* Allows scrolling if the content is larger than the screen */
+}
+
+.comment-overlay-content {
+  position: relative;  /* Allow positioning of child elements like close button */
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  max-width: 600px;
+  width: 90%;
+  max-height: 80%;
+  overflow-y: auto;
+}
+
+.close-button {
+  top: 10px;  /* Position from the top */
+  right: 60px;  /* Position from the right */
+  font-size: 24px;
+  background: none;
+  border: none;
+  color: black;
+  cursor: pointer;
+  z-index: 10000; /* Ensure the button stays on top of other content */
+}
+
+.comment-container {
+  margin-top: 20px;
+}
+
+.add-comment input {
+  padding: 8px;
+  width: 100%;
+}
+
+.add-comment button {
+  padding: 8px 16px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.add-comment button:hover {
+  background-color: #0056b3;
+}
+
+.comment-list {
+  margin-top: 10px;
+}
+
+.comment-list .comment {
+  padding: 10px;
+  background-color: #f8f9fa;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+
+.comment-list .comment span {
+  font-weight: bold;
+}
+
+.comment-list .comment p {
+  margin: 5px 0;
+}
+
+.sidebar h3 {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.social-media {
+  margin-top: 20px;
+}
+
+.social-media ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.social-media ul li {
+  margin: 10px 0;
+}
+
+.social-media ul li a {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: #333;
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.social-media ul li a:hover {
+  color: #0077b5;
+}
+
+.social-media ul li a svg {
+  margin-right: 10px;
+  color: #0077b5; 
+}
+
+.social-media ul li a:hover svg {
+  color: #ff6600;
 }
