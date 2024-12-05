@@ -1,13 +1,27 @@
 const db = require("../database/database.js");
 
-  // TODO
-
 // Post
+const addEventInfo = async (req, res) => {
+  const title = req.body.title;
+  const location = req.body.location;
+  const start_time = req.body.start_time;
+  let errorMessage = "";
+  let result = false;
+  if (title.length < 1) {
+    errorMessage = "Event must have a title!";
+  } else {
+    const postID = await db.addEventInfo(title, location, start_time);
+    result = postID;
+  }
+
+  res.send({result: result, errorMessage: errorMessage});
+}
+
 const addPost = async (req, res) => {
   const owner_user = req.body.owner_user;
   const parent_post = req.body.parent_post;
+  const event_info = req.body.event_info;
   const text = req.body.text;
-  const is_event = req.body.is_event;
   const time_posted = new Date();
   let errorMessage = "";
   let result = false;
@@ -15,18 +29,45 @@ const addPost = async (req, res) => {
   if (users.length < 1) {
       errorMessage = "Owner user not found!";
   }
-  else if (is_event && parent_post != null) {
+  else if (event_info !== null && parent_post !== null) {
       errorMessage = "Event cannot have a parent post!";
   }
   else if (text.length <= 0) {
       errorMessage = "Cannot create empty post!";
   }
   else {
-    const postID = await db.addPost(owner_user, parent_post, text, is_event, time_posted);
-    result = true;
+    const postID = await db.addPost(owner_user, parent_post, event_info, text, time_posted);
+    result = postID;
   }
+
   res.send({result: result, errorMessage: errorMessage});
+}
+
+const getPostFomID = async (req, res) => {
+  const post_id = req.body.post_id;
+  let errorMessage = "";
+  let result = {};
+  result = await db.getPostFomID(post_id);
   
+  res.send({result: result, errorMessage: errorMessage});
+}
+
+const getPostIDFromEventInfo = async (req, res) => {
+  const event_info_id = req.body.event_info_id;
+  let errorMessage = "";
+  let result = {};
+  result = await db.getPostIDFromEventInfo(event_info_id);
+  
+  res.send({result: result, errorMessage: errorMessage});
+}
+
+const getPostChildren = async (req, res) => {
+  const post_id = req.body.post_id;
+  let errorMessage = "";
+  let result = {};
+  result = await db.getPostChildren(post_id);
+  
+  res.send({result: result, errorMessage: errorMessage});
 }
 
 const getNextPosts = async (req, res) => {
@@ -41,26 +82,16 @@ const getNextPosts = async (req, res) => {
   else {
     result = await db.getNextPosts(before, num_posts, filters);
   }
+
   res.send({result: result, errorMessage: errorMessage});
-  
 }
 
-const addEventInfo = async (req, res) => {  // TODO
-}
-const addUpdatePost = async (req, res) => {  // TODO
-}
-const addEventPost = async (req, res) => {  // TODO
-}
-const getPostFomID = async (req, res) => {  // TODO
-}
-const getPostIDFromEventInfo = async (req, res) => {  // TODO
-}
-const getPostChildren = async (req, res) => {  // TODO
-}
 const isPostEvent = async (req, res) => {  // TODO
+  const post_id = req.body.post_id;
+  let errorMessage = "";
+  let result = await db.isPostEvent(user_id, post_id);
+  res.send({result: result, errorMessage: errorMessage});
 }
-addEventInfo, addUpdatePost, addEventPost
-getPostFomID, getPostIDFromEventInfo, getPostChildren, isPostEvent
 
 // Post Like
 const addPostLike = async (req, res) => {
@@ -74,7 +105,7 @@ const addPostLike = async (req, res) => {
   }
   else {
     const likeID = await db.addPostLike(user_id, post_id);
-    result = true;
+    result = likeID;
   }
   res.send({result: result, errorMessage: errorMessage});
 }
@@ -125,33 +156,33 @@ const getPostLikesCount = async (req, res) => {
 }
 
 // Event RSVP
-const addEventRSVP = async (req, res) => {
+const addEventRSVP = async (req, res) => {  // TODO
   const user_id = req.body.user_id;
-  const event_id = req.body.event_id;
+  const event_info_id = req.body.event_info_id;
   let errorMessage = "";
   let result = false;
-  const isRsvped = await db.isEventRSVPed(user_id, event_id);
+  const isRsvped = await db.isEventRSVPed(user_id, event_info_id);
   if (isRsvped) {
     errorMessage = "Event already RSVPed by this user!";
   }
   else {
-    const rsvpID = await db.addEventRSVP(user_id, event_id);
-    result = true;
+    const rsvpID = await db.addEventRSVP(user_id, event_info_id);
+    result = rsvpID;
   }
   res.send({result: result, errorMessage: errorMessage});
 }
 
 const removeEventRSVP = async (req, res) => {
   const user_id = req.body.user_id;
-  const event_id = req.body.event_id;
+  const event_info_id = req.body.event_info_id;
   let errorMessage = "";
   let result = false;
-  const isRsvped = await db.isEventRSVPed(user_id, event_id);
+  const isRsvped = await db.isEventRSVPed(user_id, event_info_id);
   if (!isRsvped) {
     errorMessage = "Event is not RSVPed by this user!";
   }
   else {
-    const rowsRemoved = await db.removeEventRSVP(user_id, event_id);
+    const rowsRemoved = await db.removeEventRSVP(user_id, event_info_id);
     result = rowsRemoved > 0;  // Should always be true if this else is entered
   }
   res.send({result: result, errorMessage: errorMessage});
@@ -159,9 +190,9 @@ const removeEventRSVP = async (req, res) => {
 
 const isEventRSVPed = async (req, res) => {
   const user_id = req.body.user_id;
-  const event_id = req.body.event_id;
+  const event_info_id = req.body.event_info_id;
   let errorMessage = "";
-  let result = await db.isEventRSVPed(user_id, event_id)
+  let result = await db.isEventRSVPed(user_id, event_info_id)
   res.send({result: result, errorMessage: errorMessage});
 }
 
@@ -173,21 +204,22 @@ const getUserRSVPs = async (req, res) => {
 }
 
 const getEventRSVPs = async (req, res) => {
-  const event_id = req.body.event_id;
+  const event_info_id = req.body.event_info_id;
   let errorMessage = "";
-  let result = await db.getEventRSVPs(event_id);
+  let result = await db.getEventRSVPs(event_info_id);
   res.send({result: result, errorMessage: errorMessage});
 }
 
 const getEventRSVPCount = async (req, res) => {
-  const event_id = req.body.event_id;
+  const event_info_id = req.body.event_info_id;
   let errorMessage = "";
-  let result = await db.getEventRSVPCount(event_id);
+  let result = await db.getEventRSVPCount(event_info_id);
   res.send({result: result, errorMessage: errorMessage});
 }
 
 module.exports = { 
-  addPost, getNextPosts,
+  addPost, addEventInfo,
+  getPostFomID, getPostIDFromEventInfo, getPostChildren, getNextPosts, isPostEvent,
   addPostLike, removePostLike, isPostLiked, getUserLikes, getPostLikes, getPostLikesCount, 
   addEventRSVP, removeEventRSVP, isEventRSVPed, getUserRSVPs, getEventRSVPs, getEventRSVPCount
 };

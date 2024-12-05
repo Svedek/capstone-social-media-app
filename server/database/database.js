@@ -50,7 +50,7 @@ async function getUser(email) {
 
 async function getUserByLoginId(id) {
     const query = `SELECT * FROM user WHERE user_login_info_id = ?`;
-    const [rows] = await pool.query(query, id);
+    const [rows] = await pool.query(query, [id]);
     return rows;
 }
 
@@ -80,32 +80,22 @@ async function addPost(owner_user_id, parent_post_id, event_info_id, text, time_
     return rows.insertId;
 }
 
-async function addUpdatePost(owner_user_id, parent_post_id, text, time_posted) {
-    const ret = addPost(owner_user_id, parent_post_id, null, text, time_posted);
-    return ret;
-}
-
-async function addEventPost(owner_user_id, event_info_id, text, time_posted) {
-    const ret = addPost(owner_user_id, null, event_info_id, text, time_posted);
-    return ret;
-}
-
 async function getPostFomID(post_id) {
     const query = `SELECT * FROM post WHERE post_id=?`;
     const [rows] = await pool.query(query, [post_id]);
-    return rows.insertId;
+    return rows;
 }
 
 async function getPostIDFromEventInfo(event_info_id) {
     const query = `SELECT * FROM post WHERE post_event_info_id=?`;
     const [rows] = await pool.query(query, [event_info_id]);
-    return rows.insertId;
+    return rows;
 }
 
 async function getPostChildren(post_id) {
     const query = `SELECT * FROM post WHERE post_parent_post_id=?`;
     const [rows] = await pool.query(query, [post_id]);
-    return rows.insertId;
+    return rows;
 }
 
 async function getNextPosts(before, num_posts, filters) {
@@ -204,9 +194,8 @@ async function getEventRSVPCount(event_info_id) {
 module.exports = {
     getLoginInfo, addLoginInfo, getLoginInfoById, editPassword,
     getUser, addUser, getUserById, getUserByLoginId,
-
-    addPost, getNextPosts, addEventInfo, addUpdatePost, addEventPost,
-    getPostFomID, getPostIDFromEventInfo, getPostChildren, isPostEvent,
+    addPost, addEventInfo,
+    getPostFomID, getPostIDFromEventInfo, getPostChildren, getNextPosts, isPostEvent,
     addPostLike, removePostLike, isPostLiked, getUserLikes, getPostLikes, getPostLikesCount,
     addEventRSVP, removeEventRSVP, isEventRSVPed, getUserRSVPs, getEventRSVPs, getEventRSVPCount
 };
