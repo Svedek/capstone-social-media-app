@@ -1,0 +1,30 @@
+.navbar {
+    background-color: #6add31;
+    padding: 10px;
+  }
+  
+  .navbar ul {
+    list-style-type: none;
+    display: flex;
+    justify-content: space-around;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .navbar a {
+    color: rgb(97, 203, 40);
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: bold;
+    transition: color 0.3s ease;
+  }
+  
+  .navbar a:hover {
+    color: white; /* Color change on hover */
+  }
+  
+  .navbar li {
+    display: flex;
+    align-items: center;
+  }
+  

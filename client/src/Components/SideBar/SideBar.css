@@ -1,0 +1,20 @@
+.sidebar {
+    flex: 1;
+    padding: 10px;
+    background-color: rgb(89, 232, 28);
+    margin-left: 10px;
+  }
+  
+  .friends {
+    margin-bottom: 20px;
+  }
+  
+  .friends ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .friends li {
+    padding: 5px 0;
+  }
+  

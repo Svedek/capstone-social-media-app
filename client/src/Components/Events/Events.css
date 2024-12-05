@@ -1,0 +1,13 @@
+.events {
+    margin-bottom: 20px;
+  }
+  
+  .events ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .events li {
+    padding: 5px 0;
+  }
+  

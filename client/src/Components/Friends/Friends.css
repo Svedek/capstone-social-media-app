@@ -1,0 +1,13 @@
+.friends {
+    margin-bottom: 20px;
+  }
+  
+  .friends ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .friends li {
+    padding: 5px 0;
+  }
+  

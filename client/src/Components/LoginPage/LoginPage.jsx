@@ -1,4 +1,63 @@
-import { React, useState, useContext } from 'react';
+import { React, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import './LoginPage.css';
+
+export const LoginPage = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+  const navigate = useNavigate();
+
+  // Modify handleLogin to always navigate to home without validating email/password
+  const handleLogin = (e) => {
+    e.preventDefault();
+    
+    // Skip the fetch request and simply navigate to the home page
+    navigate("/home");
+  };
+
+  return (
+    <div className='wrapper'>
+      {errorMessage && <p className="error-message">{errorMessage}</p>}
+      <form onSubmit={handleLogin}>
+        <h1>Login</h1>
+        <div className="input-box">
+          <input
+            type="email"
+            placeholder='Email'
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
+        </div>
+        <div className="input-box">
+          <input
+            type="password"
+            placeholder='Password'
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+        </div>
+
+        <div className="remember-forgot">
+          <label><input type="checkbox" /> Remember me</label>
+          <a href="#"> Forgot Password?</a>
+        </div>
+
+        <button type="submit">Login</button>
+
+        <div className="Register-link">
+          <p>Create a new account here! <Link to="/register">Register</Link></p>
+        </div>
+      </form>
+    </div>
+  );
+}
+
+export default LoginPage;
+
+/*import { React, useState, useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import './LoginPage.css';
 
@@ -66,4 +125,4 @@ export const LoginPage = () => {
   );
 }
 
-export default LoginPage;
+export default LoginPage;*/
