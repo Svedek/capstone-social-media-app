@@ -45,6 +45,23 @@ const getNextPosts = async (req, res) => {
   
 }
 
+const addEventInfo = async (req, res) => {  // TODO
+}
+const addUpdatePost = async (req, res) => {  // TODO
+}
+const addEventPost = async (req, res) => {  // TODO
+}
+const getPostFomID = async (req, res) => {  // TODO
+}
+const getPostIDFromEventInfo = async (req, res) => {  // TODO
+}
+const getPostChildren = async (req, res) => {  // TODO
+}
+const isPostEvent = async (req, res) => {  // TODO
+}
+addEventInfo, addUpdatePost, addEventPost
+getPostFomID, getPostIDFromEventInfo, getPostChildren, isPostEvent
+
 // Post Like
 const addPostLike = async (req, res) => {
   const user_id = req.body.user_id;

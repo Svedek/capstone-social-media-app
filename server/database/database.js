@@ -96,7 +96,7 @@ async function getPostFomID(post_id) {
     return rows.insertId;
 }
 
-async function getEventIDFromInfo(event_info_id) {
+async function getPostIDFromEventInfo(event_info_id) {
     const query = `SELECT * FROM post WHERE post_event_info_id=?`;
     const [rows] = await pool.query(query, [event_info_id]);
     return rows.insertId;
@@ -204,8 +204,9 @@ async function getEventRSVPCount(event_info_id) {
 module.exports = {
     getLoginInfo, addLoginInfo, getLoginInfoById, editPassword,
     getUser, addUser, getUserById, getUserByLoginId,
+
     addPost, getNextPosts, addEventInfo, addUpdatePost, addEventPost,
-    getPostFomID, getEventIDFromInfo, getPostChildren, isPostEvent,
+    getPostFomID, getPostIDFromEventInfo, getPostChildren, isPostEvent,
     addPostLike, removePostLike, isPostLiked, getUserLikes, getPostLikes, getPostLikesCount,
     addEventRSVP, removeEventRSVP, isEventRSVPed, getUserRSVPs, getEventRSVPs, getEventRSVPCount
 };
