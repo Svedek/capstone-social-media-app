@@ -1,11 +1,64 @@
+
+/* HomePage.css */
+
+/* General styles */
 .home-page {
   display: flex;
   flex-direction: column;
   height: 100vh;
 }
 
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000; /* Make sure it appears above other elements */
+}
+
+.character-count {
+  font-size: 12px;
+  color: gray;
+  margin-top: 5px;
+  text-align: right;
+}
+
+/* Modal Content */
+.modal-content {
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  width: 90%;
+  max-width: 500px;
+  position: relative;
+  text-align: center;
+}
+
+/* Close Button */
+.close-button {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.submit-post {
+  margin-top: 10px;
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
 .navbar {
-  background-color: #333;
   padding: 10px;
 }
 
@@ -15,42 +68,81 @@
   justify-content: space-around;
 }
 
-.navbar a {
-  color: yellow;
-  text-decoration: none;
+/* Like Button */
+.like-button {
+  display: flex;
+  align-items: center;
+  background-color: transparent;
+  border: none;
+  color: #007bff; /* Customize for light mode */
+  cursor: pointer;
+  font-size: 14px;
+  margin-top: 10px;
+  transition: color 0.3s ease;
 }
 
+.like-button:hover {
+  color: #0056b3; /* Hover color */
+  background-color:azure;
+
+}
+
+/* Navbar styles */
+.navbar {
+  background-color: #e9ecef; /* Light navbar */
+}
+
+.navbar a {
+  color: #000000; /* Dark text */
+}
+
+/* Content Styles */
 .content {
   display: flex;
   flex: 1;
   padding: 10px;
 }
 
-.calendar-container {
-  margin-right: 20px; /* Space between calendar and feed */
+/* Background block for card effect */
+.background-block {
+  width: 885px;
+  border-radius: 10px;
+  padding: 70px;
+  margin: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  flex: 1;
+  display: flex; /* Flex container for main feed and sidebar */
+  gap: 20px;
 }
 
+.background-block {
+  background-color: rgba(240, 240, 240, 0.8); /* Semi-transparent light background */
+}
+
+/* Main feed styles */
 .main-feed {
   flex: 2;
   padding: 10px;
 }
 
+/* Sidebar styles */
 .sidebar {
   flex: 1;
   padding: 10px;
-  background-color: rgb(230, 230, 143);
+  background-color: rgb(165, 165, 0);
   margin-left: 10px;
 }
 
-
+/* Post styles */
 .post {
-  background-color: yellow;
-  border: 1px solid #ddd;
-  padding: 10px;
-  margin-bottom: 10px;
+  background-color: rgb(250, 250, 244);
+  border: 2px solid #ddd;
+  padding: 15px;
+  margin-bottom: 15px;
   border-radius: 5px;
 }
 
+/* Button styles */
 .create-post {
   margin-bottom: 20px;
   padding: 8px 16px;
@@ -65,6 +157,13 @@
   background-color: #0056b3;
 }
 
+.post-image {
+  max-width: 100%;
+  margin-top: 10px;
+  border-radius: 8px;
+}
+
+/* Events and friends sections */
 .events,
 .friends {
   margin-bottom: 20px;
@@ -79,4 +178,524 @@
 .events li,
 .friends li {
   padding: 5px 0;
+}
+
+/* Settings dropdown styles */
+.settings {
+  position: relative; /* Necessary for dropdown positioning */
+}
+
+.dropdown {
+  display: none; /* Initially hide dropdown */
+  position: absolute;
+  background-color: #fff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+  z-index: 1; /* Make sure it appears above other content */
+}
+
+.settings:hover .dropdown {
+  display: block; /* Show dropdown on hover */
+}
+
+.dropdown button {
+  background-color: transparent; /* Transparent background */
+  border: none; /* Remove border */
+  padding: 10px; /* Padding for button */
+  cursor: pointer; /* Pointer cursor */
+}
+
+.dropdown button:hover {
+  background-color: rgba(0, 0, 0, 0.1); /* Highlight on hover */
+}
+
+/* Additional styles for improved readability */
+.post {
+  background-color: #f8f9fa; /* Lighter background for posts */
+  border: 1px solid #ced4da; /* Slightly darker border */
+}
+
+.create-post {
+  background-color: #007bff; /* Standard button color */
+  color: white; /* Button text color */
+}
+
+/* Body text */
+h2,
+h3,
+p {
+  color: #000; /* Dark text */
+}
+
+.posts-container {
+  flex: 2;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.posts-scroll-area {
+  flex: 1;
+  overflow-y: auto;
+  padding-right: 10px;
+  margin-right: -10px; /* Compensate for padding */
+  max-height: 70vh; /* Adjust this value as needed */
+}
+
+/* Customize scrollbar */
+.posts-scroll-area::-webkit-scrollbar {
+  width: 8px;
+}
+
+.posts-scroll-area::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+.posts-scroll-area::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 4px;
+}
+
+.posts-scroll-area::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+.logout-button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: none;
+  border: none;
+  color: inherit;
+  cursor: pointer;
+  padding: 8px 16px;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+}
+
+.logout-button:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.logout-button {
+  color: #000000;
+}
+
+.comment-overlay {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  padding: 20px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  z-index: 1000;
+  width: 80%;
+  max-width: 500px;
+  overflow-y: auto;
+  max-height: 80vh;
+}
+
+.comment-overlay .close-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.comment-overlay .comments-section {
+  margin-top: 20px;
+}
+
+.comment-overlay .add-comment {
+  margin-top: 20px;
+  display: flex;
+  gap: 10px;
+}
+
+.comment-overlay .add-comment input {
+  flex: 1;
+  padding: 8px;
+}
+
+.comment-overlay .add-comment button {
+  padding: 8px 12px;
+  cursor: pointer;
+}
+
+.overlay-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+}
+
+.comment-overlay {
+  position: fixed; /* Fixed position */
+  top: 50%;         /* Position from top */
+  left: 50%;        /* Position from left */
+  transform: translate(-50%, -50%); /* Center the overlay */
+  background-color: rgba(0, 0, 0, 0.8);
+  z-index: 1000;    /* Ensure it appears above other elements */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: auto;   /* Allows scrolling if the content is larger than the screen */
+}
+
+.comment-overlay-content {
+  position: relative;  /* Allow positioning of child elements like close button */
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  max-width: 600px;
+  width: 90%;
+  max-height: 80%;
+  overflow-y: auto;
+}
+
+.close-button {
+  top: 10px;  /* Position from the top */
+  right: 60px;  /* Position from the right */
+  font-size: 24px;
+  background: none;
+  border: none;
+  color: black;
+  cursor: pointer;
+  z-index: 10000; /* Ensure the button stays on top of other content */
+}
+
+.comment-container {
+  margin-top: 20px;
+}
+
+.add-comment input {
+  padding: 8px;
+  width: 100%;
+}
+
+.add-comment button {
+  padding: 8px 16px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.add-comment button:hover {
+  background-color: #0056b3;
+}
+
+.comment-list {
+  margin-top: 10px;
+}
+
+.comment-list .comment {
+  padding: 10px;
+  background-color: #f8f9fa;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+
+.comment-list .comment span {
+  font-weight: bold;
+}
+
+.comment-list .comment p {
+  margin: 5px 0;
+}
+
+.sidebar h3 {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.social-media {
+  margin-top: 20px;
+}
+
+.social-media ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.social-media ul li {
+  margin: 10px 0;
+}
+
+.social-media ul li a {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: #333;
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.social-media ul li a:hover {
+  color: #0077b5; /* Change color on hover */
+}
+
+.social-media ul li a svg {
+  margin-right: 10px;
+  color: #0077b5; /* Default icon color */
+}
+
+.social-media ul li a:hover svg {
+  color: #ff6600; /* Change icon color on hover */
+}
+
+/* Post type specific styles */
+.post-user {
+  background-color: #f8f9fa;
+  border: 1px solid #ced4da;
+}
+
+.post-event {
+  background-color: #e6f2ff;
+  border: 1px solid #6ca6cd;
+}
+.post-community {
+  background-color: #e6ffe6;
+  border: 1px solid #6cbd6c;
+}
+
+.post-type-icon {
+  margin-right: 8px;
+  vertical-align: middle;
+}
+
+.post-type-icon.user-post-icon {
+  color: #007bff;
+}
+
+.post-type-icon.event-post-icon {
+  color: #6ca6cd;
+}
+
+.post-type-icon.community-post-icon {
+  color: #28a745;
+}
+
+.post-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+.event-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.rsvp-button {
+  padding: 8px 16px;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.rsvp-button:hover {
+  background-color: #218838;
+}
+
+.rsvp-count {
+  color: #6c757d;
+  font-size: 0.9em;
+}
+
+/* When RSVP is active */
+.rsvp-button:active,
+.rsvp-button.rsvped {
+  background-color: #218838;
+}
+
+.post-type-icon.event-post-icon {
+  color: #6ca6cd;
+  margin-right: 8px;
+  vertical-align: middle;
+}
+
+.action-item {
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+  margin-right: 10px;
+  color: #555;
+}
+
+.action-item:hover {
+  color: #000;
+}
+
+.rsvp-icon.going {
+  color: green;
+}
+
+.post-actions {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.rsvp-count {
+  margin-left: 5px;
+  color: #555;
+}
+.post {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+.post-content-container {
+  flex: 1;
+}
+
+.post-actions-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-width: 50px;
+}
+
+.action-icon {
+  cursor: pointer;
+  transition: transform 0.2s, color 0.2s;
+}
+
+.action-icon:hover {
+  transform: scale(1.1);
+}
+
+.rsvp-going {
+  color: green;
+}
+
+.liked {
+  color: red;
+}
+
+.comments-overlay {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #fff;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  padding: 20px;
+  width: 90%;
+  max-width: 600px;
+  z-index: 1000;
+  overflow-y: auto;
+  max-height: 80vh;
+}
+
+.comments-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 10px;
+  margin-bottom: 10px;
+}
+
+.comments-header h2 {
+  font-size: 1.2rem;
+  margin: 0;
+}
+
+.close-button {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+.comments-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.comment-item {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+}
+
+.comment-author {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.comment-text {
+  font-size: 0.95rem;
+  color: #333;
+}
+
+.close-button{
+  border: #28a745;
+  border-radius: 100;
+}
+
+.post-actions-container {
+  display: flex;
+  justify-content: space-between;
+  gap: 15px; /* Adjust the space between icons */
+}
+
+.action-item {
+  display: flex;
+  align-items: center;
+}
+
+.action-icon {
+  margin-right: 8px; /* Space between icon and counter */
+}
+
+.action-counter {
+  font-size: 14px; /* Adjust font size for the counter */
+  color: #333; /* Counter color */
+}
+
+/* Hover effect for action items */
+.action-item:hover .action-icon {
+  color: #0077b5; /* Change icon color on hover */
+}
+
+.action-item:hover .action-counter {
+  color: #0077b5; /* Change counter color on hover */
+}
+
+/* Styling for the like, comment, and RSVP icons when active */
+.rsvp-going {
+  color: #28a745; /* Color for RSVP icon when marked as going */
+}
+
+.liked {
+  color: #ff6347; /* Color for liked posts */
 }
