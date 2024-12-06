@@ -37,7 +37,7 @@ app.get("/session", (req, res) => {
     console.log(req.user);
     if (req.isAuthenticated()) {
         const user = {
-            id: req.user.id
+            id: req.user.user_id
         };
         return res.json({ auth: true, user: user });
     }

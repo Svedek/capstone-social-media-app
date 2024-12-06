@@ -9,7 +9,7 @@ loginRouter.post("/", (req, res, next) => {
     passport.authenticate("local", async (err, login_info) => {
         if (login_info) {
             console.log(login_info);
-            let user = await getUserByLoginId(login_info.id);
+            let user = await getUserByLoginId(login_info.login_info_id);
             user = user[0];
             console.log(user);
             req.logIn(user, () => {
