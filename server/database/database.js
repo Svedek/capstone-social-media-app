@@ -34,13 +34,13 @@ async function getUser(email) {
 
 async function getUserById(id) {
     const query = `SELECT * FROM user WHERE id = ?`;
-    const [rows] = await pool.query(query, id);
+    const [rows] = await pool.query(query, [id]);
     return rows;
 }
 
 async function getUserByLoginId(id) {
     const query = `SELECT * FROM user WHERE login_info = ?`;
-    const [rows] = await pool.query(query, id);
+    const [rows] = await pool.query(query, [id]);
     return rows;
 }
 
@@ -50,25 +50,18 @@ async function addLoginInfo(email, hash, salt) {
     return res[0].insertId;
 }
 
-async function addUser(major, loginID) {
-    const query = `INSERT INTO user (major, login_info) VALUES (?, ?)`;
-    const res = await pool.query(query, [major, loginID]);
+async function addUser(major, firstName, lastName, loginID, joinDate) {
+    const query = `INSERT INTO user (major, first_name, last_name, login_info, join_date) VALUES (?, ?, ?, ?, ?)`;
+    const res = await pool.query(query, [major, firstName, lastName, loginID, joinDate]);
     return res[0].insertId;
 }
 
-async function editPassword(login_id, hash, salt) {
-    const query = `UPDATE login_info SET hash = ?, salt = ? WHERE id = ?`;
-    const res = await pool.query(query, [hash, salt, login_id]);
+async function updateUserDetails(firstName, lastName, major, bio, userId) {
+    const query = `UPDATE user SET first_name = ?, last_name = ?, major = ?, bio = ? WHERE id = ?`;
+    const res = await pool.query(query, [firstName, lastName, major, bio, userId]);
     console.log(res[0]);
 }
 
-// async function editmajor(user_id) {
-    
-// }
-
-// async function editBio(user_id) {
-    
-// }
 
 module.exports = { getLoginInfo,
                    getLoginInfoById, 
@@ -77,4 +70,4 @@ module.exports = { getLoginInfo,
                    getUserByLoginId, 
                    addLoginInfo, 
                    addUser,
-                   editPassword };
+                   updateUserDetails };

@@ -1,128 +1,105 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import { majors } from '../Assets/majors.js';
+import { useAuth } from "../authenticationHook.jsx";
+import LogoutButton from "../logoutButton.jsx";
 import './EditProfilePage.css';
 
 const EditProfilePage = () => {
-  const navigate = useNavigate();
-  const { userId } = useParams();
-
-  const [user, setUser] = useState({
-    fullName: 'John Doe',
-    username: 'johndoe',
-    email: 'testtesttest@gmail',
-    bio: 'mke student.',
-  });
-
-  const [previewImage, setPreviewImage] = useState(null);
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [major, setMajor] = useState("");
+  const [bio, setBio] = useState("");
+  const { userObj } = useAuth();
 
   useEffect(() => {
-    
-    //eventual fetch
-  }, [userId]);
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setUser(prevUser => ({
-      ...prevUser,
-      [name]: value
-    }));
-  };
-
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setPreviewImage(reader.result);
-      };
-      reader.readAsDataURL(file);
+    if (userObj) {
+      setFirstName(userObj.firstName);
+      setLastName(userObj.lastName);
+      setMajor(userObj.major);
+      setBio(userObj.bio);
     }
-  };
+  }, [userObj]);
 
-  const handleSubmit = (e) => {
+  if (!userObj) {
+    return <div>Loading...</div>
+  }  
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    //eventually post to database
-    console.log('Updated user data:', { ...user, profilePicture: previewImage || user.profilePicture });
-    navigate('/profile');
+    console.log("in handle submit");
+    const response = await fetch(`./edit`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({firstName: firstName, lastName: lastName, major: major, bio: bio, userId: userObj.id})
+    });
   };
 
   return (
     <div className="edit-profile-wrapper">
       <h1>Edit Profile</h1>
+      <br></br>
       <form onSubmit={handleSubmit}>
+
         <div className="form-group">
-          <label htmlFor="profilePicture">Profile Picture:</label>
-          <input
-            type="file"
-            id="profilePicture"
-            name="profilePicture"
-            accept="image/*"
-            onChange={handleImageChange}
-          />
-          <div className="image-preview">
-            <img
-              src={previewImage || user.profilePicture}
-              alt="Profile preview"
-              className="profile-picture-preview"
-            />
-          </div>
-        </div>
-        <div className="form-group">
-          <label htmlFor="fullName">Full Name:</label>
+          <label htmlFor="firstName">First Name</label>
           <input
             type="text"
-            id="fullName"
-            name="fullName"
-            value={user.fullName}
-            onChange={handleChange}
-            required
+            id="firstName"
+            name="firstName"
+            value={firstName}
+            onChange={(e) => setFirstName(e.target.value)}
+            placeholder="First Name"
           />
         </div>
+
         <div className="form-group">
-          <label htmlFor="username">Username:</label>
+          <label htmlFor="lastName">Last Name</label>
           <input
             type="text"
-            id="username"
-            name="username"
-            value={user.username}
-            onChange={handleChange}
-            required
+            id="lastName"
+            name="lastName"
+            value={lastName}
+            onChange={(e) => setLastName(e.target.value)}
+            placeholder="Last Name"
           />
         </div>
+
         <div className="form-group">
-          <label htmlFor="email">Email:</label>
-          <input
-            type="email"
-            id="email"
-            name="email"
-            value={user.email}
-            onChange={handleChange}
-            required
-          />
+          <label htmlFor="major">Major</label>
+          <select
+            id="major"
+            name="major"
+            value={major}
+            onChange={(e) => setMajor(e.target.value)}
+            className="major-select"
+          >
+            <option value={bio} disabled>Select a major</option>
+            {majors.map(major => (
+              <option key={major} value={major}>{major}</option>
+            ))}
+          </select>
         </div>
+
         <div className="form-group">
-          <label htmlFor="location">Location:</label>
-          <input
-            type="text"
-            id="location"
-            name="location"
-            value={user.location}
-            onChange={handleChange}
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="bio">Bio:</label>
+          <label htmlFor="bio">Bio</label>
           <textarea
             id="bio"
             name="bio"
-            value={user.bio}
-            onChange={handleChange}
+            value={bio}
+            onChange={(e) => setBio(e.target.value)}
             rows="4"
-          ></textarea>
+            placeholder="Tell us about yourself"
+          />
         </div>
-        <div className="form-group">
+
+        <div className="button-group">
           <button type="submit">Save Changes</button>
-          <button type="button" onClick={() => navigate('/profile')}>Cancel</button>
+          <Link to="/profile">
+            <button type="button">Cancel</button>
+          </Link>
         </div>
       </form>
     </div>

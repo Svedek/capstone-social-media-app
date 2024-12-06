@@ -12,15 +12,12 @@ passport.use(new LocalStrategy(customFields, async (username, password, done) =>
     const data = await db.getLoginInfo(username);
     const user = data[0];
     if (!user) {
-        console.log("invalid");
         return done(null, false);
     }
     const valid = validatePassword(password, user.hash, user.salt);
     if (!valid) {
-        console.log("invalid");
         return done(null, false);
     }
-    console.log("valid");
     return done(null, user);
 }));
 

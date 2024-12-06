@@ -9,6 +9,7 @@ import HomePage from './Components/HomePage/HomePage';
 import MessagesPage from './Components/MessagesPage/MessagesPage';
 import CalenderPage from './Components/CalenderPage/CalenderPage';
 import EventsPage from './Components/EventsPage/EventsPage';
+import CreateEvent from './Components/CreateEvent/CreateEvent';
 
 function App() {
   return (
@@ -17,11 +18,12 @@ function App() {
         <Route path="/" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/profile" element={<ProfilePage />} />
-        <Route path="/profile/edit/:userId" element={<EditProfilePage />} />
+        <Route path="/profile/edit" element={<EditProfilePage />} />
         <Route path="/home" element={<HomePage />} /> 
         <Route path="/messages" element={<MessagesPage />} />
         <Route path="/calender" element={<CalenderPage />} />
         <Route path="/events" element={<EventsPage />} />
+        <Route path="/create-event" element={<CreateEvent />} />
       </Routes>
     </Router>
   );

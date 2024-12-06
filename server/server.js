@@ -3,6 +3,7 @@ const cors = require("cors");
 const { loginRouter, logoutRouter } = require("./routes/loginRoutes.js");
 const registerRouter = require("./routes/registerRoutes.js");
 const homeRouter = require("./routes/homeRoutes.js");
+const profileRouter = require("./routes/profileRoutes.js");
 const session = require("express-session");
 const cookieParser = require("cookie-parser");
 const passport = require("passport");
@@ -17,7 +18,7 @@ app.use(session({
     saveUnintialized: false,
     cookie: {
         secure: false,
-        maxAge: 24 * 60 * 60 * 1000
+        maxAge: 24 * 60 * 60 * 1000 // Cookie duration one day
     }
 }));
 require("./authenticate/passport");
@@ -27,15 +28,19 @@ app.use("/login", loginRouter);
 app.use("/logout", logoutRouter);
 app.use("/register", registerRouter);
 app.use("/home", homeRouter);
+app.use("/profile", profileRouter);
 app.use(express.static("build"));
 app.use(cookieParser());
 
 app.get("/session", (req, res) => {
-    console.log("checking session");
-    console.log(req.user);
     if (req.isAuthenticated()) {
         const user = {
-            id: req.user.id
+            id: req.user.id,
+            firstName: req.user.first_name,
+            lastName: req.user.last_name,
+            major: req.user.major,
+            bio: req.user.bio,
+            joinDate: req.user.join_date,
         };
         return res.json({ auth: true, user: user });
     }

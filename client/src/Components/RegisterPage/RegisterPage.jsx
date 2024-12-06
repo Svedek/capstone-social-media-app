@@ -5,6 +5,8 @@ import './RegisterPage.css';
 export const RegisterPage = () => {
   const [major, setMajor] = useState("");
   const [email, setEmail] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
   const [password, setPassword] = useState("");
   const [confPass, setConfPass] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
@@ -17,7 +19,7 @@ export const RegisterPage = () => {
       headers: {
         "Content-Type": "application/json"
       },
-      body: JSON.stringify({ major: major, email: email, password: password, confPass: confPass })
+      body: JSON.stringify({ major: major, email: email, firstName: firstName, lastName: lastName, password: password, confPass: confPass })
     });
 
     if (password != confPass) {
@@ -54,6 +56,24 @@ export const RegisterPage = () => {
             placeholder='Email'
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            required
+          />
+        </div>
+        <div className="input-box">
+          <input
+            type="text"
+            placeholder='First Name'
+            value={firstName}
+            onChange={(e) => setFirstName(e.target.value)}
+            required
+          />
+        </div>
+        <div className="input-box">
+          <input
+            type="text"
+            placeholder='Last Name'
+            value={lastName}
+            onChange={(e) => setLastName(e.target.value)}
             required
           />
         </div>
