@@ -7,8 +7,10 @@ import { CreatePostModal } from "./CreatePostModal.jsx"
 import { PostItem } from "./post_item.jsx" 
 
 
-export const PostsFeed = ({ user_id }) => {
-  let time_of_latest_post = new Date();
+export const PostsFeed = (props) => {
+  const {user_id} = props.props;
+
+  const time_of_latest_post = useRef(new Date());
   const posts_to_load = 8;
 
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -33,7 +35,7 @@ export const PostsFeed = ({ user_id }) => {
     if (loading) return;
     setLoading(true);
 
-    const resp = await do_api_request(`./post/getNextPosts`, {before: time_of_latest_post, num_posts: posts_to_load, filters: ''}, "POST");
+    const resp = await do_api_request(`./post/getNextPosts`, {before: time_of_latest_post.current, num_posts: posts_to_load, filters: ''}, "POST");
 
         if (!resp || !Array.isArray(resp.result)) {
           console.error("Unexpected API response format:", resp);
@@ -54,7 +56,7 @@ export const PostsFeed = ({ user_id }) => {
             });
 
         setHasMore(new_posts.length < posts_to_load);
-        time_of_latest_post = new_posts[new_posts.length-1].time_posted;
+        time_of_latest_post.current = new_posts[new_posts.length-1].time_posted;
       } else {
         setHasMore(false);
       }
@@ -86,7 +88,7 @@ export const PostsFeed = ({ user_id }) => {
         {console.log(displayedPosts)}
         {
         displayedPosts.map((post) => (
-          <PostItem key={post.post_id} post={post} user_id={user_id} handle_open_comments={handleOpenComments} />
+          <PostItem key={post.post_id} props={{post: post, user_id: user_id, handle_open_comments: handleOpenComments}} />
         ))}
         {loading && (
           <div className="loading-spinner">

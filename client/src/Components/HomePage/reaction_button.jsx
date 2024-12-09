@@ -8,8 +8,10 @@ export const Button = {
   RSVP: 2
 };
 
-export const ReactionButton = ({post_id, icon, active, handle_func, num}) => {
-  console.log({ post_id, icon, active, num });
+export const ReactionButton = (props) => {
+  const {post_id, icon, active, handle_func, num} = props.props;
+  console.log(props.props);
+  console.log({ post_id, icon, active, handle_func, num });
 
   return (
     <div className="action-item">

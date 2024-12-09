@@ -5,7 +5,15 @@ import { CalendarDays } from 'lucide-react';
 import { ReactionButton, Button } from './reaction_button.jsx';
 
 
-export const PostItem = ({post, user_id, handle_open_comments}) => {
+export const PostItem = (props) => {
+  
+  const {post, user_id, handle_open_comments} = props.props;
+  // const post = props.post;
+  // const user_id = props.user_id;
+  // const handle_open_comments = props.handle_open_comments;
+  // console.log(props.props);
+  // console.log({post, user_id, handle_open_comments});
+
   const is_event = post.post_event_info_id !== null;
 
   const [author, set_author] = useState("Loading...");  // Needed for initial setting
@@ -20,13 +28,13 @@ export const PostItem = ({post, user_id, handle_open_comments}) => {
 
 
   // Fetch author details
-  useEffect(() => {
-    async function fetchAuthor() {
-      const resp = await do_api_request(`./user/getUserById`, { userId: user_id }, "POST");
-      set_author(resp || "Unknown Author");
-    }
-    fetchAuthor();
-  }, [user_id]);
+  // useEffect(() => {
+  //   async function fetchAuthor() {
+  //     const resp = await do_api_request(`./user/getUserById`, { userId: user_id }, "POST");
+  //     set_author(resp || "Unknown Author");
+  //   }
+  //   fetchAuthor();
+  // }, [user_id]);
 
    // Fetch post metadata
    useEffect(() => {
@@ -112,14 +120,14 @@ export const PostItem = ({post, user_id, handle_open_comments}) => {
       <div className="post-actions-container">
         { is_event ? (
           <>
-            <ReactionButton post_id={post.post_id} icon={Button.RSVP} active={rsvped} handle_func={handle_rsvp_press} num={rsvp_count}/>
-            <ReactionButton post_id={post.post_id} icon={Button.COMMENT} handle_func={handle_comment_press} num={comment_count}/>
-            <ReactionButton post_id={post.post_id} icon={Button.LIKE} active={liked} handle_func={handle_like_press} num={like_count}/>
+            <ReactionButton props={{post_id: post.post_id, icon: Button.RSVP, active: rsvped, handle_func: handle_rsvp_press, num: rsvp_count}}/>
+            <ReactionButton props={{post_id: post.post_id, icon: Button.COMMENT, handle_func: handle_comment_press, num: comment_count}}/>
+            <ReactionButton props={{post_id: post.post_id, icon: Button.LIKE, active: liked, handle_func: handle_like_press, num: like_count}}/>
           </>
         ) : (
           <>
-            <ReactionButton post_id={post.post_id} icon={Button.COMMENT} handle_func={handle_comment_press} num={comment_count}/>
-            <ReactionButton post_id={post.post_id} icon={Button.LIKE} active={liked} handle_func={handle_like_press} num={like_count}/>
+            <ReactionButton props={{post_id: post.post_id, icon: Button.COMMENT, handle_func: handle_comment_press, num: comment_count}}/>
+            <ReactionButton props={{post_id: post.post_id, icon: Button.LIKE, active: liked, handle_func: handle_like_press, num: like_count}}/>
           </>
         )}
       </div>
