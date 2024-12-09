@@ -4,6 +4,11 @@ import './HomePage.css';
 
 ///reply overlay
 export const CommentOverlay = ({ post, closeOverlay }) => {
+  
+  const handleAddComment = (postId, comment) => {
+    // DO
+  };
+
   return (
     <div className="comment-overlay">
       <div className="comment-overlay-content">

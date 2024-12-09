@@ -1,122 +1,92 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { do_api_request } from '../APIHandler.jsx'
 import './HomePage.css';
-import { User, CalendarDays, Heart, Users, MailOpen, MessageSquareMore } from 'lucide-react';
+
+import { CommentOverlay } from "./commentOverlay.jsx"
+import { CreatePostModal } from "./CreatePostModal.jsx" 
+import { PostItem } from "./post_item.jsx" 
 
 
-export const PostsFeed = ({ posts, handleLikeToggle, toggleModal, handleOpenComments, handleRSVP }) => {
+export const PostsFeed = ({ user_id }) => {
+  let time_of_latest_post = new Date();
+  const posts_to_load = 8;
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isCommentOpen, setIsCommentOpen] = useState(false);
+  const [activePost, setActivePost] = useState(null);
+
   const [displayedPosts, setDisplayedPosts] = useState([]);
-  const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
   const [hasMore, setHasMore] = useState(true);
   const scrollRef = useRef(null);
-  const postsPerPage = 8;
+  
+  const toggleModal = () => {
+    setIsModalOpen(!isModalOpen);  // Maybe need to set modal to empty???
+  };
+  
+  const handleOpenComments = (post) => {
+    setActivePost(post);
+    setIsCommentOpen(true);
+  };
 
-  useEffect(() => {
-    setDisplayedPosts(posts.slice(0, postsPerPage));
-    setHasMore(posts.length > postsPerPage);
-  }, [posts]);
+  async function loadMorePosts() {
+    if (loading) return;
+    setLoading(true);
+
+    const resp = await do_api_request(`./post/getNextPosts`, {before: time_of_latest_post, num_posts: posts_to_load, filters: ''}, "POST");
+
+        if (!resp || !Array.isArray(resp.result)) {
+          console.error("Unexpected API response format:", resp);
+          setLoading(false);
+          return;
+        }
+
+    if (resp.errorMessage) {
+      console.log("postsFeed.jsx - loadMorePosts: " + resp.errorMessage);
+    } else {
+      const new_posts = resp.result;
+      if (new_posts.length > 0) {
+        // setDisplayedPosts((prev) => [...prev, ...new_posts]);
+
+            setDisplayedPosts((prev) => {
+              const filteredPosts = new_posts.filter((post) => !!post); // Exclude invalid entries
+              return [...prev, ...filteredPosts];
+            });
+
+        setHasMore(new_posts.length < posts_to_load);
+        time_of_latest_post = new_posts[new_posts.length-1].time_posted;
+      } else {
+        setHasMore(false);
+      }
+    }
+
+    setLoading(false);
+  };
 
   const handleScroll = () => {
     if (!scrollRef.current || loading || !hasMore) return;
 
     const { scrollTop, scrollHeight, clientHeight } = scrollRef.current;
     if (scrollTop + clientHeight >= scrollHeight - 100) {
-      loadMorePosts();
+      // loadMorePosts();
     }
   };
 
-  const loadMorePosts = () => {
-    setLoading(true);
-    setTimeout(() => {
-      const nextPage = page + 1;
-      const startIndex = page * postsPerPage;
-      const endIndex = startIndex + postsPerPage;
-      const newPosts = posts.slice(startIndex, endIndex);
-
-      if (newPosts.length > 0) {
-        setDisplayedPosts(prev => [...prev, ...newPosts]);
-        console.log(displayedPosts);
-        setPage(nextPage);
-        setHasMore(endIndex < posts.length);
-      } else {
-        setHasMore(false);
-      }
-      setLoading(false);
-    }, 500);
-  };
-  const renderPostTypeIcon = (postType) => {
-    switch (postType) {
-      case 'user':
-        return <User size={16} className="post-type-icon user-post-icon" />;
-      case 'event':
-        return <CalendarDays size={16} className="post-type-icon event-post-icon" />;
-      case 'community':
-        return <Users size={16} className="post-type-icon community-post-icon" />;
-      default:
-        return null;
-    }
-  };
+  useEffect(() => {
+    loadMorePosts();
+  }, []);
 
   return (
     <div className="posts-container">
-      <h2>Your feed</h2>
+      <h2>Your feed</h2> 
       <button className="create-post" onClick={toggleModal}>
         Create Post
       </button>
       <div className="posts-scroll-area" ref={scrollRef} onScroll={handleScroll}>
-        {displayedPosts.map((post) => (
-          <div key={post.id} className={`post ${post.type === 'event' ? 'post-event' : ''}`}>
-            <div className="post-content-container">
-              <div className="post-author">
-                {post.type === 'event' && <CalendarDays size={16} className="event-icon" />}
-                {post.author}
-              </div>
-              <div className="post-content">{post.content}</div>
-              {post.image && <img src={post.image} alt="Post" className="post-image" />}
-            </div>
-
-            <div className="post-actions-container">
-  {post.type === 'event' ? (
-    <>
-      <div className="action-item">
-        <MailOpen
-          size={24}
-          className={`action-icon ${post.rsvpStatus === 'going' ? 'rsvp-going' : ''}`}
-          onClick={() => handleRSVP(post.id)}
-        />
-        <span className="action-counter">{post.rsvpCount || 0}</span>
-      </div>
-      <div className="action-item">
-        <MessageSquareMore size={24} className="action-icon" onClick={() => handleOpenComments(post.id)} />
-        <span className="action-counter">{post.comments.length}</span>
-      </div>
-      <div className="action-item">
-        <Heart
-          size={24}
-          className={`action-icon ${post.liked ? 'liked' : ''}`}
-          onClick={() => handleLikeToggle(post.id)}
-        />
-        <span className="action-counter">{post.likes}</span>
-      </div>
-    </>
-  ) : (
-    <>
-      <div className="action-item">
-        <MessageSquareMore size={24} className="action-icon" onClick={() => handleOpenComments(post.id)} />
-        <span className="action-counter">{post.comments.length}</span>
-      </div>
-      <div className="action-item">
-        <Heart
-          size={24}
-          className={`action-icon ${post.liked ? 'liked' : ''}`}
-          onClick={() => handleLikeToggle(post.id)}
-        />
-        <span className="action-counter">{post.likes}</span>
-      </div>
-    </>
-  )}
-</div>
-          </div>
+        {console.log(displayedPosts)}
+        {
+        displayedPosts.map((post) => (
+          <PostItem key={post.post_id} post={post} user_id={user_id} handle_open_comments={handleOpenComments} />
         ))}
         {loading && (
           <div className="loading-spinner">
@@ -130,6 +100,18 @@ export const PostsFeed = ({ posts, handleLikeToggle, toggleModal, handleOpenComm
           </div>
         )}
       </div>
+
+      {/* {isModalOpen && (
+        <CreatePostModal toggleModal={toggleModal} />
+      )} */}
+
+      {/* Comment overlay with the close function passed as prop */}
+      {/* {isCommentOpen && activePost && (
+        <CommentOverlay
+          post={activePost}
+          closeOverlay={() => setIsCommentOpen(false)} // This is the function to close the overlay
+        />
+      )} */}
     </div>
   );
 };

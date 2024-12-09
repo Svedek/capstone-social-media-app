@@ -1,15 +1,24 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './HomePage.css';
 
-export const CreatePostModal = ({ 
-  postContent, 
-  handlePostChange, 
-  postImage, 
-  handleImageChange, 
-  handleSubmitPost, 
-  toggleModal, 
-  maxCharacters 
-}) => {
+export const CreatePostModal = ({ toggleModal }) => {
+  const maxCharacters = 300;
+  const [postContent, setPostContent] = useState("");
+  
+  const handlePostChange = (e) => {
+    setPostContent(e.target.value);
+  };
+  
+  const handleSubmitPost = () => {
+    if (postContent.trim()) {
+      // DO SUBMIT
+      setPostContent("");
+      toggleModal();
+    }
+  };
+
+
+
   return (
     <div className="modal">
       <div className="modal-content">
@@ -28,7 +37,7 @@ export const CreatePostModal = ({
 
         <button
           className="submit-post"
-          disabled={postContent.length === 0 && !postImage}
+          disabled={postContent.length === 0}
           onClick={handleSubmitPost}
         >
           Post

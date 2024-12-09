@@ -106,13 +106,7 @@ async function getPostChildrenCount(post_id) {
 
 async function getNextPosts(before, num_posts, filters) {
     filters;  // filters NOT YET IMPLEMENTED  (this line is to not give warnings when running server)
-    const query = `
-        SELECT post.post_id, post.text, post.is_event, post.time_posted, user.username
-        FROM post
-        INNER JOIN user ON post.post_owner_user_id=user.user_id
-        WHERE time_posted <= ?
-        ORDER BY time_posted
-        DESC LIMIT ?;`;
+    const query = `SELECT * FROM post  WHERE time_posted <= ? ORDER BY time_posted DESC LIMIT ?;`;
     const [rows] = await pool.query(query, [before, num_posts]);
     return rows;
 }

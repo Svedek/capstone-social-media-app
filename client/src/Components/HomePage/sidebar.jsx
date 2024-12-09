@@ -2,7 +2,15 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import './HomePage.css';
 
-export const Sidebar = ({ events, friends, newFriend, setNewFriend, handleAddFriend }) => {
+export const Sidebar = () => {
+  const events = [
+     { id: 1, name: 'Community Picnic', date: '2024-10-15' },
+     { id: 2, name: 'Tech Meetup', date: '2024-10-20' },
+     { id: 3, name: 'Career Fair', date: '2024-10-20' },
+     { id: 4, name: 'Library Event', date: '2024-10-20' },
+     { id: 5, name: 'Gym Event', date: '2024-10-20' },
+   ];
+
   return (
     <div className="sidebar">
       <div className="events">
