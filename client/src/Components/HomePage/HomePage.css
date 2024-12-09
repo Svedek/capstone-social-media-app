@@ -282,6 +282,18 @@ p {
   color: #000000;
 }
 
+.navbar .link {
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  align-items: center;
+  gap: 6px;
+}
+
+.logout {
+  cursor: pointer;
+}
+
 .comment-overlay {
   position: fixed;
   top: 50%;

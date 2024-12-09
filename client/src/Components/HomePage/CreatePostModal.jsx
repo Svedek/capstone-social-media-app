@@ -26,13 +26,6 @@ export const CreatePostModal = ({
           {maxCharacters - postContent.length} characters remaining
         </div>
 
-        <input type="file" accept="image/*" onChange={handleImageChange} />
-        {postImage && (
-          <div className="image-preview">
-            <img src={postImage} alt="Preview" />
-          </div>
-        )}
-
         <button
           className="submit-post"
           disabled={postContent.length === 0 && !postImage}

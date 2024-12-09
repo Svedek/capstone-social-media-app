@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import './HomePage.css';
 
-import { Taskbar } from "./taskbar.jsx"
+import { Taskbar } from "../taskbar.jsx"
 import { PostsFeed } from "./postsFeed.jsx"
 import { CommentOverlay } from "./commentOverlay.jsx"
 import { Sidebar } from "./sidebar.jsx"
@@ -164,7 +164,7 @@ const HomePage = () => {
 
   return (
     <div className="home-page">
-      <Taskbar isDarkMode={isDarkMode} toggleDarkMode={toggleDarkMode} />
+      <Taskbar />
 
       <div className="content">
         <div className="background-block">

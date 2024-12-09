@@ -35,6 +35,7 @@ export const PostsFeed = ({ posts, handleLikeToggle, toggleModal, handleOpenComm
 
       if (newPosts.length > 0) {
         setDisplayedPosts(prev => [...prev, ...newPosts]);
+        console.log(displayedPosts);
         setPage(nextPage);
         setHasMore(endIndex < posts.length);
       } else {
