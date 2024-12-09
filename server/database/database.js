@@ -98,6 +98,12 @@ async function getPostChildren(post_id) {
     return rows;
 }
 
+async function getPostChildrenCount(post_id) {
+    const query = `SELECT count(post_id) as cnt FROM post WHERE post_parent_post_id=?`;
+    const [rows] = await pool.query(query, [post_id]);
+    return rows[0].cnt;
+}
+
 async function getNextPosts(before, num_posts, filters) {
     filters;  // filters NOT YET IMPLEMENTED  (this line is to not give warnings when running server)
     const query = `
@@ -195,7 +201,7 @@ module.exports = {
     getLoginInfo, addLoginInfo, getLoginInfoById, editPassword,
     getUser, addUser, getUserById, getUserByLoginId,
     addPost, addEventInfo,
-    getPostFomID, getPostIDFromEventInfo, getPostChildren, getNextPosts, isPostEvent,
+    getPostFomID, getPostIDFromEventInfo, getPostChildren, getPostChildrenCount, getNextPosts, isPostEvent,
     addPostLike, removePostLike, isPostLiked, getUserLikes, getPostLikes, getPostLikesCount,
     addEventRSVP, removeEventRSVP, isEventRSVPed, getUserRSVPs, getEventRSVPs, getEventRSVPCount
 };
