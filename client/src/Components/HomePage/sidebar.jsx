@@ -20,7 +20,7 @@ export const Sidebar = () => {
             <li key={event.id}>{event.name} - {event.date}</li>
           ))}
         </ul>
-        <Link to="/CreateEvent">
+        <Link to="/create_event">
           <button className="CreateEvent">Create Event</button>
         </Link>
       </div>

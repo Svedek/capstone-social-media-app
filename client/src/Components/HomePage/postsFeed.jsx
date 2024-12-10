@@ -26,6 +26,17 @@ export const PostsFeed = (props) => {
     setIsModalOpen(!isModalOpen);  // Maybe need to set modal to empty???
   };
   
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const hideModal = (postCreated) => {
+    setIsModalOpen(true);
+    if (postCreated) {
+      window.location.reload();  // Refresh page so that you can see your created post
+    }
+  };
+  
   const handleOpenComments = (post) => {
     setActivePost(post);
     setIsCommentOpen(true);
@@ -81,7 +92,7 @@ export const PostsFeed = (props) => {
   return (
     <div className="posts-container">
       <h2>Your feed</h2> 
-      <button className="create-post" onClick={toggleModal}>
+      <button className="create-post" onClick={showModal}>
         Create Post
       </button>
       <div className="posts-scroll-area" ref={scrollRef} onScroll={handleScroll}>
@@ -103,17 +114,16 @@ export const PostsFeed = (props) => {
         )}
       </div>
 
-      {/* {isModalOpen && (
-        <CreatePostModal toggleModal={toggleModal} />
-      )} */}
+      {isModalOpen && (
+        <CreatePostModal hideModal={hideModal} user_id={user_id} />
+      )}
 
-      {/* Comment overlay with the close function passed as prop */}
-      {/* {isCommentOpen && activePost && (
+      {isCommentOpen && activePost && (
         <CommentOverlay
           post={activePost}
           closeOverlay={() => setIsCommentOpen(false)} // This is the function to close the overlay
         />
-      )} */}
+      )}
     </div>
   );
 };
