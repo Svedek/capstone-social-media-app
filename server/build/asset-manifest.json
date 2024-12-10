@@ -1,0 +1,14 @@
+{
+  "files": {
+    "main.css": "/static/css/main.a42cdd8e.css",
+    "main.js": "/static/js/main.cbaba298.js",
+    "static/media/campus.jfif": "/static/media/campus.439e3f2fee399ddd35ee.jfif",
+    "index.html": "/index.html",
+    "main.a42cdd8e.css.map": "/static/css/main.a42cdd8e.css.map",
+    "main.cbaba298.js.map": "/static/js/main.cbaba298.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.a42cdd8e.css",
+    "static/js/main.cbaba298.js"
+  ]
+}
