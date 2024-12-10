@@ -60,9 +60,9 @@ async function getUserById(id) {  // Primarily for controllers
     return rows;
 }
 
-async function addUser(major, loginID) {
-    const query = `INSERT INTO user (major, user_login_info_id) VALUES (?, ?)`;
-    const res = await pool.query(query, [major, loginID]);
+async function addUser(loginID, major, firstName, lastName, joinDate) {
+    const query = `INSERT INTO user (user_login_info_id, major, first_name, last_name, join_date) VALUES (?, ?, ?, ?, ?)`;
+    const res = await pool.query(query, [loginID, major, firstName, lastName, joinDate]);
     return res[0].insertId;
 }
 
