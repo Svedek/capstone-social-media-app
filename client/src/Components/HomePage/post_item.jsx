@@ -28,13 +28,13 @@ export const PostItem = (props) => {
 
 
   // Fetch author details
-  // useEffect(() => {
-  //   async function fetchAuthor() {
-  //     const resp = await do_api_request(`./user/getUserById`, { userId: user_id }, "POST");
-  //     set_author(resp || "Unknown Author");
-  //   }
-  //   fetchAuthor();
-  // }, [user_id]);
+  useEffect(() => {
+    async function fetchAuthor() {
+      const resp = await do_api_request(`./user/getUserById`, { userId: user_id }, "POST");
+      set_author(`${resp.result.first_name} ${resp.result.last_name}` || "Unknown Author");
+    }
+    fetchAuthor();
+  }, [user_id]);
 
    // Fetch post metadata
    useEffect(() => {
@@ -45,9 +45,9 @@ export const PostItem = (props) => {
         do_api_request(`./post/getPostChildrenCount`, { post_id: post.post_id }, "POST"),
       ]);
 
-      set_liked(likedResp);
-      set_like_count(likeCountResp);
-      set_comment_count(commentCountResp);
+      set_liked(likedResp.result);
+      set_like_count(likeCountResp.result);
+      set_comment_count(commentCountResp.result);
     }
     fetchData();
   }, [post, user_id]);
@@ -61,8 +61,8 @@ export const PostItem = (props) => {
           do_api_request(`./post/getEventRSVPCount`, { event_info_id: post.post_event_info_id }, "POST"),
         ]);
 
-        set_rsvped(rsvpedResp);
-        set_rsvp_count(rsvpCountResp);
+        set_rsvped(rsvpedResp.result);
+        set_rsvp_count(rsvpCountResp.result);
       }
       fetchEventData();
     }
