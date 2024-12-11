@@ -7,13 +7,8 @@ import { ReactionButton, Button } from './reaction_button.jsx';
 
 export const PostItem = (props) => {
   
-  const {post, user_id, handle_open_comments} = props.props;
-  // const post = props.post;
-  // const user_id = props.user_id;
-  // const handle_open_comments = props.handle_open_comments;
-  // console.log(props.props);
-  // console.log({post, user_id, handle_open_comments});
-
+  const {post, handle_open_comments} = props.props;
+  const user_id = post.post_owner_user_id;
   const is_event = post.post_event_info_id !== null;
 
   const [author, set_author] = useState("Loading...");  // Needed for initial setting
@@ -30,11 +25,20 @@ export const PostItem = (props) => {
   // Fetch author details
   useEffect(() => {
     async function fetchAuthor() {
+      console.log("2222222");
+      
+      const [authorResp] = await Promise.all([
+        do_api_request(`./user/getUserById`, { user_id, post_id: post.post_id }, "POST"),
+      ]);
       const resp = await do_api_request(`./user/getUserById`, { userId: user_id }, "POST");
+      console.log("=========");
+      console.log(authorResp);
+      console.log(`${resp.result.first_name} ${resp.result.last_name}` || "Unknown Author");
       set_author(`${resp.result.first_name} ${resp.result.last_name}` || "Unknown Author");
     }
+    console.log("111111111");
     fetchAuthor();
-  }, [user_id]);
+  }, []);
 
    // Fetch post metadata
    useEffect(() => {
@@ -50,7 +54,7 @@ export const PostItem = (props) => {
       set_comment_count(commentCountResp.result);
     }
     fetchData();
-  }, [post, user_id]);
+  }, []);
 
   // Fetch event-specific metadata
   useEffect(() => {
@@ -66,7 +70,7 @@ export const PostItem = (props) => {
       }
       fetchEventData();
     }
-  }, [is_event, post, user_id]);
+  }, []);
 
   const handle_like_press = async () => {
     if (processing_like.current) return;
@@ -113,7 +117,7 @@ export const PostItem = (props) => {
       <div className="post-content-container">
         <div className="post-author">
           {is_event && <CalendarDays size={16} className="event-icon" />}
-          {author}
+          <b>{author}</b>
         </div>
         <div className="post-content">{post.text}</div>
       </div>

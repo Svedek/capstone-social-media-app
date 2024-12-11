@@ -81,7 +81,7 @@ CREATE TABLE `post` (
   `post_owner_user_id` int DEFAULT NULL,
   `post_parent_post_id` int DEFAULT NULL,
   `post_event_info_id` int DEFAULT NULL,
-  `text` varchar(200) NOT NULL,
+  `text` varchar(300) NOT NULL,
   `time_posted` datetime NOT NULL,
   PRIMARY KEY (`post_id`),
   UNIQUE KEY `idnew_table_UNIQUE` (`post_id`),
