@@ -59,14 +59,6 @@ export const CreatePostModal = ({ hideModal, user_id }) => {
           {maxCharacters - postContent.length} characters remaining
         </div>
 
-        <checkbox
-          placeholder="Is Event?"
-          rows="1"
-          maxLength={maxCharacters}
-          value={postContent}
-          onChange={handlePostChange}
-        ></checkbox>
-
         <button
           className="submit-post"
           onClick={handleSubmitPost}

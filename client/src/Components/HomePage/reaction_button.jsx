@@ -9,9 +9,7 @@ export const Button = {
 };
 
 export const ReactionButton = (props) => {
-  const {post_id, icon, active, handle_func, num} = props.props;
-  console.log(props.props);
-  console.log({ post_id, icon, active, handle_func, num });
+  const {icon, active, handle_func, num} = props.props;
 
   return (
     <div className="action-item">

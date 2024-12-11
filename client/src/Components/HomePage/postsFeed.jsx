@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { do_api_request } from '../APIHandler.jsx'
+import { do_api_request, dateToDatetime } from '../APIHandler.jsx'
 import './HomePage.css';
 
 import { CommentOverlay } from "./commentOverlay.jsx"
@@ -27,9 +27,10 @@ export const PostsFeed = (props) => {
   };
 
   const hideModal = (postCreated) => {
-    setIsModalOpen(true);
     if (postCreated) {
       window.location.reload();  // Refresh page so that you can see your created post
+    } else {
+      setIsModalOpen(false);
     }
   };
   
@@ -42,7 +43,7 @@ export const PostsFeed = (props) => {
     if (loading) return;
     setLoading(true);
 
-    const resp = await do_api_request(`./post/getNextPosts`, {before: time_of_latest_post.current, num_posts: posts_to_load, filters: ''}, "POST");
+    const resp = await do_api_request(`./post/getNextPosts`, {before: dateToDatetime(time_of_latest_post.current), num_posts: posts_to_load, filters: ''}, "POST");
 
         if (!resp || !Array.isArray(resp.result)) {
           console.error("Unexpected API response format:", resp);
@@ -55,15 +56,10 @@ export const PostsFeed = (props) => {
     } else {
       const new_posts = resp.result;
       if (new_posts.length > 0) {
-        // setDisplayedPosts((prev) => [...prev, ...new_posts]);
+        setDisplayedPosts((prev) => [...prev, ...new_posts]);
 
-        setDisplayedPosts((prev) => {
-          const filteredPosts = new_posts.filter((post) => !!post); // Exclude invalid entries
-          return [...prev, ...filteredPosts];
-        });
-
-        setHasMore(new_posts.length < posts_to_load);
-        time_of_latest_post.current = new_posts[new_posts.length-1].time_posted;
+        setHasMore(new_posts.length >= posts_to_load);
+        time_of_latest_post.current = new Date(new_posts[new_posts.length-1].time_posted);
       } else {
         setHasMore(false);
       }
@@ -77,7 +73,7 @@ export const PostsFeed = (props) => {
 
     const { scrollTop, scrollHeight, clientHeight } = scrollRef.current;
     if (scrollTop + clientHeight >= scrollHeight - 100) {
-      // loadMorePosts();  TODO uncomment
+      loadMorePosts();
     }
   };
 

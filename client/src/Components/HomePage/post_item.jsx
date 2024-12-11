@@ -25,18 +25,15 @@ export const PostItem = (props) => {
   // Fetch author details
   useEffect(() => {
     async function fetchAuthor() {
-      console.log("2222222");
       
       const [authorResp] = await Promise.all([
         do_api_request(`./user/getUserById`, { user_id, post_id: post.post_id }, "POST"),
       ]);
       const resp = await do_api_request(`./user/getUserById`, { userId: user_id }, "POST");
-      console.log("=========");
       console.log(authorResp);
       console.log(`${resp.result.first_name} ${resp.result.last_name}` || "Unknown Author");
       set_author(`${resp.result.first_name} ${resp.result.last_name}` || "Unknown Author");
     }
-    console.log("111111111");
     fetchAuthor();
   }, []);
 
@@ -48,10 +45,23 @@ export const PostItem = (props) => {
         do_api_request(`./post/getPostLikesCount`, { post_id: post.post_id }, "POST"),
         do_api_request(`./post/getPostChildrenCount`, { post_id: post.post_id }, "POST"),
       ]);
+      if (likedResp.errorMessage) {
+        console.error(`ERROR: liked initialization on post ${post.post_id} : ${likedResp.errorMessage}`);
+      } else {
+        set_liked(likedResp.result);
+      }
 
-      set_liked(likedResp.result);
-      set_like_count(likeCountResp.result);
-      set_comment_count(commentCountResp.result);
+      if (likeCountResp.errorMessage) {
+        console.error(`ERROR: like count initialization on post ${post.post_id} : ${likeCountResp.errorMessage}`);
+      } else {
+        set_like_count(likeCountResp.result);
+      }
+
+      if (commentCountResp.errorMessage) {
+        console.error(`ERROR: comment count initialization on post ${post.post_id} : ${commentCountResp.errorMessage}`);
+      } else {
+        set_comment_count(commentCountResp.result);
+      }
     }
     fetchData();
   }, []);
@@ -64,9 +74,17 @@ export const PostItem = (props) => {
           do_api_request(`./post/isEventRSVPed`, { user_id, event_info_id: post.post_event_info_id }, "POST"),
           do_api_request(`./post/getEventRSVPCount`, { event_info_id: post.post_event_info_id }, "POST"),
         ]);
-
-        set_rsvped(rsvpedResp.result);
-        set_rsvp_count(rsvpCountResp.result);
+        if (rsvpedResp.errorMessage) {
+          console.error(`ERROR: RSVPed initialization on post ${post.post_id} : ${rsvpedResp.errorMessage}`);
+        } else {
+          set_rsvped(rsvpedResp.result);
+        }
+  
+        if (rsvpCountResp.errorMessage) {
+          console.error(`ERROR: RSVP count initialization on post ${post.post_id} : ${rsvpCountResp.errorMessage}`);
+        } else {
+          set_rsvp_count(rsvpCountResp.result);
+        }
       }
       fetchEventData();
     }
@@ -82,10 +100,10 @@ export const PostItem = (props) => {
     if (!resp.errorMessage) {
       const newLiked = await do_api_request(`./post/isPostLiked`, { user_id, post_id: post.post_id }, "POST");
       const newLikeCount = await do_api_request(`./post/getPostLikesCount`, { post_id: post.post_id }, "POST");
-      set_liked(newLiked);
-      set_like_count(newLikeCount);
+      set_liked(newLiked.result);
+      set_like_count(newLikeCount.result);
     } else {
-      console.log("handle_like_press on post" + post.post_id + ": " + resp.errorMessage);
+      console.error(`ERROR: handle_like_press on post ${post.post_id} : ${resp.errorMessage}`);
     }
 
     processing_like.current = false;
@@ -101,8 +119,10 @@ export const PostItem = (props) => {
     if (!resp.errorMessage) {
       const newRSVPed = await do_api_request(`./post/isEventRSVPed`, { user_id, event_info_id: post.post_event_info_id }, "POST");
       const newRSVPCount = await do_api_request(`./post/getEventRSVPCount`, { event_info_id: post.post_event_info_id }, "POST");
-      set_rsvped(newRSVPed);
-      set_rsvp_count(newRSVPCount);
+      set_rsvped(newRSVPed.result);
+      set_rsvp_count(newRSVPCount.result);
+    } else {
+      console.error(`ERROR: handle_rsvp_press on post ${post.post_id} : ${resp.errorMessage}`);
     }
 
     processing_rsvp.current = false;
