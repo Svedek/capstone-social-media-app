@@ -22,7 +22,6 @@ function App() {
         <Route path="/home" element={<HomePage />} /> 
         <Route path="/messages" element={<MessagesPage />} />
         <Route path="/calendar" element={<CalenderPage />} />
-        <Route path="/events" element={<EventsPage />} />
         <Route path="/create_event" element={<CreateEventsPage />} />
       </Routes>
     </Router>
