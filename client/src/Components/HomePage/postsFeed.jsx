@@ -22,10 +22,6 @@ export const PostsFeed = (props) => {
   const [hasMore, setHasMore] = useState(true);
   const scrollRef = useRef(null);
   
-  const toggleModal = () => {
-    setIsModalOpen(!isModalOpen);  // Maybe need to set modal to empty???
-  };
-  
   const showModal = () => {
     setIsModalOpen(true);
   };
@@ -61,10 +57,10 @@ export const PostsFeed = (props) => {
       if (new_posts.length > 0) {
         // setDisplayedPosts((prev) => [...prev, ...new_posts]);
 
-            setDisplayedPosts((prev) => {
-              const filteredPosts = new_posts.filter((post) => !!post); // Exclude invalid entries
-              return [...prev, ...filteredPosts];
-            });
+        setDisplayedPosts((prev) => {
+          const filteredPosts = new_posts.filter((post) => !!post); // Exclude invalid entries
+          return [...prev, ...filteredPosts];
+        });
 
         setHasMore(new_posts.length < posts_to_load);
         time_of_latest_post.current = new_posts[new_posts.length-1].time_posted;
@@ -81,7 +77,7 @@ export const PostsFeed = (props) => {
 
     const { scrollTop, scrollHeight, clientHeight } = scrollRef.current;
     if (scrollTop + clientHeight >= scrollHeight - 100) {
-      // loadMorePosts();
+      // loadMorePosts();  TODO uncomment
     }
   };
 
