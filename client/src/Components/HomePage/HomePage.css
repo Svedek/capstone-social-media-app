@@ -710,3 +710,7 @@ p {
 .liked {
   color: #ff6347; /* Color for liked posts */
 }
+
+p.post-text {
+  overflow-wrap: anywhere;
+}

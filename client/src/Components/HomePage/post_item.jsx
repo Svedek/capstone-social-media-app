@@ -139,7 +139,7 @@ export const PostItem = (props) => {
           {is_event && <CalendarDays size={16} className="event-icon" />}
           <b>{author}</b>
         </div>
-        <div className="post-content">{post.text}</div>
+        <div className="post-content"><p class="post-text">{post.text}</p></div>
       </div>
       <div className="post-actions-container">
         { is_event ? (

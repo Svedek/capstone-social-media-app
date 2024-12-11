@@ -113,7 +113,7 @@ export const PostsFeed = (props) => {
         <CreatePostModal hideModal={hideModal} user_id={user_id} />
       )}
 
-      {isCommentOpen && activePost && (
+      {activePost && (
         <CommentOverlay
           post={activePost}
           closeOverlay={() => setIsCommentOpen(false)} // This is the function to close the overlay

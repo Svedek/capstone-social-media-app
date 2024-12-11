@@ -21,7 +21,7 @@ const HomePage = () => {
       <div className="content">
         <div className="background-block">
           <PostsFeed props={{user_id: userId}}/>
-          <Sidebar/>
+          <Sidebar props={{user_id: userId}}/>
         </div>
       </div>
     </div>
