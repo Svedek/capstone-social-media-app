@@ -145,12 +145,12 @@ export const PostItem = (props) => {
         { is_event ? (
           <>
             <ReactionButton props={{post_id: post.post_id, icon: Button.RSVP, active: rsvped, handle_func: handle_rsvp_press, num: rsvp_count}}/>
-            <ReactionButton props={{post_id: post.post_id, icon: Button.COMMENT, handle_func: handle_comment_press, num: comment_count}}/>
+            {/* <ReactionButton props={{post_id: post.post_id, icon: Button.COMMENT, handle_func: handle_comment_press, num: comment_count}}/> */}
             <ReactionButton props={{post_id: post.post_id, icon: Button.LIKE, active: liked, handle_func: handle_like_press, num: like_count}}/>
           </>
         ) : (
           <>
-            <ReactionButton props={{post_id: post.post_id, icon: Button.COMMENT, handle_func: handle_comment_press, num: comment_count}}/>
+            {/* <ReactionButton props={{post_id: post.post_id, icon: Button.COMMENT, handle_func: handle_comment_press, num: comment_count}}/> */}
             <ReactionButton props={{post_id: post.post_id, icon: Button.LIKE, active: liked, handle_func: handle_like_press, num: like_count}}/>
           </>
         )}

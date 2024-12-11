@@ -9,7 +9,6 @@ import HomePage from './Components/HomePage/HomePage';
 import MessagesPage from './Components/MessagesPage/MessagesPage';
 import CalenderPage from './Components/CalenderPage/CalenderPage';
 import EventsPage from './Components/EventsPage/EventsPage';
-import CreateEventsPage from './Components/CreateEvent/CreateEvent';
 
 function App() {
   return (
@@ -22,7 +21,7 @@ function App() {
         <Route path="/home" element={<HomePage />} /> 
         <Route path="/messages" element={<MessagesPage />} />
         <Route path="/calendar" element={<CalenderPage />} />
-        <Route path="/create_event" element={<CreateEventsPage />} />
+        <Route path="/events" element={<EventsPage />} />
       </Routes>
     </Router>
   );

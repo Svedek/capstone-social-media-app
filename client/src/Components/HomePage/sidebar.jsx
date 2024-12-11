@@ -29,12 +29,12 @@ export const Sidebar = ({user_id}) => {
               <li key={event.id}>{event.name} - {event.date}</li>
             ))}
           </ul>
-          <button 
+          {/* <button 
             className="CreateEvent" 
             onClick={toggleCreateEventModal}
           >
             Create Event
-          </button>
+          </button> */}
         </div>
 
         <div className="social-media">
@@ -48,9 +48,9 @@ export const Sidebar = ({user_id}) => {
         </div>
       </div>
 
-      {isCreateEventModalOpen && (
+      {/* {isCreateEventModalOpen && (
         <CreateEventModal toggleModal={toggleCreateEventModal} user_id={user_id} />
-      )}
+      )} */}
     </>
   );
 };
