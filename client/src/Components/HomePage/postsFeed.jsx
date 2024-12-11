@@ -10,7 +10,10 @@ import { PostItem } from "./post_item.jsx"
 export const PostsFeed = (props) => {
   const {user_id} = props.props;
 
-  const time_of_latest_post = useRef(new Date());
+  let slightly_in_the_future = new Date();
+  slightly_in_the_future = slightly_in_the_future.setMinutes(slightly_in_the_future.getMinutes() + 1);
+  const time_of_latest_post = useRef(slightly_in_the_future);
+  
   const posts_to_load = 8;
 
   const [isModalOpen, setIsModalOpen] = useState(false);
