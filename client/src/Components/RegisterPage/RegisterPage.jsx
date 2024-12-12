@@ -1,5 +1,6 @@
 import { React, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { majors } from "../Assets/majors.js";
 import './RegisterPage.css';
 
 export const RegisterPage = () => {
@@ -60,13 +61,18 @@ export const RegisterPage = () => {
           />
         </div>
         <div className="input-box">
-          <input
-            type="text"
-            placeholder='Major'
+          <select
+            id="major"
+            name="major"
             value={major}
             onChange={(e) => setMajor(e.target.value)}
-            required
-          />
+            className="major-select"
+          >
+            <option value={major} disabled>Select a major</option>
+              {majors.map(major => (
+                <option key={major} value={major}>{major}</option>
+              ))}
+          </select>
         </div>
         <div className="input-box">
           <input

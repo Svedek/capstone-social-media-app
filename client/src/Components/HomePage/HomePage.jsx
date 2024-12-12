@@ -9,9 +9,9 @@ import { Sidebar } from "./sidebar.jsx"
 
 
 const HomePage = () => {
-  const {userId} = useAuth();
-
-  if (!userId) {
+  const { userObj } = useAuth();
+  console.log(userObj);
+  if (!userObj) {
     return <div>Loading...</div>
   }
 
@@ -20,8 +20,8 @@ const HomePage = () => {
       <Taskbar />
       <div className="content">
         <div className="background-block">
-          <PostsFeed props={{user_id: userId}}/>
-          <Sidebar props={{user_id: userId}}/>
+          <PostsFeed props={{user_id: userObj.user_id}}/>
+          <Sidebar/>
         </div>
       </div>
     </div>

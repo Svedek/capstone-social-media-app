@@ -35,11 +35,14 @@ app.use(express.static("build"));
 app.use(cookieParser());
 
 app.get("/session", (req, res) => {
-    console.log("checking session");
-    console.log(req.user);
     if (req.isAuthenticated()) {
         const user = {
-            id: req.user.user_id
+            user_id: req.user.id,
+            first_name: req.user.first_name,
+            last_name: req.user.last_name,
+            major: req.user.major,
+            bio: req.user.bio,
+            join_date: req.user.join_date,
         };
         return res.json({ auth: true, user: user });
     }
