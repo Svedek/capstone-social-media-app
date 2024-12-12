@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { do_api_request, dateToDatetime } from '../APIHandler.jsx'
+import { do_api_request } from '../APIHandler.jsx'
 import './HomePage.css';
 
 import { CommentOverlay } from "./commentOverlay.jsx"
@@ -10,9 +10,7 @@ import { PostItem } from "./post_item.jsx"
 export const PostsFeed = (props) => {
   const {user_id} = props.props;
 
-  let slightly_in_the_future = new Date();
-  slightly_in_the_future = slightly_in_the_future.setMinutes(slightly_in_the_future.getMinutes() + 1);
-  const time_of_latest_post = useRef(slightly_in_the_future);
+  const last_rendered_post = useRef(2000000000);
   
   const posts_to_load = 8;
 
@@ -46,7 +44,7 @@ export const PostsFeed = (props) => {
     if (loading) return;
     setLoading(true);
 
-    const resp = await do_api_request(`./post/getNextPosts`, {before: dateToDatetime(time_of_latest_post.current), num_posts: posts_to_load, filters: ''}, "POST");
+    const resp = await do_api_request(`./post/getNextPosts`, {posts_before_id: last_rendered_post.current, num_posts: posts_to_load, filters: ''}, "POST");
 
         if (!resp || !Array.isArray(resp.result)) {
           console.error("Unexpected API response format:", resp);
@@ -62,7 +60,7 @@ export const PostsFeed = (props) => {
         setDisplayedPosts((prev) => [...prev, ...new_posts]);
 
         setHasMore(new_posts.length >= posts_to_load);
-        time_of_latest_post.current = new Date(new_posts[new_posts.length-1].time_posted);
+        last_rendered_post.current = new_posts[new_posts.length-1].post_id;
       } else {
         setHasMore(false);
       }

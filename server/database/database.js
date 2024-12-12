@@ -104,10 +104,10 @@ async function getPostChildrenCount(post_id) {
     return rows[0].cnt;
 }
 
-async function getNextPosts(before, num_posts, filters) {
+async function getNextPosts(posts_before_id, num_posts, filters) {
     filters;  // filters NOT YET IMPLEMENTED  (this line is to not give warnings when running server)
-    const query = `SELECT * FROM post  WHERE time_posted < ? AND post_parent_post_id is null ORDER BY time_posted DESC LIMIT ?;`;
-    const [rows] = await pool.query(query, [before, num_posts]);
+    const query = `SELECT * FROM post WHERE post_id < ? AND post_parent_post_id is null ORDER BY post_id DESC LIMIT ?;`;
+    const [rows] = await pool.query(query, [posts_before_id, num_posts]);
     return rows;
 }
 
