@@ -1,6 +1,6 @@
 
 export const do_api_request = async (api_path, body_args, method) => {
-  console.log("API In:", api_path, body_args, method);
+  // console.log("API In:", api_path, body_args, method);
   const fet = await fetch(api_path, {
     method: method,
     headers: {
@@ -10,7 +10,7 @@ export const do_api_request = async (api_path, body_args, method) => {
   });
 
   const resp = await fet.json();
-  console.log("API Response:", resp);
+  // console.log("API Response:", resp);
   return resp;
 }
 

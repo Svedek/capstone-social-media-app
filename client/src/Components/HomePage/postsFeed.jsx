@@ -15,7 +15,6 @@ export const PostsFeed = (props) => {
   const posts_to_load = 8;
 
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isCommentOpen, setIsCommentOpen] = useState(false);
   const [activePost, setActivePost] = useState(null);
 
   const [displayedPosts, setDisplayedPosts] = useState([]);
@@ -37,7 +36,6 @@ export const PostsFeed = (props) => {
   
   const handleOpenComments = (post) => {
     setActivePost(post);
-    setIsCommentOpen(true);
   };
 
   async function loadMorePosts() {
@@ -114,7 +112,8 @@ export const PostsFeed = (props) => {
       {activePost && (
         <CommentOverlay
           post={activePost}
-          closeOverlay={() => setIsCommentOpen(false)} // This is the function to close the overlay
+          userId={user_id}
+          hideOverlay={() => setActivePost(false)} // This is the function to close the overlay
         />
       )}
     </div>
