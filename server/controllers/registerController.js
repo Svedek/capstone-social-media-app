@@ -10,7 +10,7 @@ const createUser = async (req, res) => {
     const joinDate = new Date();
     let errorMessage = "";
     let created = false;
-    if (db.getLoginInfo(email).length > 0) {
+    if ((await db.getLoginInfo(email)).length > 0) {
         errorMessage = "email already exists";
     }
     else if (email.split("@")[1] != "uwm.edu") {

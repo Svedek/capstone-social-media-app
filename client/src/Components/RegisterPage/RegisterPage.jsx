@@ -14,18 +14,18 @@ export const RegisterPage = () => {
 
   const handleRegister = async (e) => {
     e.preventDefault();
-    const response = await fetch(`./register`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({ major: major, email: email, firstName: firstName, lastName: lastName, password: password, confPass: confPass })
-    });
 
     if (password !== confPass) {
       setErrorMessage("passwords do not match");
-    }
-    else {
+    } else {
+      const response = await fetch(`./register`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ major: major, email: email, firstName: firstName, lastName: lastName, password: password, confPass: confPass })
+      });
+      
       const data = await response.json();
       if (data.created) {
         navigate("/");

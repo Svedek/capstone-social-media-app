@@ -37,7 +37,7 @@ async function editPassword(login_id, hash, salt) {
 
 // User
 
-async function getUser(email) {
+async function getUserByEmail(email) {
     const loginInfo = await getLoginInfo(email);
     if (loginInfo.length < 1) {
         return [];
@@ -193,7 +193,7 @@ async function getEventRSVPCount(event_info_id) {
 
 module.exports = {
     getLoginInfo, addLoginInfo, getLoginInfoById, editPassword,
-    getUser, addUser, getUserById, getUserByLoginId,
+    getUserByEmail, addUser, getUserById, getUserByLoginId,
     addPost, addEventInfo,
     getPostFomID, getPostIDFromEventInfo, getPostChildren, getPostChildrenCount, getNextPosts, isPostEvent,
     addPostLike, removePostLike, isPostLiked, getUserLikes, getPostLikes, getPostLikesCount,
