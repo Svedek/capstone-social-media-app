@@ -7,8 +7,7 @@ import { ReactionButton, Button } from './reaction_button.jsx';
 
 export const PostItem = (props) => {
   
-  const {post, handle_open_comments} = props.props;
-  const user_id = post.post_owner_user_id;
+  const {post, user_id, handle_open_comments} = props.props;
   const is_event = post.post_event_info_id !== null;
 
   const [author, set_author] = useState("Loading...");  // Needed for initial setting
@@ -25,12 +24,7 @@ export const PostItem = (props) => {
   // Fetch author details
   useEffect(() => {
     async function fetchAuthor() {
-      
-      const [authorResp] = await Promise.all([
-        do_api_request(`./user/getUserById`, { user_id, post_id: post.post_id }, "POST"),
-      ]);
-      const resp = await do_api_request(`./user/getUserById`, { userId: user_id }, "POST");
-      console.log(authorResp);
+      const resp = await do_api_request(`./user/getUserById`, { userId: post.post_owner_user_id }, "POST");
       console.log(`${resp.result.first_name} ${resp.result.last_name}` || "Unknown Author");
       set_author(`${resp.result.first_name} ${resp.result.last_name}` || "Unknown Author");
     }
@@ -145,12 +139,12 @@ export const PostItem = (props) => {
         { is_event ? (
           <>
             <ReactionButton props={{post_id: post.post_id, icon: Button.RSVP, active: rsvped, handle_func: handle_rsvp_press, num: rsvp_count}}/>
-            {/* <ReactionButton props={{post_id: post.post_id, icon: Button.COMMENT, handle_func: handle_comment_press, num: comment_count}}/> */}
+            <ReactionButton props={{post_id: post.post_id, icon: Button.COMMENT, handle_func: handle_comment_press, num: comment_count}}/>
             <ReactionButton props={{post_id: post.post_id, icon: Button.LIKE, active: liked, handle_func: handle_like_press, num: like_count}}/>
           </>
         ) : (
           <>
-            {/* <ReactionButton props={{post_id: post.post_id, icon: Button.COMMENT, handle_func: handle_comment_press, num: comment_count}}/> */}
+            <ReactionButton props={{post_id: post.post_id, icon: Button.COMMENT, handle_func: handle_comment_press, num: comment_count}}/>
             <ReactionButton props={{post_id: post.post_id, icon: Button.LIKE, active: liked, handle_func: handle_like_press, num: like_count}}/>
           </>
         )}
