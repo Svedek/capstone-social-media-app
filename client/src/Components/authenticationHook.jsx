@@ -8,6 +8,7 @@ export const useAuth = () => {
         const fetchSession = async () => {
             const response = await fetch("./session", {credentials: "include"});
             const resData = await response.json();
+            console.log(resData);
             if (resData.auth) {
                 setUserId(resData.user.id);
             }

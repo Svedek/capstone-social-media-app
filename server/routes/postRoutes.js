@@ -4,11 +4,12 @@ const postController = require("../controllers/postController.js")
 const postRouter = express.Router();
 
 postRouter.post("/addEventInfo", postController.addEventInfo);  // title, location, start_time
-postRouter.post("/addPost", postController.addPost);  // owner_user, parent_post, event_info, text, time_posted
+postRouter.post("/addPost", postController.addPost);  // owner_user, parent_post, event_info, text
 postRouter.post("/getPostFomID", postController.getPostFomID);  // post_id
 postRouter.post("/getPostIDFromEventInfo", postController.getPostIDFromEventInfo);  // event_info_id
-postRouter.post("/getPostChildren	", postController.getPostChildren);  // post_id
-postRouter.post("/getNextPosts", postController.getNextPosts);  // before, num_posts, filters
+postRouter.post("/getPostChildren", postController.getPostChildren);  // post_id
+postRouter.post("/getPostChildrenCount", postController.getPostChildrenCount);  // post_id
+postRouter.post("/getNextPosts", postController.getNextPosts);  // posts_before_id, num_posts, filters
 postRouter.post("/isPostEvent", postController.isPostEvent);  // post_id
 
 postRouter.post("/addPostLike", postController.addPostLike);  // user_id, post_id

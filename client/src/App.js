@@ -20,7 +20,7 @@ function App() {
         <Route path="/profile/edit/:userId" element={<EditProfilePage />} />
         <Route path="/home" element={<HomePage />} /> 
         <Route path="/messages" element={<MessagesPage />} />
-        <Route path="/calender" element={<CalenderPage />} />
+        <Route path="/calendar" element={<CalenderPage />} />
         <Route path="/events" element={<EventsPage />} />
       </Routes>
     </Router>

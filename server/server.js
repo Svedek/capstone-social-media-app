@@ -4,6 +4,7 @@ const { loginRouter, logoutRouter } = require("./routes/loginRoutes.js");
 const registerRouter = require("./routes/registerRoutes.js");
 const postRouter = require("./routes/postRoutes.js");
 const homeRouter = require("./routes/homeRoutes.js");
+const userRouter = require("./routes/userRoutes.js");
 const session = require("express-session");
 const cookieParser = require("cookie-parser");
 const passport = require("passport");
@@ -29,6 +30,7 @@ app.use("/logout", logoutRouter);
 app.use("/register", registerRouter);
 app.use("/post", postRouter);
 app.use("/home", homeRouter);
+app.use("/user", userRouter);
 app.use(express.static("build"));
 app.use(cookieParser());
 
@@ -37,7 +39,7 @@ app.get("/session", (req, res) => {
     console.log(req.user);
     if (req.isAuthenticated()) {
         const user = {
-            id: req.user.id
+            id: req.user.user_id
         };
         return res.json({ auth: true, user: user });
     }

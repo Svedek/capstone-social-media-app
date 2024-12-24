@@ -1,3 +1,5 @@
+CREATE DATABASE  IF NOT EXISTS `uwmsoc` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
+USE `uwmsoc`;
 -- MySQL dump 10.13  Distrib 8.0.38, for Win64 (x86_64)
 --
 -- Host: localhost    Database: uwmsoc
@@ -79,7 +81,7 @@ CREATE TABLE `post` (
   `post_owner_user_id` int DEFAULT NULL,
   `post_parent_post_id` int DEFAULT NULL,
   `post_event_info_id` int DEFAULT NULL,
-  `text` varchar(200) NOT NULL,
+  `text` varchar(300) NOT NULL,
   `time_posted` datetime NOT NULL,
   PRIMARY KEY (`post_id`),
   UNIQUE KEY `idnew_table_UNIQUE` (`post_id`),
@@ -124,6 +126,9 @@ CREATE TABLE `user` (
   `user_login_info_id` int NOT NULL,
   `major` varchar(64) DEFAULT NULL,
   `bio` varchar(200) DEFAULT '',
+  `first_name` varchar(32) NOT NULL,
+  `last_name` varchar(32) NOT NULL,
+  `join_date` date NOT NULL,
   PRIMARY KEY (`user_id`),
   KEY `_idx` (`user_login_info_id`) /*!80000 INVISIBLE */,
   CONSTRAINT `user_login_info_id` FOREIGN KEY (`user_login_info_id`) REFERENCES `login_info` (`login_info_id`)

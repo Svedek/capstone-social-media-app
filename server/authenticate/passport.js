@@ -25,7 +25,7 @@ passport.use(new LocalStrategy(customFields, async (username, password, done) =>
 }));
 
 passport.serializeUser((user, done) => {
-    done(null, user.id);
+    done(null, user.user_id);
 });
 
 passport.deserializeUser(async (userId, done) => {

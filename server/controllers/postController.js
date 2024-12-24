@@ -70,8 +70,17 @@ const getPostChildren = async (req, res) => {
   res.send({result: result, errorMessage: errorMessage});
 }
 
+const getPostChildrenCount = async (req, res) => {
+  const post_id = req.body.post_id;
+  let errorMessage = "";
+  let result = {};
+  result = await db.getPostChildrenCount(post_id);
+  
+  res.send({result: result, errorMessage: errorMessage});
+}
+
 const getNextPosts = async (req, res) => {
-  const before = req.body.before;
+  const posts_before_id = req.body.posts_before_id;
   const num_posts = req.body.num_posts;
   const filters = req.body.filters;
   let errorMessage = "";
@@ -80,7 +89,7 @@ const getNextPosts = async (req, res) => {
       errorMessage = `Invalid number of posts to get: ${num_posts}`;
   }
   else {
-    result = await db.getNextPosts(before, num_posts, filters);
+    result = await db.getNextPosts(posts_before_id, num_posts, filters);
   }
 
   res.send({result: result, errorMessage: errorMessage});
@@ -219,7 +228,7 @@ const getEventRSVPCount = async (req, res) => {
 
 module.exports = { 
   addPost, addEventInfo,
-  getPostFomID, getPostIDFromEventInfo, getPostChildren, getNextPosts, isPostEvent,
+  getPostFomID, getPostIDFromEventInfo, getPostChildren, getPostChildrenCount, getNextPosts, isPostEvent,
   addPostLike, removePostLike, isPostLiked, getUserLikes, getPostLikes, getPostLikesCount, 
   addEventRSVP, removeEventRSVP, isEventRSVPed, getUserRSVPs, getEventRSVPs, getEventRSVPCount
 };

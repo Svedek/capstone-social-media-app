@@ -37,7 +37,7 @@ async function editPassword(login_id, hash, salt) {
 
 // User
 
-async function getUser(email) {
+async function getUserByEmail(email) {
     const loginInfo = await getLoginInfo(email);
     if (loginInfo.length < 1) {
         return [];
@@ -60,9 +60,9 @@ async function getUserById(id) {  // Primarily for controllers
     return rows;
 }
 
-async function addUser(major, loginID) {
-    const query = `INSERT INTO user (major, user_login_info_id) VALUES (?, ?)`;
-    const res = await pool.query(query, [major, loginID]);
+async function addUser(loginID, major, firstName, lastName, joinDate) {
+    const query = `INSERT INTO user (user_login_info_id, major, first_name, last_name, join_date) VALUES (?, ?, ?, ?, ?)`;
+    const res = await pool.query(query, [loginID, major, firstName, lastName, joinDate]);
     return res[0].insertId;
 }
 
@@ -98,16 +98,23 @@ async function getPostChildren(post_id) {
     return rows;
 }
 
-async function getNextPosts(before, num_posts, filters) {
+async function getPostChildrenCount(post_id) {
+    const query = `SELECT count(post_id) as cnt FROM post WHERE post_parent_post_id=?`;
+    const [rows] = await pool.query(query, [post_id]);
+    return rows[0].cnt;
+}
+
+async function getNextPosts(posts_before_id, num_posts, filters) {
     filters;  // filters NOT YET IMPLEMENTED  (this line is to not give warnings when running server)
-    const query = `
-        SELECT post.post_id, post.text, post.is_event, post.time_posted, user.username
-        FROM post
-        INNER JOIN user ON post.post_owner_user_id=user.user_id
-        WHERE time_posted <= ?
-        ORDER BY time_posted
-        DESC LIMIT ?;`;
-    const [rows] = await pool.query(query, [before, num_posts]);
+    const query = `SELECT * FROM post WHERE post_id < ? AND post_parent_post_id is null ORDER BY post_id DESC LIMIT ?;`;
+    const [rows] = await pool.query(query, [posts_before_id, num_posts]);
+    return rows;
+}
+
+async function getNextEvents(after, num_posts, filters) {
+    filters;  // filters NOT YET IMPLEMENTED  (this line is to not give warnings when running server)
+    const query = `SELECT * FROM post WHERE post_id < ? AND post_parent_post_id is null ORDER BY post_id DESC LIMIT ?;`;
+    const [rows] = await pool.query(query, [posts_before_id, num_posts]);
     return rows;
 }
 
@@ -193,9 +200,9 @@ async function getEventRSVPCount(event_info_id) {
 
 module.exports = {
     getLoginInfo, addLoginInfo, getLoginInfoById, editPassword,
-    getUser, addUser, getUserById, getUserByLoginId,
+    getUserByEmail, addUser, getUserById, getUserByLoginId,
     addPost, addEventInfo,
-    getPostFomID, getPostIDFromEventInfo, getPostChildren, getNextPosts, isPostEvent,
+    getPostFomID, getPostIDFromEventInfo, getPostChildren, getPostChildrenCount, getNextPosts, isPostEvent,
     addPostLike, removePostLike, isPostLiked, getUserLikes, getPostLikes, getPostLikesCount,
     addEventRSVP, removeEventRSVP, isEventRSVPed, getUserRSVPs, getEventRSVPs, getEventRSVPCount
 };
