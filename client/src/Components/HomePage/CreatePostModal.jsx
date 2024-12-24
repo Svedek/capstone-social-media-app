@@ -14,7 +14,9 @@ export const CreatePostModal = ({ hideModal, user_id }) => {
     setPostContent(e.target.value);
   };
   
-  const handleSubmitPost = async () => {
+  const handleSubmitPost = async (e) => {
+    e.preventDefault();
+    
     if (loading) return;
     setLoading(true);
 
