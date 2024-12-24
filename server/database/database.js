@@ -111,6 +111,13 @@ async function getNextPosts(posts_before_id, num_posts, filters) {
     return rows;
 }
 
+async function getNextEvents(after, num_posts, filters) {
+    filters;  // filters NOT YET IMPLEMENTED  (this line is to not give warnings when running server)
+    const query = `SELECT * FROM post WHERE post_id < ? AND post_parent_post_id is null ORDER BY post_id DESC LIMIT ?;`;
+    const [rows] = await pool.query(query, [posts_before_id, num_posts]);
+    return rows;
+}
+
 async function isPostEvent(post_id) {
     const query = `SELECT * FROM post WHERE post_id=? AND post_event_info_id IS NOT null`;
     const [rows] = await pool.query(query, [post_id]);
