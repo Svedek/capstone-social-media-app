@@ -3,7 +3,8 @@ import { Link } from 'react-router-dom';
 import './HomePage.css';
 import { CreateEventModal } from './CreateEventModal'; 
 
-export const Sidebar = ({user_id}) => {
+export const Sidebar = (props) => {
+  const {user_id} = props.props;
 
   const [isCreateEventModalOpen, setIsCreateEventModalOpen] = useState(false);
 
@@ -14,9 +15,12 @@ export const Sidebar = ({user_id}) => {
      { id: 4, name: 'Library Event', date: '2024-10-20' },
      { id: 5, name: 'Gym Event', date: '2024-10-20' },
    ];
-
-    const toggleCreateEventModal = () => {
-    setIsCreateEventModalOpen(!isCreateEventModalOpen);
+  
+  const hideModal = (postCreated) => {
+    if (postCreated) {
+      window.location.reload();  // Refresh page so that you can see your created post
+    }
+    setIsCreateEventModalOpen(false);
   };
 
    return (
@@ -29,12 +33,12 @@ export const Sidebar = ({user_id}) => {
               <li key={event.id}>{event.name} - {event.date}</li>
             ))}
           </ul>
-          {/* <button 
+          <button 
             className="CreateEvent" 
-            onClick={toggleCreateEventModal}
+            onClick={() => setIsCreateEventModalOpen(true)}
           >
             Create Event
-          </button> */}
+          </button>
         </div>
 
         <div className="social-media">
@@ -48,9 +52,9 @@ export const Sidebar = ({user_id}) => {
         </div>
       </div>
 
-      {/* {isCreateEventModalOpen && (
-        <CreateEventModal toggleModal={toggleCreateEventModal} user_id={user_id} />
-      )} */}
+      {isCreateEventModalOpen && (
+        <CreateEventModal hideModal={hideModal} user_id={user_id} />
+      )}
     </>
   );
 };

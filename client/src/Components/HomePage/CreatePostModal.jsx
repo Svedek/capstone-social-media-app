@@ -41,7 +41,7 @@ export const CreatePostModal = ({ hideModal, user_id }) => {
     hideModal(postCreated);
   };
   
-  const onExit = () => hideModal(false);
+  const onExit = () => closeModal(false);
 
 
   return (
