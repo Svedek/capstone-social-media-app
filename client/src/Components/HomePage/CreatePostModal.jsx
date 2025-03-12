@@ -14,7 +14,9 @@ export const CreatePostModal = ({ hideModal, user_id }) => {
     setPostContent(e.target.value);
   };
   
-  const handleSubmitPost = async () => {
+  const handleSubmitPost = async (e) => {
+    e.preventDefault();
+
     if (loading) return;
     setLoading(true);
 
@@ -47,24 +49,21 @@ export const CreatePostModal = ({ hideModal, user_id }) => {
       <div className="modal-content">
         <span className="close-button" onClick={onExit}>&times;</span>
         {err && <p className="error-message">{err}</p>}
-        <h3>Create a New Post</h3>
-        <textarea
-          placeholder="What's on your mind?"
-          rows="4"
-          maxLength={maxCharacters}
-          value={postContent}
-          onChange={handlePostChange}
-        ></textarea>
-        <div className="character-count">
-          {maxCharacters - postContent.length} characters remaining
-        </div>
+        <form onSubmit={handleSubmitPost}>
+          <h3>Create a New Post</h3>
+          <textarea
+            placeholder="What's on your mind?"
+            rows="4"
+            maxLength={maxCharacters}
+            value={postContent}
+            onChange={handlePostChange}
+          ></textarea>
+          <div className="character-count">
+            {maxCharacters - postContent.length} characters remaining
+          </div>
 
-        <button
-          className="submit-post"
-          onClick={handleSubmitPost}
-        >
-          Post
-        </button>
+          <button type="submit">Post</button>
+        </form>
       </div>
     </div>
   );
